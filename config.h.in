@@ -1,0 +1,15 @@
+// -*- C++ -*-
+/* ------------------------------------ */
+/* C++ common header for project        */
+/* Author: Alexei Panov <me@elemc.name> */
+/* ------------------------------------ */
+/* Project: XMLer
+   Description:
+*/
+#ifndef XMLER_CONFIG_H
+#define XMLER_CONFIG_H
+
+#define APPNAME "@PROJECT_NAME@"
+#define XMLER_VERSION "@PROJECT_VERSION@"
+
+#endif
