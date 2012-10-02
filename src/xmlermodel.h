@@ -32,8 +32,8 @@ public:
   Qt::ItemFlags flags(const QModelIndex &index) const;
   int columnCount(const QModelIndex &parent = QModelIndex()) const;
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-  QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-  QModelIndex parent(const QModelIndex &child) const;
+  QModelIndex index(int row, int column, const QModelIndex &idx = QModelIndex()) const;
+  QModelIndex parent(const QModelIndex &idx) const;
   QVariant data(const QModelIndex &index, int role) const;
   int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
