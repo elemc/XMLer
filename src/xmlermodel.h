@@ -41,6 +41,11 @@ private:
   DocumentXMLNode *_document;
   BaseXMLNode *_rootItem;
 //QList<QXmlParseException> xmlExceptionList;
+
+#if DEBUG_PROJECT == 1
+  void printDebugTree( BaseXMLNode *node, int level = 0 );
+#endif
+
   
 public slots:
 void on_Exception( XMLerHandler::Exceptions e, int column, int line, QString msg );

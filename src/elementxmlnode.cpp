@@ -92,7 +92,7 @@ BaseXMLNode *ElementXMLNode::childItemAt( quint32 index ) const
     return _attributes.at( index );
   else {
     quint32 c_index = count_all - index - 1; // this is real index
-    return _childs.at(c_index);
+    return _childs.at( c_index );
   }
 
   return 0;

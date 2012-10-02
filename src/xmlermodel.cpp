@@ -23,6 +23,23 @@ XMLerModel::~XMLerModel ()
      delete _rootItem; */
 }
 
+#if DEBUG_PROJECT == 1
+void XMLerModel::printDebugTree( BaseXMLNode *node, int level )
+{
+  QString prefix = QString();
+  for ( int i = 0; i < level; i++ )
+    prefix += "\t";
+
+  qDebug() << prefix << node->name();
+  
+  BaseXMLNode *child;
+  int new_level = level + 1;
+  foreach( child, node->childs() )
+    printDebugTree( child, new_level);
+
+}
+#endif
+
 bool XMLerModel::loadXMLFile(const QString &fileName)
 {
   QFile xml( fileName );
@@ -56,6 +73,11 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   endResetModel();
 
   delete handler;
+
+  /* Debug tree */
+#if DEBUG_PROJECT == 1
+  printDebugTree( _document );
+#endif  
 
   return true;
 }
