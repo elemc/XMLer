@@ -16,24 +16,26 @@ endif ()
 set (PROJECT_NAME XMLer)
 set (PROJECT_VERSION 0.0.1)
 set (HEADERS 
+  src/xmlerapplication.h
   src/mainwindow.h
+  src/xmlerhandler.h
+  src/xmlermodel.h
   src/basexmlnode.h
   src/elementxmlnode.h
   src/documentxmlnode.h
   src/attrxmlnode.h
-  src/dataxmlnode.h
-  src/xmlerhandler.h
-  src/xmlermodel.h)
+  src/dataxmlnode.h)
 set (SOURCES 
   main.cpp 
+  src/xmlerapplication.cpp
   src/mainwindow.cpp
+  src/xmlermodel.cpp
+  src/xmlerhandler.cpp
   src/basexmlnode.cpp
   src/elementxmlnode.cpp
   src/documentxmlnode.cpp
   src/attrxmlnode.cpp
-  src/dataxmlnode.cpp
-  src/xmlerhandler.cpp
-  src/xmlermodel.cpp)
+  src/dataxmlnode.cpp)
 set (FORMS 
   forms/mainwindow.ui)
 set (RESOURCES xmler.qrc)

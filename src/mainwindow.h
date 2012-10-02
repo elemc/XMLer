@@ -23,6 +23,8 @@ Q_OBJECT
 public:
   explicit MainWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
   ~MainWindow();
+
+  bool loadDocument( QString fileName );
   
 private:
   Ui::MainWindow *ui;

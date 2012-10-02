@@ -42,6 +42,9 @@ void MainWindow::initialTree()
 }
 void MainWindow::testOpenDocument()
 {
-  model->loadXMLFile("/Users/alex/workspace/bases/qwe.xml"); ///Users/alex/workspace/code/XMLer/test.xml");
-  tree->reset();
+  //model->loadXMLFile("/Users/alex/workspace/bases/qwe.xml"); ///Users/alex/workspace/code/XMLer/test.xml");
+}
+bool MainWindow::loadDocument( QString fileName )
+{
+  return model->loadXMLFile( fileName );
 }
