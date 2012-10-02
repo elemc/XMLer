@@ -11,5 +11,10 @@
 
 #define APPNAME "@PROJECT_NAME@"
 #define XMLER_VERSION "@PROJECT_VERSION@"
+#define DEBUG_PROJECT @DEBUG@
+
+#if DEBUG_PROJECT == 1
+#include <QDebug>
+#endif
 
 #endif

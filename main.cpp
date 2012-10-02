@@ -22,17 +22,8 @@ int main ( int argc, char **argv )
   QTextCodec *utfCodec = QTextCodec::codecForName("UTF-8");
   QTextCodec::setCodecForTr(utfCodec);
   
-  MainWindow *mainWindow = 0;
-  if ( !app.hasFilesInParams() ) {
-    mainWindow = new MainWindow;
-    mainWindow->show();
-  }
-  else
-    app.openFiles();
+  app.openFiles();
 
   int result = app.exec();
-  
-  if ( mainWindow )
-    delete mainWindow;
   return result;
 }

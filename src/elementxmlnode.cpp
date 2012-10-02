@@ -18,6 +18,10 @@ ElementXMLNode::ElementXMLNode (BaseXMLNode *parent):
 
 ElementXMLNode::~ElementXMLNode ()
 {
+  qDeleteAll(_attributes.begin(), _attributes.end());
+  qDeleteAll(_childs.begin(), _childs.end());
+  _attributes.clear();
+  _childs.clear();
 }
 
 void ElementXMLNode::setNamespaceURI( const QString &uri )

@@ -9,7 +9,7 @@
 #ifndef XMLERAPPLICATION_H
 #define XMLERAPPLICATION_H
 
-#include <QDebug>
+#include "config.h"
 
 #include <QtGui/QApplication>
 #include <QtCore/QFile>
@@ -27,6 +27,8 @@ public:
 
 private:
   QStringList autoOpenFiles;
+
+  QList<QWidget *> openedWindows;
 };
 
 #endif

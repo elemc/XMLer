@@ -9,6 +9,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "config.h"
+
 #include <QtGui/QMainWindow>
 #include <QtGui/QTreeView>
 #include "xmlermodel.h"

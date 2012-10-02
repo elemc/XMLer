@@ -9,6 +9,8 @@
 #ifndef XMLERMODEL_H
 #define XMLERMODEL_H
 
+#include "config.h"
+
 #include <QtCore/QAbstractItemModel>
 #include <QtXml/QXmlSimpleReader>
 #include <QtXml/QXmlParseException>

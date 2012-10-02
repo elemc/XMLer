@@ -25,7 +25,7 @@ XMLerModel::~XMLerModel ()
 
 bool XMLerModel::loadXMLFile(const QString &fileName)
 {
-  QFile xml(fileName);
+  QFile xml( fileName );
   if ( !xml.exists() )
     return false;
 
@@ -33,7 +33,7 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   //xmlExceptionList.clear();
   QXmlSimpleReader reader;
-  QXmlInputSource *source = new QXmlInputSource( &xml );
+  QXmlInputSource source( &xml );// = new QXmlInputSource( &xml );
   XMLerHandler *handler = new XMLerHandler;
   /*connect ( handler, SIGNAL (xmlException (XMLerHandler::Exceptions, const QXmlParseException)), 
     this, SLOT(on_Exception(XMLerHandler::Exceptions, const QXmlParseException &)));*/
@@ -41,10 +41,9 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   reader.setContentHandler ( handler );
   reader.setErrorHandler ( handler );
 
-  bool parseResult = reader.parse ( source );
+  bool parseResult = reader.parse ( &source );
   if ( !parseResult ) {
     /* TODO: make exception here */
-    delete source;
     delete handler;
     return false;
   }
@@ -55,6 +54,8 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   _document = handler->document();
   _rootItem = _document->documentNode();
   endResetModel();
+
+  delete handler;
 
   return true;
 }
