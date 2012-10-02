@@ -19,8 +19,6 @@ XMLerModel::~XMLerModel ()
 {
   if ( _document )
     delete _document;
-  /* if ( _rootItem )
-     delete _rootItem; */
 }
 
 bool XMLerModel::loadXMLFile(const QString &fileName)
@@ -56,7 +54,6 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   endResetModel();
 
   delete handler;
-
   return true;
 }
 
@@ -91,12 +88,12 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
 }
 QModelIndex XMLerModel::index(int row, int column, const QModelIndex &parent) const
 {
-  if (!hasIndex(row, column, parent))
-    return QModelIndex();
+  if ( !hasIndex(row, column, parent) )
+    return createIndex(row, column, _document);
 
-  BaseXMLNode *parentItem;
+  BaseXMLNode *parentItem = 0;
   if (!parent.isValid())
-    parentItem = _document; //rootItem;
+    parentItem = _document;
   else
     parentItem = static_cast<BaseXMLNode *>(parent.internalPointer());
 
@@ -114,7 +111,7 @@ QModelIndex XMLerModel::parent(const QModelIndex &child) const
   BaseXMLNode *childNode = static_cast<BaseXMLNode *>(child.internalPointer());
   BaseXMLNode *parentNode = childNode->parentNode();
 
-  if ( !parentNode ) //|| parentNode == _document )
+  if ( !parentNode || parentNode == _document )
     return QModelIndex();
 
   return createIndex(parentNode->row(), 0, parentNode);
