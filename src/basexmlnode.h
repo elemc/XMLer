@@ -10,7 +10,7 @@
 #define BASEXMLNODE_H
 
 #include <QtCore/QObject>
-#include <QtCore/QList>
+#include <QtCore/QLinkedList>
 
 class BaseXMLNode : public QObject
 {
@@ -31,7 +31,7 @@ public:
 
   /* Virtuals */
   virtual quint32 childCount() const;                           // return child count
-  virtual QList<BaseXMLNode *> childs() const;                  // return all childs (elements and attributes)
+  virtual QLinkedList<BaseXMLNode *> childs() const;                  // return all childs (elements and attributes)
   virtual void appendChild(BaseXMLNode *child);                 // add child to this object
   virtual BaseXMLNode *childItemAt( quint32 index ) const;      // return child item at index
   virtual QString name() const;                                 // return display name of node
@@ -45,6 +45,6 @@ protected:
 
 };
 
-typedef QList<BaseXMLNode *> XMLNodePtrList;
+typedef QLinkedList<BaseXMLNode *> XMLNodePtrList;
 
 #endif
