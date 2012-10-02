@@ -34,8 +34,8 @@ public:
   QString name() const;
 
 private:
-  QList<BaseXMLNode *> _attributes;
-  QList<BaseXMLNode *> _childs;
+  XMLNodePtrList _attributes;
+  XMLNodePtrList _childs;
 
   QString _namespaceURI;
   QString _localName;

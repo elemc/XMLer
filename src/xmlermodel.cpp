@@ -19,13 +19,11 @@ XMLerModel::~XMLerModel ()
 {
   if ( _document )
     delete _document;
-  /* if ( _rootItem )
-     delete _rootItem; */
 }
 
 bool XMLerModel::loadXMLFile(const QString &fileName)
 {
-  QFile xml(fileName);
+  QFile xml( fileName );
   if ( !xml.exists() )
     return false;
 
@@ -33,7 +31,7 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   //xmlExceptionList.clear();
   QXmlSimpleReader reader;
-  QXmlInputSource *source = new QXmlInputSource( &xml );
+  QXmlInputSource source( &xml );// = new QXmlInputSource( &xml );
   XMLerHandler *handler = new XMLerHandler;
   /*connect ( handler, SIGNAL (xmlException (XMLerHandler::Exceptions, const QXmlParseException)), 
     this, SLOT(on_Exception(XMLerHandler::Exceptions, const QXmlParseException &)));*/
@@ -41,10 +39,9 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   reader.setContentHandler ( handler );
   reader.setErrorHandler ( handler );
 
-  bool parseResult = reader.parse ( source );
+  bool parseResult = reader.parse ( &source );
   if ( !parseResult ) {
     /* TODO: make exception here */
-    delete source;
     delete handler;
     return false;
   }
@@ -56,6 +53,7 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   _rootItem = _document->documentNode();
   endResetModel();
 
+  delete handler;
   return true;
 }
 
@@ -88,75 +86,89 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
 
   return QAbstractItemModel::headerData( section, orientation, role );
 }
-QModelIndex XMLerModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex XMLerModel::index(int row, int column, const QModelIndex &idx) const
 {
-  if (!hasIndex(row, column, parent))
+  qDebug() << "Index in " << row << column << idx;
+  if ( !hasIndex(row, column, idx) ) {
+    qDebug() << "Index out 0";
     return QModelIndex();
+  }
 
-  BaseXMLNode *parentItem;
-  if (!parent.isValid())
-    parentItem = _document; //rootItem;
+  BaseXMLNode *parentItem = 0;
+  if (!idx.isValid())
+    parentItem = _document;
   else
-    parentItem = static_cast<BaseXMLNode *>(parent.internalPointer());
+    parentItem = static_cast<BaseXMLNode *>(idx.internalPointer());
 
   BaseXMLNode *childItem = parentItem->childItemAt(row);
-  if ( childItem )
+  if ( childItem ) {
+    qDebug() << "Index out " << childItem->name();
     return createIndex(row, column, childItem);
+  }
 
+  qDebug() << "Index out 0";
   return QModelIndex();  
 }
-QModelIndex XMLerModel::parent(const QModelIndex &child) const
+QModelIndex XMLerModel::parent(const QModelIndex &idx) const
 {
-  if ( !child.isValid() )
+  qDebug() << "Parent in " << idx;
+  if ( !idx.isValid() ) {
+    qDebug() << "Parent out 0";
     return QModelIndex();
+  }
 
-  BaseXMLNode *childNode = static_cast<BaseXMLNode *>(child.internalPointer());
-  BaseXMLNode *parentNode = childNode->parentNode();
+  if ( BaseXMLNode *childNode = static_cast<BaseXMLNode *>(idx.internalPointer()) ) {
+    BaseXMLNode *parentNode = childNode->parentNode();
 
-  if ( !parentNode ) //|| parentNode == _document )
-    return QModelIndex();
+    if ( !parentNode || parentNode == _document ) {
+      qDebug() << "Parent out 0";
+      return QModelIndex();
+    }
+    qDebug() << "Parent out " << parentNode->name() << parentNode->row();
 
-  return createIndex(parentNode->row(), 0, parentNode);
+    return createIndex(parentNode->row(), 0, parentNode);
+  }
+  qDebug() << "Parent out 0";
+
+  return QModelIndex();
 }
 QVariant XMLerModel::data(const QModelIndex &index, int role) const
 {
   if ( !index.isValid() )
     return QVariant();
 
-  BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer());
-  if ( !item )
-    return QVariant();
-
-  if ( role == Qt::DisplayRole ) {
-    switch( index.column() ) {
-    case 0:
-      return item->name();
-      break;
-    case 1:
-      return item->typeToStr();
-      break;
-    default:
-      break;
+  if ( BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer()) ) {
+    if ( !item )
+      return QVariant();
+    
+    if ( role == Qt::DisplayRole ) {
+      switch( index.column() ) {
+      case 0:
+        return item->name();
+        break;
+      case 1:
+        return item->typeToStr();
+        break;
+      default:
+        break;
+      }
     }
   }
 
   return QVariant();
 }
-int XMLerModel::rowCount(const QModelIndex &parent) const
+int XMLerModel::rowCount(const QModelIndex &idx) const
 {
-  if ( parent.column() > 0 )
+  if ( idx.column() > 0 )
     return 0;
 
   BaseXMLNode *item;
-  if ( !parent.isValid() )
-    item = _document; //rootItem;
+  if ( !idx.isValid() )
+    item = _document;
   else
-    item = static_cast<BaseXMLNode*>(parent.internalPointer());
+    item = static_cast<BaseXMLNode *>(idx.internalPointer());
 
-  if ( item )
-    return item->childCount();
-
-  return 0;
+  return item->childCount();
 }
 
 /* Slots */

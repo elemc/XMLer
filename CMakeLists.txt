@@ -13,6 +13,14 @@ if (NOT CMAKE_INSTALL_PREFIX)
   set (CMAKE_INSTALL_PREFIX /usr/local)
 endif ()
 
+if (NOT DEBUG)
+  if ( CMAKE_BUILD_TYPE STREQUAL Debug )
+    set (DEBUG 1)
+  else ( CMAKE_BUILD_TYPE STREQUAL Debug )
+    set (DEBUG 0)
+  endif ( CMAKE_BUILD_TYPE STREQUAL Debug )
+endif (NOT DEBUG)
+
 set (PROJECT_NAME XMLer)
 set (PROJECT_VERSION 0.0.1)
 set (HEADERS 

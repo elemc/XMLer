@@ -51,7 +51,7 @@ bool XMLerHandler::startElement ( const QString & namespaceURI, const QString & 
 bool XMLerHandler::endElement ( const QString & namespaceURI, const QString & localName, const QString & qName )
 {
   DataXMLNode *current_data = current_chars[current_parent];
-  if ( !current_data->data().isEmpty() ) {
+  if ( !current_data->data().trimmed().isEmpty() ) {
     current_data->setParentNode(current_parent);
     current_parent->appendChild (current_data);
   }
@@ -72,6 +72,7 @@ bool XMLerHandler::characters ( const QString & ch )
   QString alldata = current_chars[current_parent]->data();
   alldata += ch;
   current_chars[current_parent]->setData ( alldata );
+  return true;
 }
 bool XMLerHandler::error ( const QXmlParseException & exception )
 {

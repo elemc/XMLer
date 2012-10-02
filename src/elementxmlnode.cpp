@@ -18,6 +18,10 @@ ElementXMLNode::ElementXMLNode (BaseXMLNode *parent):
 
 ElementXMLNode::~ElementXMLNode ()
 {
+  qDeleteAll(_attributes.begin(), _attributes.end());
+  qDeleteAll(_childs.begin(), _childs.end());
+  _attributes.clear();
+  _childs.clear();
 }
 
 void ElementXMLNode::setNamespaceURI( const QString &uri )
@@ -84,11 +88,17 @@ BaseXMLNode *ElementXMLNode::childItemAt( quint32 index ) const
     return 0;
 
   // check what index in attrs
-  if ( index < count_attrs )
-    return _attributes.at( index );
+  if ( index < count_attrs ) {
+    XMLNodePtrList::const_iterator it = _attributes.constBegin();
+    it += index;
+    return *it;
+  }
   else {
     quint32 c_index = count_all - index - 1; // this is real index
-    return _childs.at(c_index);
+    XMLNodePtrList::const_iterator it = _childs.constBegin();
+    it += c_index;
+
+    return *it;
   }
 
   return 0;

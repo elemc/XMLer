@@ -9,6 +9,8 @@
 #ifndef XMLERHANDLER_H
 #define XMLERHANDLER_H
 
+#include "config.h"
+
 #include <QtXml/QXmlDefaultHandler>
 #include <QtCore/QMap>
 #include "basexmlnode.h"
