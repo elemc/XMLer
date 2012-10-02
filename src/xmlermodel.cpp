@@ -88,8 +88,11 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
 }
 QModelIndex XMLerModel::index(int row, int column, const QModelIndex &parent) const
 {
-  if ( !hasIndex(row, column, parent) )
-    return createIndex(row, column, _rootItem);
+  qDebug() << "Index in " << row << column << parent;
+  if ( !hasIndex(row, column, parent) ) {
+    qDebug() << "Index out 0";
+    return QModelIndex();
+  }
 
   BaseXMLNode *parentItem = 0;
   if (!parent.isValid())
@@ -98,26 +101,35 @@ QModelIndex XMLerModel::index(int row, int column, const QModelIndex &parent) co
     parentItem = static_cast<BaseXMLNode *>(parent.internalPointer());
 
   BaseXMLNode *childItem = parentItem->childItemAt(row);
-  if ( childItem )
+  if ( childItem ) {
+    qDebug() << "Index out " << childItem->name();
     return createIndex(row, column, childItem);
+  }
 
+  qDebug() << "Index out 0";
   return QModelIndex();  
 }
 QModelIndex XMLerModel::parent(const QModelIndex &child) const
 {
-  if ( !child.isValid() )
+  qDebug() << "Parent in " << child;
+  if ( !child.isValid() ) {
+    qDebug() << "Parent out 0";
     return QModelIndex();
+  }
 
   if ( BaseXMLNode *childNode = static_cast<BaseXMLNode *>(child.internalPointer()) ) {
     BaseXMLNode *parentNode = childNode->parentNode();
 
-    if ( !parentNode || parentNode == _document )
+    if ( !parentNode || parentNode == _document ) {
+      qDebug() << "Parent out 0";
       return QModelIndex();
-
-    qDebug() << parentNode->name();
+    }
+    qDebug() << "Parent out " << parentNode->name() << parentNode->row();
 
     return createIndex(parentNode->row(), 0, parentNode);
   }
+  qDebug() << "Parent out 0";
+
   return QModelIndex();
 }
 QVariant XMLerModel::data(const QModelIndex &index, int role) const
