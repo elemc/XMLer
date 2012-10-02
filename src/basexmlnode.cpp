@@ -47,17 +47,8 @@ int BaseXMLNode::childIndex( BaseXMLNode *child ) const
   if ( !child )
     return -1;
   //XMLNodePtrList list = childs();
-  QLinkedList< BaseXMLNode *> l = childs();
-  int idx = -1;
-
-  QLinkedListIterator< BaseXMLNode *> it(l);
-  while ( it.hasNext() ) {
-    idx += 1;
-    if ( it.next() == child )
-      break;
-  }
-
-  return idx; //l.indexOf ( child );
+  QList< BaseXMLNode *> l = childs();
+  return l.indexOf ( child );
 }
 int BaseXMLNode::row ()
 {
