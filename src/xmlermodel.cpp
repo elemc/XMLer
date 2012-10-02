@@ -114,6 +114,8 @@ QModelIndex XMLerModel::parent(const QModelIndex &child) const
     if ( !parentNode || parentNode == _document )
       return QModelIndex();
 
+    qDebug() << parentNode->name();
+
     return createIndex(parentNode->row(), 0, parentNode);
   }
   return QModelIndex();
