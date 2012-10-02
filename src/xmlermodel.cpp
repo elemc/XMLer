@@ -108,13 +108,15 @@ QModelIndex XMLerModel::parent(const QModelIndex &child) const
   if ( !child.isValid() )
     return QModelIndex();
 
-  BaseXMLNode *childNode = static_cast<BaseXMLNode *>(child.internalPointer());
-  BaseXMLNode *parentNode = childNode->parentNode();
+  if ( BaseXMLNode *childNode = static_cast<BaseXMLNode *>(child.internalPointer()) ) {
+    BaseXMLNode *parentNode = childNode->parentNode();
 
-  if ( !parentNode || parentNode == _document )
-    return QModelIndex();
+    if ( !parentNode || parentNode == _document )
+      return QModelIndex();
 
-  return createIndex(parentNode->row(), 0, parentNode);
+    return createIndex(parentNode->row(), 0, parentNode);
+  }
+  return QModelIndex();
 }
 QVariant XMLerModel::data(const QModelIndex &index, int role) const
 {
