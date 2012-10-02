@@ -89,7 +89,7 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
 QModelIndex XMLerModel::index(int row, int column, const QModelIndex &parent) const
 {
   if ( !hasIndex(row, column, parent) )
-    return createIndex(row, column, _document);
+    return createIndex(row, column, _rootItem);
 
   BaseXMLNode *parentItem = 0;
   if (!parent.isValid())
