@@ -145,16 +145,17 @@ int XMLerModel::rowCount(const QModelIndex &parent) const
   if ( parent.column() > 0 )
     return 0;
 
-  BaseXMLNode *item;
+  BaseXMLNode *item = 0;
   if ( !parent.isValid() )
     item = _document; //rootItem;
-  else
-    item = static_cast<BaseXMLNode*>(parent.internalPointer());
+  else {
+    if ( BaseXMLNode *try_node = static_cast<BaseXMLNode*>(parent.internalPointer()) )
+      item = try_node;
+    else
+      return 0;
+  }
 
-  if ( item )
-    return item->childCount();
-
-  return 0;
+  return item->childCount();
 }
 
 /* Slots */
