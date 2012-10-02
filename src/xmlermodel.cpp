@@ -137,20 +137,21 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
   if ( !index.isValid() )
     return QVariant();
 
-  BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer());
-  if ( !item )
-    return QVariant();
-
-  if ( role == Qt::DisplayRole ) {
-    switch( index.column() ) {
-    case 0:
-      return item->name();
-      break;
-    case 1:
-      return item->typeToStr();
-      break;
-    default:
-      break;
+  if ( BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer()) ) {
+    if ( !item )
+      return QVariant();
+    
+    if ( role == Qt::DisplayRole ) {
+      switch( index.column() ) {
+      case 0:
+        return item->name();
+        break;
+      case 1:
+        return item->typeToStr();
+        break;
+      default:
+        break;
+      }
     }
   }
 
