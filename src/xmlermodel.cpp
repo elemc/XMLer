@@ -157,20 +157,16 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
 
   return QVariant();
 }
-int XMLerModel::rowCount(const QModelIndex &parent) const
+int XMLerModel::rowCount(const QModelIndex &idx) const
 {
-  if ( parent.column() > 0 )
+  if ( idx.column() > 0 )
     return 0;
 
-  BaseXMLNode *item = 0;
-  if ( !parent.isValid() )
-    item = _document; //rootItem;
-  else {
-    if ( BaseXMLNode *try_node = static_cast<BaseXMLNode*>(parent.internalPointer()) )
-      item = try_node;
-    else
-      return 0;
-  }
+  BaseXMLNode *item;
+  if ( !idx.isValid() )
+    item = _document;
+  else
+    item = static_cast<BaseXMLNode *>(idx.internalPointer());
 
   return item->childCount();
 }
