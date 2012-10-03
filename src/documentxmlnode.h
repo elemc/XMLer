@@ -21,7 +21,6 @@ public:
   void appendChild(BaseXMLNode *child);
   quint32 childCount() const;
   XMLNodePtrList childs() const;
-  BaseXMLNode *childItemAt( quint32 index ) const;
   QString name() const;
 
   BaseXMLNode *documentNode() const;

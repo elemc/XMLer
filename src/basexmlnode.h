@@ -28,12 +28,12 @@ public:
   int childIndex( BaseXMLNode *child ) const;                   // return child index
   int row();
   QString typeToStr() const;                                    // return type of node as string
+  BaseXMLNode *childItemAt( int index ) const;              // return child item at index
 
   /* Virtuals */
   virtual quint32 childCount() const;                           // return child count
   virtual QList<BaseXMLNode *> childs() const;                  // return all childs (elements and attributes)
   virtual void appendChild(BaseXMLNode *child);                 // add child to this object
-  virtual BaseXMLNode *childItemAt( quint32 index ) const;      // return child item at index
   virtual QString name() const;                                 // return display name of node
   
 private:

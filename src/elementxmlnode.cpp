@@ -12,15 +12,12 @@ ElementXMLNode::ElementXMLNode (BaseXMLNode *parent):
   BaseXMLNode(parent)
 {
   setNodeType(BaseXMLNode::Element);
-  _attributes.clear();
   _childs.clear();
 }
 
 ElementXMLNode::~ElementXMLNode ()
 {
-  qDeleteAll(_attributes.begin(), _attributes.end());
   qDeleteAll(_childs.begin(), _childs.end());
-  _attributes.clear();
   _childs.clear();
 }
 
@@ -38,22 +35,16 @@ void ElementXMLNode::setQName( const QString &qn )
 }
 void ElementXMLNode::appendChild( BaseXMLNode *child )
 {
-  if ( AttrXMLNode *n = qobject_cast<AttrXMLNode *>(child) )
-    _attributes.append( n );
-  else
+  if ( child )
     _childs.append( child );
 }
 quint32 ElementXMLNode::childCount() const
 {
-  return _childs.count() + _attributes.count();
+  return _childs.count();
 }
 XMLNodePtrList ElementXMLNode::childs() const
 {
-  XMLNodePtrList allList;
-  allList += _attributes;
-  allList += _childs;
-
-  return allList;
+  return _childs;
 }
 
 void ElementXMLNode::appendAttributes( const QXmlAttributes &attr )
@@ -71,31 +62,6 @@ void ElementXMLNode::appendAttributes( const QXmlAttributes &attr )
     pattr->appendChild(data);
     appendChild(pattr);
   }
-}
-BaseXMLNode *ElementXMLNode::childItemAt( quint32 index ) const
-{
-  /* First we return a attributes.
-     And second we return a childrens */
-  /* check index in attr && childs */
-  quint32 count_attrs   = _attributes.count();
-  quint32 count_childs  = _childs.count();
-  quint32 count_all     = count_attrs + count_childs; 
-
-  if ( count_all == 0 )
-    return 0;
-
-  if ( index > (count_all-1) )
-    return 0;
-
-  // check what index in attrs
-  if ( index < count_attrs )
-    return _attributes.at( index );
-  else {
-    quint32 c_index = count_all - index - 1; // this is real index
-    return _childs.at( c_index );
-  }
-
-  return 0;
 }
 QString ElementXMLNode::name() const
 {

@@ -30,11 +30,9 @@ public:
   void appendChild ( BaseXMLNode *child );
   quint32 childCount() const;
   XMLNodePtrList childs() const;
-  BaseXMLNode *childItemAt( quint32 index ) const;
   QString name() const;
 
 private:
-  QList<BaseXMLNode *> _attributes;
   QList<BaseXMLNode *> _childs;
 
   QString _namespaceURI;

@@ -28,23 +28,18 @@ QString DataXMLNode::data () const
   return _data;
 }
 
-
+/* Virtuals */
 quint32 DataXMLNode::childCount() const
 {
   return 0; // No childrens
 }
 XMLNodePtrList DataXMLNode::childs() const
 {
-  XMLNodePtrList list;
-  return list;
+  return XMLNodePtrList();
 }
 void DataXMLNode::appendChild(BaseXMLNode *child)
 {
   // Do nothing
-}
-BaseXMLNode *DataXMLNode::childItemAt( quint32 index ) const
-{
-  return 0; // always zero, this class not contained childrens
 }
 QString DataXMLNode::name () const
 {

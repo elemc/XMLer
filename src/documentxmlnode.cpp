@@ -38,12 +38,6 @@ XMLNodePtrList DocumentXMLNode::childs() const
     list.append(rootNode);
   return list;
 }
-BaseXMLNode *DocumentXMLNode::childItemAt( quint32 index ) const
-{
-  if (( index == 0 ) && ( rootNode ))
-    return rootNode;
-  return 0;
-}
 QString DocumentXMLNode::name () const
 {
   return tr("XML Document");

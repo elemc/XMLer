@@ -24,9 +24,6 @@ BaseXMLNode::~BaseXMLNode ()
 void BaseXMLNode::setParentNode(BaseXMLNode *p)
 {
   _parentNode = p;
-  /* if ( p ) {
-    p->appendChild(this);
-    } */
 }
 
 BaseXMLNode *BaseXMLNode::parentNode() const
@@ -46,14 +43,12 @@ int BaseXMLNode::childIndex( BaseXMLNode *child ) const
 {
   if ( !child )
     return -1;
-  //XMLNodePtrList list = childs();
-  QList< BaseXMLNode *> l = childs();
-  return l.indexOf ( child );
+  return childs().indexOf ( child );
 }
 int BaseXMLNode::row ()
 {
-  if ( _parentNode )
-    return _parentNode->childIndex( this );
+  if ( parentNode() )
+    return parentNode()->childIndex( this );
   return -1;
 }
 QString BaseXMLNode::typeToStr() const
@@ -76,6 +71,13 @@ QString BaseXMLNode::typeToStr() const
     break;
   }
 }
+BaseXMLNode *BaseXMLNode::childItemAt( int index ) const
+{
+  XMLNodePtrList cl = childs();
+  if ( index >= 0 && index < cl.size() )
+    return cl.at( index );
+  return 0;
+}
 
 /* Virtuals */
 quint32 BaseXMLNode::childCount() const
@@ -89,10 +91,6 @@ XMLNodePtrList BaseXMLNode::childs() const
 void BaseXMLNode::appendChild(BaseXMLNode *child)
 {
   // do nothing
-}
-BaseXMLNode *BaseXMLNode::childItemAt( quint32 index ) const
-{
-  return 0; // return zero
 }
 QString BaseXMLNode::name() const
 {

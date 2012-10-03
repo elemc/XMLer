@@ -52,13 +52,6 @@ void AttrXMLNode::appendChild(BaseXMLNode *child)
   if ( DataXMLNode *d = qobject_cast<DataXMLNode *>(child) ) 
     _data = d;
 }
-BaseXMLNode *AttrXMLNode::childItemAt( quint32 index ) const
-{
-  if ( index == 0 && _data )
-    return _data;
-
-  return 0;
-}
 QString AttrXMLNode::name () const
 {
   return _localName;
