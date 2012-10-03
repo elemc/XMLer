@@ -11,6 +11,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtGui/QIcon>
 
 class BaseXMLNode : public QObject
 {
@@ -28,7 +29,8 @@ public:
   int childIndex( BaseXMLNode *child ) const;                   // return child index
   int row();
   QString typeToStr() const;                                    // return type of node as string
-  BaseXMLNode *childItemAt( int index ) const;              // return child item at index
+  QIcon typeToIcon () const;                                    // return type of node as icon
+  BaseXMLNode *childItemAt( int index ) const;                  // return child item at index
 
   /* Virtuals */
   virtual quint32 childCount() const;                           // return child count

@@ -20,7 +20,22 @@ DocumentXMLNode::~DocumentXMLNode ()
   if ( rootNode )
     delete rootNode;
 }
+/* self */
+BaseXMLNode *DocumentXMLNode::documentNode () const
+{
+  return rootNode;
+}
+void DocumentXMLNode::setFileName ( const QString &name )
+{
+  _fileName = name;
+}
+QString DocumentXMLNode::fileName () const
+{
+  return _fileName;
+}
 
+
+/* Virtuals */
 void DocumentXMLNode::appendChild(BaseXMLNode *child)
 {
   rootNode = child;
@@ -41,8 +56,4 @@ XMLNodePtrList DocumentXMLNode::childs() const
 QString DocumentXMLNode::name () const
 {
   return tr("XML Document");
-}
-BaseXMLNode *DocumentXMLNode::documentNode () const
-{
-  return rootNode;
 }

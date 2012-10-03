@@ -21,16 +21,15 @@ BaseXMLNode::~BaseXMLNode ()
   qDeleteAll(cl.begin(), cl.end());
 }
 
+/* self */
 void BaseXMLNode::setParentNode(BaseXMLNode *p)
 {
   _parentNode = p;
 }
-
 BaseXMLNode *BaseXMLNode::parentNode() const
 {
   return _parentNode;
 }
-
 void BaseXMLNode::setNodeType(XMLNodeType nt)
 {
   _nodeType = nt;
@@ -68,6 +67,23 @@ QString BaseXMLNode::typeToStr() const
     break;
   default:
     return tr("Unknown type");
+    break;
+  }
+}
+QIcon BaseXMLNode::typeToIcon () const
+{
+  switch ( nodeType() ) {
+  case BaseXMLNode::Element:
+    return QIcon::fromTheme("code-context");
+    break;
+  case BaseXMLNode::Attribute:
+    return QIcon::fromTheme("code-function");
+    break;
+  case BaseXMLNode::Data:
+    return QIcon::fromTheme("code-variable");
+    break;
+  default:
+    return QIcon();
     break;
   }
 }

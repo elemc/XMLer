@@ -24,9 +24,13 @@ public:
   QString name() const;
 
   BaseXMLNode *documentNode() const;
+
+  void setFileName( const QString &name );
+  QString fileName () const;
   
 private:
   BaseXMLNode *rootNode;
+  QString _fileName;
   
 };
 

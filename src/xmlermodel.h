@@ -26,7 +26,12 @@ public:
   explicit XMLerModel(QObject *parent = 0);
   ~XMLerModel();
 
-  bool loadXMLFile( const QString &fileName );
+  /* self */
+  bool loadXMLFile ( const QString &fileName );
+  bool isEmptyModel () const;
+  bool isModified () const;
+  QString fileName () const;
+  QString titlePart () const;
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -40,15 +45,15 @@ public:
 private:
   DocumentXMLNode *_document;
   BaseXMLNode *_rootItem;
-//QList<QXmlParseException> xmlExceptionList;
+  bool _modified;
 
-#if DEBUG_PROJECT == 1
-  void printDebugTree( BaseXMLNode *node, int level = 0 );
-#endif
+signals:
+  void touchModel();
 
-  
+  /* QList<QXmlParseException> xmlExceptionList;
+
 public slots:
-void on_Exception( XMLerHandler::Exceptions e, int column, int line, QString msg );
+void on_Exception( XMLerHandler::Exceptions e, int column, int line, QString msg );*/
   
 };
 

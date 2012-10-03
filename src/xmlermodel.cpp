@@ -13,8 +13,8 @@ XMLerModel::XMLerModel (QObject *parent):
 {
   _document = 0;
   _rootItem = 0;
+  _modified = false;
 }
-
 XMLerModel::~XMLerModel ()
 {
   if ( _document )
@@ -23,23 +23,7 @@ XMLerModel::~XMLerModel ()
      delete _rootItem; */
 }
 
-#if DEBUG_PROJECT == 1
-void XMLerModel::printDebugTree( BaseXMLNode *node, int level )
-{
-  QString prefix = QString();
-  for ( int i = 0; i < level; i++ )
-    prefix += "\t";
-
-  qDebug() << prefix << node->name();
-  
-  BaseXMLNode *child;
-  int new_level = level + 1;
-  foreach( child, node->childs() )
-    printDebugTree( child, new_level);
-
-}
-#endif
-
+/* self */
 bool XMLerModel::loadXMLFile(const QString &fileName)
 {
   QFile xml( fileName );
@@ -70,18 +54,40 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   _document = handler->document();
   _rootItem = _document->documentNode();
+
+  _document->setFileName( fileName );
+
   endResetModel();
 
+  emit touchModel();
+
   delete handler;
-
-  /* Debug tree */
-#if DEBUG_PROJECT == 1
-  printDebugTree( _document );
-#endif  
-
   return true;
 }
+bool XMLerModel::isEmptyModel () const
+{
+  return ( _document == 0 );
+}
+QString XMLerModel::fileName () const
+{
+  if ( isEmptyModel () )
+    return tr("untitled");
 
+  return _document->fileName();
+}
+bool XMLerModel::isModified () const
+{
+  return _modified;
+}
+QString XMLerModel::titlePart () const
+{
+  QString fn = fileName();
+  if ( isModified() )
+    fn += "*";
+  return fn;
+}
+
+/* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
@@ -162,6 +168,9 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
       break;
     }
   }
+  else if ( role == Qt::DecorationRole && index.column() == 0 ) {
+    return item->typeToIcon();
+  }
 
   return QVariant();
 }
@@ -183,6 +192,4 @@ int XMLerModel::rowCount(const QModelIndex &parent) const
 }
 
 /* Slots */
-void XMLerModel::on_Exception( XMLerHandler::Exceptions e, int column, int line, QString msg )
-{
-}
+

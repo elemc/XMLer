@@ -13,6 +13,8 @@
 
 #include <QtGui/QMainWindow>
 #include <QtGui/QTreeView>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
 #include "xmlermodel.h"
 
 namespace Ui {
@@ -21,12 +23,12 @@ namespace Ui {
 
 class MainWindow : public QMainWindow
 {
-Q_OBJECT
+  Q_OBJECT;
 public:
   explicit MainWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
   ~MainWindow();
-
   bool loadDocument( QString fileName );
+  bool isEmptyDocument () const;
   
 private:
   Ui::MainWindow *ui;
@@ -34,10 +36,14 @@ private:
   QTreeView *tree;
 
   void initialActions();
+  void initialActionsIcons();
   void initialTree();
-                       
+  void openDocumentInNewWindow( const QString &fileName );
+
 private slots:
-  void testOpenDocument();
+  void openDocumentAction();
+  void closeDocumentAction();
+  void modelTouched();
   
 };
 
