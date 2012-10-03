@@ -43,6 +43,19 @@
    <addaction name="menu_File"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
+  </widget>
   <action name="actionExit">
    <property name="text">
     <string>E&amp;xit</string>
@@ -71,11 +84,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
-   </property>
-  </action>
-  <action name="actionOpenHere">
-   <property name="text">
-    <string>Open in a &amp;current window</string>
    </property>
   </action>
   <action name="actionClose">

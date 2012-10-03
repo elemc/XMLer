@@ -44,8 +44,6 @@ void MainWindow::initialActions()
   connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocumentAction()));
   connect(ui->actionClose, SIGNAL(triggered()), this, SLOT(closeDocumentAction()));
   connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
-  
-
 }
 void MainWindow::initialTree()
 {

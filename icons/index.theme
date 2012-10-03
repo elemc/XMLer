@@ -1,0 +1,8 @@
+[Icon Theme]
+Name=oxygen-internal
+Comment=The original Oxygen Theme
+Inherits=default
+Directories=32x32
+
+[32x32]
+Size=32

@@ -48,6 +48,7 @@ set (FORMS
   forms/mainwindow.ui)
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
+set (ICONS icons/application-exit2.png)
 
 set (QT_USE_QTXML TRUE)
 set (QT_USE_QTNETWORK FALSE)

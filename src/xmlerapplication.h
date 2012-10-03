@@ -29,6 +29,8 @@ private:
   QStringList autoOpenFiles;
 
   QList<QWidget *> openedWindows;
+
+  void selectIconTheme ();
 };
 
 #endif

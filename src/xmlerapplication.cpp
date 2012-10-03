@@ -20,6 +20,7 @@ XMLerApplication::XMLerApplication ( int & argc, char ** argv ) :
         autoOpenFiles.append( QString(param) );
     }
   }
+  selectIconTheme ();
 }
 
 XMLerApplication::~XMLerApplication ()
@@ -53,4 +54,12 @@ void XMLerApplication::openFiles ()
     mw->show();
     return;
   }
+}
+void XMLerApplication::selectIconTheme ()
+{
+  QString generic_icon_to_check = "code-context";
+  QString fallback_icon_theme = "oxygen-int";
+
+  if ( !QIcon::hasThemeIcon( generic_icon_to_check ) )
+    QIcon::setThemeName( fallback_icon_theme );
 }

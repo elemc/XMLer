@@ -1,2 +1,13 @@
 <RCC>
+<qresource prefix="icons/oxygen-internal">
+<file alias="index.theme">icons/index.theme</file>
+<file alias="32x32/application-exit.png">icons/application-exit.png</file>
+<file alias="32x32/code-block.png">icons/code-block.png</file>
+<file alias="32x32/code-context.png">icons/code-context.png</file>
+<file alias="32x32/code-function.png">icons/code-function.png</file>
+<file alias="32x32/code-variable.png">icons/code-variable.png</file>
+<file alias="32x32/document-close.png">icons/document-close.png</file>
+<file alias="32x32/document-new.png">icons/document-new.png</file>
+<file alias="32x32/document-open.png">icons/document-open.png</file>
+</qresource>
 </RCC>
