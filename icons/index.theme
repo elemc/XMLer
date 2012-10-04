@@ -2,7 +2,16 @@
 Name=oxygen-internal
 Comment=The original Oxygen Theme
 Inherits=default
-Directories=32x32
+Directories=16x16,22x22,32x32,48x48
 
 [32x32]
 Size=32
+
+[16x16]
+Size=16
+
+[22x22]
+Size=22
+
+[48x48]
+Size=48
