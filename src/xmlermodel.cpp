@@ -41,7 +41,8 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   bool parseResult = reader.parse ( &source );
   if ( !parseResult ) {
-    /* TODO: make exception here */
+    checkExceptionInHandler( handler );
+
     delete handler;
     return false;
   }
@@ -52,15 +53,7 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
   _document->setFileName( fileName );
   endResetModel();
 
-  if ( handler->hasExceptions () ) {
-    XMLerException::ExceptionType mt = XMLerException::Warning;
-    if ( handler->hasFatalErrors () )
-      mt = XMLerException::FatalError;
-    else if ( handler->hasErrors () )
-      mt = XMLerException::Error;
-
-    emit parseException ( mt, handler->exceptions() );
-  }
+  checkExceptionInHandler ( handler );
 
   emit touchModel();
 
@@ -92,6 +85,21 @@ QString XMLerModel::titlePart () const
 QModelIndex XMLerModel::rootIndex () const
 {
   return index ( 0, 0 );
+}
+
+/* private self */
+void XMLerModel::checkExceptionInHandler ( XMLerHandler *handler )
+{
+  if ( !handler->hasExceptions () )
+    return;
+
+  XMLerException::ExceptionType mt = XMLerException::Warning;
+  if ( handler->hasFatalErrors () )
+    mt = XMLerException::FatalError;
+  else if ( handler->hasErrors () )
+    mt = XMLerException::Error;
+
+  emit parseException ( mt, handler->exceptions() );
 }
 
 /* Virtuals */

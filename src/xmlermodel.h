@@ -49,6 +49,8 @@ private:
   BaseXMLNode *_rootItem;
   bool _modified;
 
+  void checkExceptionInHandler ( XMLerHandler *handler );
+
 signals:
   void touchModel ();
   void parseException ( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
