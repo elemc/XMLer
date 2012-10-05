@@ -108,7 +108,15 @@ void BaseXMLNode::appendChild(BaseXMLNode *child)
 {
   // do nothing
 }
-QString BaseXMLNode::name() const
+QString BaseXMLNode::name () const
 {
   return QString(); // return empty string
+}
+QString BaseXMLNode::qName () const
+{
+  return QString();
+}
+QString BaseXMLNode::namespaceURI () const
+{
+  return QString();
 }

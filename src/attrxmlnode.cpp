@@ -56,3 +56,11 @@ QString AttrXMLNode::name () const
 {
   return _localName;
 }
+QString AttrXMLNode::qName () const
+{
+  return _qName;
+}
+QString AttrXMLNode::namespaceURI () const
+{
+  return _namespaceURI;
+}

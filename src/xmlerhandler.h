@@ -17,13 +17,12 @@
 #include "documentxmlnode.h"
 #include "elementxmlnode.h"
 #include "dataxmlnode.h"
+/* #include "commentxmlnode.h" */
+#include "xmlerexception.h"
 
 class XMLerHandler : public QXmlDefaultHandler
 {
-  //  Q_OBJECT
 public:
-  enum Exceptions { Error, FatalError, Warning };
-
   explicit XMLerHandler();
   ~XMLerHandler();
 
@@ -33,22 +32,29 @@ public:
   bool startElement ( const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts );
   bool endElement ( const QString & namespaceURI, const QString & localName, const QString & qName );
   bool characters ( const QString & ch );
+  /* bool comment ( const QString & ch ); */
 
   bool error ( const QXmlParseException & exception );
   bool warning ( const QXmlParseException & exception );
   bool fatalError ( const QXmlParseException & exception );
 
+  /* self */
   DocumentXMLNode *document() const;
+  bool hasExceptions () const;
+  bool hasWarnings () const;
+  bool hasErrors () const;
+  bool hasFatalErrors () const;
+
+  XMLerExceptionList exceptions () const;
   
 private:
   DocumentXMLNode *_document;
   BaseXMLNode *current_parent;
   QMap<BaseXMLNode *, DataXMLNode *> current_chars;
+  /* QMap<BaseXMLNode *, CommentXMLNode *> current_comment; */
+  XMLerExceptionList _exceptions;
 
-  void emitException( XMLerHandler::Exceptions e, QXmlParseException exception );
-  
-  //signals:
-  //void xmlException( XMLerHandler::Exceptions e, int columnNumber, int lineNumber, QString message );
+  bool hasTypedException ( XMLerException::ExceptionType et ) const;
 };
 
 #endif

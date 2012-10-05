@@ -63,7 +63,15 @@ void ElementXMLNode::appendAttributes( const QXmlAttributes &attr )
     appendChild(pattr);
   }
 }
-QString ElementXMLNode::name() const
+QString ElementXMLNode::name () const
 {
   return _localName;
+}
+QString ElementXMLNode::qName () const
+{
+  return _qName;
+}
+QString ElementXMLNode::namespaceURI () const
+{
+  return _namespaceURI;
 }

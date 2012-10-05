@@ -43,5 +43,13 @@ void DataXMLNode::appendChild(BaseXMLNode *child)
 }
 QString DataXMLNode::name () const
 {
+  return QString();
+}
+QString DataXMLNode::qName () const
+{
   return _data;
+}
+QString DataXMLNode::namespaceURI () const
+{
+  return QString();
 }

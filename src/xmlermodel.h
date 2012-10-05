@@ -18,6 +18,7 @@
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "xmlerhandler.h"
+#include "xmlerexception.h"
 
 class XMLerModel : public QAbstractItemModel
 {
@@ -32,6 +33,7 @@ public:
   bool isModified () const;
   QString fileName () const;
   QString titlePart () const;
+  QModelIndex rootIndex () const;
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -48,13 +50,8 @@ private:
   bool _modified;
 
 signals:
-  void touchModel();
-
-  /* QList<QXmlParseException> xmlExceptionList;
-
-public slots:
-void on_Exception( XMLerHandler::Exceptions e, int column, int line, QString msg );*/
-  
+  void touchModel ();
+  void parseException ( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
 };
 
 #endif

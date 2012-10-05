@@ -50,8 +50,10 @@ void MainWindow::initialTree()
   model = new XMLerModel( this );
   tree = new QTreeView( this );
   tree->setModel( model );
+  tree->setRootIsDecorated( false );
 
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
+  connect( model, SIGNAL(parseException(XMLerException::ExceptionType,XMLerExceptionList)), this, SLOT(parsingException(XMLerException::ExceptionType,XMLerExceptionList)) );
 }
 void MainWindow::openDocumentInNewWindow( const QString &fileName )
 {
@@ -62,6 +64,9 @@ void MainWindow::openDocumentInNewWindow( const QString &fileName )
 bool MainWindow::loadDocument( QString fileName )
 {
   bool result = model->loadXMLFile( fileName );
+  QModelIndex rootIndex = model->rootIndex();
+  if ( rootIndex.isValid () )
+    tree->expand ( rootIndex );
   return result;
 }
 bool MainWindow::isEmptyDocument () const
@@ -95,4 +100,17 @@ void MainWindow::modelTouched()
   /* change window title */
   QString genericWindowTitle = tr(APPNAME);
   setWindowTitle ( QString("%1 - %2").arg(genericWindowTitle).arg(model->titlePart()) );
+}
+void MainWindow::parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions )
+{
+  QString caption = tr("XML parse %1").arg(XMLerException::exceptionTypeStr(mainType));
+  QStringList msgs;
+  XMLerExceptionList::iterator it;
+  for ( it = exceptions.begin(); it != exceptions.end(); ++it )
+    msgs.append ( (*it).printMessage() );
+
+  if ( mainType == XMLerException::Warning )
+    QMessageBox::warning( this, caption, msgs.join("\n") );
+  else
+    QMessageBox::critical( this, caption, msgs.join("\n") );
 }

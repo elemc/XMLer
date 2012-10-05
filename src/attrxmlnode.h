@@ -26,7 +26,9 @@ public:
   quint32 childCount() const;                           // return child count
   XMLNodePtrList childs() const;                        // return all childs (elements and attributes)
   void appendChild(BaseXMLNode *child);                 // add child to this object
-  QString name() const;
+  QString name () const;
+  QString qName () const;
+  QString namespaceURI () const;
 
 private:
   QString _namespaceURI;

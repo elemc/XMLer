@@ -17,7 +17,7 @@ class BaseXMLNode : public QObject
 {
   Q_OBJECT
 public:
-  enum XMLNodeType { Unknown, Document, Element, Attribute, Data };
+  enum XMLNodeType { Unknown, Document, Element, Attribute, Data, Comment };
 
   explicit BaseXMLNode(BaseXMLNode *parent = 0);
   ~BaseXMLNode();
@@ -36,7 +36,9 @@ public:
   virtual quint32 childCount() const;                           // return child count
   virtual QList<BaseXMLNode *> childs() const;                  // return all childs (elements and attributes)
   virtual void appendChild(BaseXMLNode *child);                 // add child to this object
-  virtual QString name() const;                                 // return display name of node
+  virtual QString name () const;                                // return display name of node
+  virtual QString qName () const;                               // return qName
+  virtual QString namespaceURI () const;                        // return namespace URI
   
 private:
   BaseXMLNode *_parentNode;

@@ -16,6 +16,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 #include "xmlermodel.h"
+#include "xmlerexception.h"
 
 namespace Ui {
   class MainWindow;
@@ -44,6 +45,8 @@ private slots:
   void openDocumentAction();
   void closeDocumentAction();
   void modelTouched();
+
+  void parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
   
 };
 

@@ -32,12 +32,9 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   beginResetModel();
 
-  //xmlExceptionList.clear();
   QXmlSimpleReader reader;
   QXmlInputSource source( &xml );// = new QXmlInputSource( &xml );
   XMLerHandler *handler = new XMLerHandler;
-  /*connect ( handler, SIGNAL (xmlException (XMLerHandler::Exceptions, const QXmlParseException)), 
-    this, SLOT(on_Exception(XMLerHandler::Exceptions, const QXmlParseException &)));*/
 
   reader.setContentHandler ( handler );
   reader.setErrorHandler ( handler );
@@ -49,15 +46,21 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
     return false;
   }
 
-  /*if ( xmlExceptionList.count() > 0 )
-    emit xmlException ( xmlExceptionList ); */
-
   _document = handler->document();
   _rootItem = _document->documentNode();
 
   _document->setFileName( fileName );
-
   endResetModel();
+
+  if ( handler->hasExceptions () ) {
+    XMLerException::ExceptionType mt = XMLerException::Warning;
+    if ( handler->hasFatalErrors () )
+      mt = XMLerException::FatalError;
+    else if ( handler->hasErrors () )
+      mt = XMLerException::Error;
+
+    emit parseException ( mt, handler->exceptions() );
+  }
 
   emit touchModel();
 
@@ -86,6 +89,10 @@ QString XMLerModel::titlePart () const
     fn += "*";
   return fn;
 }
+QModelIndex XMLerModel::rootIndex () const
+{
+  return index ( 0, 0 );
+}
 
 /* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
@@ -96,19 +103,21 @@ Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
 int XMLerModel::columnCount(const QModelIndex &parent) const
 {
   Q_UNUSED(parent);
-  return 2;
+  return 3;
 }
 QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
   if ( orientation == Qt::Horizontal ) {
     if ( role == Qt::DisplayRole ) {
       switch (section) {
+      case 2:
+        return tr("Local name");
+        break;
       case 0:
-        return tr("Name");
+        return tr("Qualified name");
         break;
       case 1:
-        return tr("Type");
-        break;
+        return tr("Namespace URI");
       default:
         break;
       }
@@ -158,11 +167,14 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
 
   if ( role == Qt::DisplayRole ) {
     switch( index.column() ) {
-    case 0:
+    case 2:
       return item->name();
       break;
+    case 0:
+      return item->qName();
+      break;
     case 1:
-      return item->typeToStr();
+      return item->namespaceURI();
       break;
     default:
       break;

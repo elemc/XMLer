@@ -42,9 +42,11 @@ bool XMLerHandler::startElement ( const QString & namespaceURI, const QString & 
   current_parent->appendChild(node);
 
   DataXMLNode *data = new DataXMLNode();
+  /* CommentXMLNode *comment = new CommentXMLNode(); */
 
   current_parent = node;
   current_chars[current_parent] = data;
+  /* current_comment[current_parent] = comment; */
 
   return true;
 }
@@ -60,7 +62,18 @@ bool XMLerHandler::endElement ( const QString & namespaceURI, const QString & lo
     current_data = 0;
   }
 
+  /*CommentXMLNode *comment = current_comment[current_parent];
+  if ( !comment->data().trimmed().isEmpty() ) {
+    comment->setParentNode ( current_parent );
+    current_parent->appendChild ( comment );
+  }
+  else {
+    delete comment;
+    comment = 0;
+    } */
+
   current_chars.remove(current_parent);
+  /* current_comment.remove(current_parent); */
   current_parent = current_parent->parentNode();
   return true;
 }
@@ -74,27 +87,79 @@ bool XMLerHandler::characters ( const QString & ch )
   current_chars[current_parent]->setData ( alldata );
   return true;
 }
+/*
+bool XMLerHandler::comment ( const QString & ch )
+{
+  qDebug() << ch;
+  if ( !current_comment[current_parent] ) 
+    return false;
+
+  QString allcomment = current_comment[current_parent]->data();
+  allcomment += ch;
+  current_comment[current_parent]->setData ( allcomment );
+  return true;
+}
+*/
 bool XMLerHandler::error ( const QXmlParseException & exception )
 {
-  emit emitException ( XMLerHandler::Error, exception );
+  XMLerException err_exc( XMLerException::Error, exception );
+  _exceptions.append ( err_exc );
   return true;
 }
 bool XMLerHandler::fatalError ( const QXmlParseException & exception )
 {
-  emit emitException ( XMLerHandler::FatalError, exception );
+  XMLerException fe_exc( XMLerException::FatalError, exception );
+  _exceptions.append ( fe_exc );
   return false;
 }
 bool XMLerHandler::warning ( const QXmlParseException & exception )
 {
-  emit emitException ( XMLerHandler::Warning, exception );
+  XMLerException warn_exc( XMLerException::Warning, exception );
+  _exceptions.append ( warn_exc );
   return true;
 }
 
-void XMLerHandler::emitException( XMLerHandler::Exceptions e, QXmlParseException exception )
-{
-  //emit xmlException ( e, exception.columnNumber(), exception.lineNumber(), exception.message() );
-}
+/* self */
 DocumentXMLNode *XMLerHandler::document () const
 {
   return _document;
+}
+bool XMLerHandler::hasExceptions () const
+{
+  return ( _exceptions.size () > 0 );
+}
+bool XMLerHandler::hasWarnings () const
+{
+  return hasTypedException ( XMLerException::Warning );
+}
+bool XMLerHandler::hasErrors () const
+{
+  return hasTypedException ( XMLerException::Error );
+}
+bool XMLerHandler::hasFatalErrors () const
+{
+  return hasTypedException ( XMLerException::FatalError );
+}
+XMLerExceptionList XMLerHandler::exceptions () const
+{
+  return _exceptions;
+}
+
+/* private self */
+bool XMLerHandler::hasTypedException ( XMLerException::ExceptionType et ) const
+{
+  if ( _exceptions.size() == 0 )
+    return false;
+
+  bool result = false;
+
+  QList<XMLerException>::const_iterator it;
+  for ( it = _exceptions.begin(); it != _exceptions.end(); ++it ) {
+    if ( (*it).exceptionType() == et ) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
 }

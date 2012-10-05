@@ -27,23 +27,27 @@ set (HEADERS
   src/xmlerapplication.h
   src/mainwindow.h
   src/xmlerhandler.h
+  src/xmlerexception.h
   src/xmlermodel.h
   src/basexmlnode.h
   src/elementxmlnode.h
   src/documentxmlnode.h
   src/attrxmlnode.h
   src/dataxmlnode.h)
+#  src/commentxmlnode.h)
 set (SOURCES 
   main.cpp 
   src/xmlerapplication.cpp
   src/mainwindow.cpp
   src/xmlermodel.cpp
   src/xmlerhandler.cpp
+  src/xmlerexception.cpp
   src/basexmlnode.cpp
   src/elementxmlnode.cpp
   src/documentxmlnode.cpp
   src/attrxmlnode.cpp
   src/dataxmlnode.cpp)
+#  src/commentxmlnode.cpp)
 set (FORMS 
   forms/mainwindow.ui)
 set (RESOURCES xmler.qrc)

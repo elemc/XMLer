@@ -57,3 +57,11 @@ QString DocumentXMLNode::name () const
 {
   return tr("XML Document");
 }
+QString DocumentXMLNode::qName () const
+{
+  return QString();
+}
+QString DocumentXMLNode::namespaceURI () const
+{
+  return QString();
+}
