@@ -15,6 +15,8 @@ MainWindow::MainWindow (QWidget *parent, Qt::WindowFlags f) :
 {
   ui->setupUi(this);
 
+  setAttribute ( Qt::WA_DeleteOnClose );
+
   initialActions();
   initialTree();
 
