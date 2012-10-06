@@ -29,6 +29,7 @@ public:
   explicit MainWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
   ~MainWindow();
   bool loadDocument( QString fileName );
+  bool saveDocument( QString fileName );
   bool isEmptyDocument () const;
   
 private:
@@ -43,6 +44,7 @@ private:
 
 private slots:
   void openDocumentAction();
+  void saveAsDocumentAction();
   void closeDocumentAction();
   void modelTouched();
 

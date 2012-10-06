@@ -15,6 +15,7 @@
 #include <QtXml/QXmlSimpleReader>
 #include <QtXml/QXmlParseException>
 #include <QtXml/QXmlInputSource>
+#include <QtXml/QXmlStreamReader>
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "xmlerhandler.h"
@@ -29,6 +30,7 @@ public:
 
   /* self */
   bool loadXMLFile ( const QString &fileName );
+  bool saveXMLFile ( const QString &fileName );
   bool isEmptyModel () const;
   bool isModified () const;
   QString fileName () const;
@@ -48,8 +50,11 @@ private:
   DocumentXMLNode *_document;
   BaseXMLNode *_rootItem;
   bool _modified;
+  QString _encoding;
+  QString _version;
 
   void checkExceptionInHandler ( XMLerHandler *handler );
+  QMap<QString, QString> getInformationFromFile ( const QString &fileName );
 
 signals:
   void touchModel ();

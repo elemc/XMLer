@@ -34,6 +34,8 @@ void MainWindow::initialActionsIcons()
   /* generic icons */
   ui->actionNew->setIcon  ( QIcon::fromTheme("document-new") );
   ui->actionOpen->setIcon ( QIcon::fromTheme("document-open") );
+  ui->actionSave->setIcon ( QIcon::fromTheme("document-save") );
+  ui->actionSaveAs->setIcon ( QIcon::fromTheme("document-save-as") );
   ui->actionClose->setIcon( QIcon::fromTheme("document-close") );
   ui->actionExit->setIcon ( QIcon::fromTheme("application-exit") );
 }
@@ -42,6 +44,7 @@ void MainWindow::initialActions()
   initialActionsIcons();
 
   connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocumentAction()));
+  connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAsDocumentAction()));
   connect(ui->actionClose, SIGNAL(triggered()), this, SLOT(closeDocumentAction()));
   connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
@@ -72,6 +75,10 @@ bool MainWindow::loadDocument( QString fileName )
 bool MainWindow::isEmptyDocument () const
 {
   return model->isEmptyModel();
+}
+bool MainWindow::saveDocument( QString fileName )
+{
+  model->saveXMLFile ( fileName );
 }
 
 /* Slots */
@@ -113,4 +120,15 @@ void MainWindow::parsingException( XMLerException::ExceptionType mainType, XMLer
     QMessageBox::warning( this, caption, msgs.join("\n") );
   else
     QMessageBox::critical( this, caption, msgs.join("\n") );
+}
+void MainWindow::saveAsDocumentAction()
+{
+  if ( isEmptyDocument() )
+    return;
+
+  QString selectedFileName = QFileDialog::getSaveFileName ( this, tr("Select file for save"), QDir::currentPath(), tr("XML files (*.xml);;All files (*.*)") );
+  if ( selectedFileName.isEmpty() )
+    return;
+
+  saveDocument ( selectedFileName );
 }

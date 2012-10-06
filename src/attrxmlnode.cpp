@@ -64,3 +64,12 @@ QString AttrXMLNode::namespaceURI () const
 {
   return _namespaceURI;
 }
+
+/* self */
+QString AttrXMLNode::value () const
+{
+  if ( _data )
+    return _data->data();
+
+  return QString();
+}

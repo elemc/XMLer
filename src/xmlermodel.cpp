@@ -24,11 +24,13 @@ XMLerModel::~XMLerModel ()
 }
 
 /* self */
-bool XMLerModel::loadXMLFile(const QString &fileName)
+bool XMLerModel::loadXMLFile( const QString &fileName )
 {
   QFile xml( fileName );
   if ( !xml.exists() )
     return false;
+
+  QMap<QString, QString> info = getInformationFromFile ( fileName );
 
   beginResetModel();
 
@@ -44,14 +46,23 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
     checkExceptionInHandler( handler );
 
     delete handler;
+    endResetModel();
     return false;
   }
 
   _document = handler->document();
   _rootItem = _document->documentNode();
 
-  _document->setFileName( fileName );
   endResetModel();
+
+  /* set addition data (information) in document */
+  _document->setFileName( fileName );
+  if ( !info.isEmpty() ) {
+    if ( info.contains ( "encoding" ) )
+      _document->setCodec ( info.value ( "encoding" ) );
+    if ( info.contains ( "version" ) )
+      _document->setVersion ( info.value ( "version" ) );
+  }
 
   checkExceptionInHandler ( handler );
 
@@ -59,6 +70,13 @@ bool XMLerModel::loadXMLFile(const QString &fileName)
 
   delete handler;
   return true;
+}
+bool XMLerModel::saveXMLFile ( const QString &fileName )
+{
+  if ( !_document )
+    return false;
+
+  return _document->save ( fileName );
 }
 bool XMLerModel::isEmptyModel () const
 {
@@ -100,6 +118,39 @@ void XMLerModel::checkExceptionInHandler ( XMLerHandler *handler )
     mt = XMLerException::Error;
 
   emit parseException ( mt, handler->exceptions() );
+}
+QMap<QString, QString> XMLerModel::getInformationFromFile ( const QString &fileName )
+{
+  QMap<QString, QString> result;
+
+  QFile xml_file( fileName );
+  if ( !xml_file.exists() )
+    return result;
+
+  if ( !xml_file.open ( QIODevice::ReadOnly | QIODevice::Text ) )
+    return result;
+
+  QString encoding;
+  QString version;
+
+  QXmlStreamReader reader ( &xml_file );
+  while ( !reader.atEnd() ) {
+    QXmlStreamReader::TokenType tt = reader.readNext();
+    if ( tt == QXmlStreamReader::StartDocument ) {
+      encoding = reader.documentEncoding().toString();
+      version = reader.documentVersion().toString();
+      break;
+    }
+  }
+  
+  if ( !encoding.isEmpty() )
+    result.insert("encoding", encoding);
+  if ( !version.isEmpty() )
+    result.insert("version", version);
+
+  xml_file.close();
+
+  return result;
 }
 
 /* Virtuals */

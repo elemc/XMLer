@@ -30,6 +30,8 @@ public:
   QString qName () const;
   QString namespaceURI () const;
 
+  QString value () const;
+
 private:
   QString _namespaceURI;
   QString _localName;

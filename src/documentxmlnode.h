@@ -9,11 +9,16 @@
 #ifndef DOCUMENTXMLNODE_H
 #define DOCUMENTXMLNODE_H
 
+#include <QtXml/QXmlStreamWriter>
+#include <QtCore/QTextCodec>
+#include <QtCore/QFile>
 #include "basexmlnode.h"
+#include "elementxmlnode.h"
+#include "attrxmlnode.h"
 
 class DocumentXMLNode : public BaseXMLNode
 {
-  Q_OBJECT
+Q_OBJECT
 public:
   explicit DocumentXMLNode();
   ~DocumentXMLNode();
@@ -27,12 +32,25 @@ public:
 
   BaseXMLNode *documentNode() const;
 
-  void setFileName( const QString &name );
+  void setFileName( const QString & name );
   QString fileName () const;
-  
+  void setCodec ( const QString & codecName );
+  void setCodec ( QTextCodec * codec_in );
+  void setVersion ( const QString & version );
+  bool save ( const QString &fileName );
+
 private:
   BaseXMLNode *rootNode;
   QString _fileName;
+
+  /* document settings */
+  bool _document_auto_formatting;
+  int _document_formatting_indent;
+
+  QTextCodec *codec;
+  QString _version;
+
+  bool saveNode ( QXmlStreamWriter &writer,  BaseXMLNode *node );
   
 };
 
