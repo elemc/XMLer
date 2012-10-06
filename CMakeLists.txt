@@ -29,12 +29,13 @@ set (HEADERS
   src/xmlerhandler.h
   src/xmlerexception.h
   src/xmlermodel.h
+  src/xmlerinputsource.h
+  src/xmlerloadfilethread.h
   src/basexmlnode.h
   src/elementxmlnode.h
   src/documentxmlnode.h
   src/attrxmlnode.h
   src/dataxmlnode.h)
-#  src/commentxmlnode.h)
 set (SOURCES 
   main.cpp 
   src/xmlerapplication.cpp
@@ -42,12 +43,13 @@ set (SOURCES
   src/xmlermodel.cpp
   src/xmlerhandler.cpp
   src/xmlerexception.cpp
+  src/xmlerinputsource.cpp
+  src/xmlerloadfilethread.cpp
   src/basexmlnode.cpp
   src/elementxmlnode.cpp
   src/documentxmlnode.cpp
   src/attrxmlnode.cpp
   src/dataxmlnode.cpp)
-#  src/commentxmlnode.cpp)
 set (FORMS 
   forms/mainwindow.ui)
 set (RESOURCES xmler.qrc)

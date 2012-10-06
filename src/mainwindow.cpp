@@ -19,6 +19,7 @@ MainWindow::MainWindow (QWidget *parent, Qt::WindowFlags f) :
 
   initialActions();
   initialTree();
+  initialStatusBar();
 
   setCentralWidget( tree );
 }
@@ -28,9 +29,15 @@ MainWindow::~MainWindow ()
   tree->setModel( 0 );
   delete model;
   delete tree;
+
+  delete labelStatus;
+  labelStatus = 0;
+  delete progressDialog;
+  progressDialog = 0;
   delete ui;
 }
 
+/* Inits */
 void MainWindow::initialActionsIcons()
 {
   /* generic icons */
@@ -58,13 +65,41 @@ void MainWindow::initialTree()
   tree->setRootIsDecorated( false );
 
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
-  connect( model, SIGNAL(parseException(XMLerException::ExceptionType,XMLerExceptionList)), this, SLOT(parsingException(XMLerException::ExceptionType,XMLerExceptionList)) );
+  
+  /* Loader signals */
+  connect( model->loader(), SIGNAL(parseException(XMLerException::ExceptionType,XMLerExceptionList)), this, SLOT(parsingException(XMLerException::ExceptionType,XMLerExceptionList)) );
+  connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(on_model_beginProgress(QString,qint64)) );
+  connect( model->loader(), SIGNAL(progress(qint64)), this, SLOT(on_model_progress(qint64)) );
+  connect( model->loader(), SIGNAL(endProgress()), this, SLOT(on_model_endProgress()) );
 }
+void MainWindow::initialStatusBar ()
+{
+  progressDialog = new QProgressDialog ( this, Qt::Dialog );
+  progressDialog->setWindowModality( Qt::WindowModal );
+  progressDialog->setCancelButton ( 0 );
+  progressDialog->setAutoClose ( true );
+
+  labelStatus = new QLabel ( progressDialog );
+  progressDialog->setLabel ( labelStatus );
+
+  /*progressBarStatus = new QProgressBar( ui->statusbar );
+  labelStatus = new QLabel( ui->statusbar );
+  ui->statusbar->addWidget ( labelStatus );
+  ui->statusbar->addWidget ( progressBarStatus );
+
+  labelStatus->hide();
+  progressBarStatus->hide();*/
+
+  _progress_max = 0;
+  _progress_pos = 0;
+}
+
+/* self */
 void MainWindow::openDocumentInNewWindow( const QString &fileName )
 {
   MainWindow *mw = new MainWindow;
-  mw->loadDocument( fileName );
   mw->show();
+  mw->loadDocument( fileName );
 }
 bool MainWindow::loadDocument( QString fileName )
 {
@@ -80,7 +115,9 @@ bool MainWindow::isEmptyDocument () const
 }
 bool MainWindow::saveDocument( QString fileName )
 {
-  model->saveXMLFile ( fileName );
+  bool result = model->saveXMLFile ( fileName );
+  if ( !result )
+    QMessageBox::critical( this, tr("XML writer error"), tr("Error per write XML document") );
 }
 
 /* Slots */
@@ -133,4 +170,28 @@ void MainWindow::saveAsDocumentAction()
     return;
 
   saveDocument ( selectedFileName );
+}
+void MainWindow::on_model_beginProgress ( QString message, qint64 totalSize )
+{
+  labelStatus->setText ( message );
+  progressDialog->setMaximum( 100 );
+  progressDialog->setMinimum( 0 );
+  progressDialog->setValue( 0 );
+  progressDialog->show();
+
+  _progress_max = totalSize;
+  _progress_pos = 0;
+}
+void MainWindow::on_model_progress ( qint64 pos )
+{
+  _progress_pos = pos;
+  int progress = _progress_pos * 100 / _progress_max;
+  if ( progress != progressDialog->value() )
+    progressDialog->setValue ( progress );
+}
+void MainWindow::on_model_endProgress ()
+{
+  _progress_max = 0;
+  _progress_pos = 0;
+  progressDialog->close();
 }

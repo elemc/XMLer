@@ -25,7 +25,6 @@ XMLerApplication::XMLerApplication ( int & argc, char ** argv ) :
 
 XMLerApplication::~XMLerApplication ()
 {
-  qDeleteAll(openedWindows.begin(), openedWindows.end());
 }
 
 bool XMLerApplication::hasFilesInParams() const
@@ -38,15 +37,9 @@ void XMLerApplication::openFiles ()
   int opened = 0;
   for ( int i = 0; i < autoOpenFiles.count(); i++ ) {
     MainWindow *mw = new MainWindow;
+    mw->show();
     bool ok = mw->loadDocument( autoOpenFiles.at(i) );
-    if ( ok ) {
-      mw->show();
-      openedWindows.append(mw);
-      opened += 1;
-    }
-    else {
-      delete mw;
-    }
+    opened += 1;
   }
 
   if ( opened == 0 ) {

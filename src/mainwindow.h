@@ -15,6 +15,8 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtGui/QProgressDialog>
+#include <QtGui/QLabel>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
 
@@ -36,10 +38,19 @@ private:
   Ui::MainWindow *ui;
   XMLerModel *model;
   QTreeView *tree;
+  QLabel *labelStatus;
+  QProgressDialog *progressDialog;
+  
 
+  qint64 _progress_max;
+  qint64 _progress_pos;
+
+  /* inits */
   void initialActions();
   void initialActionsIcons();
   void initialTree();
+  void initialStatusBar();
+
   void openDocumentInNewWindow( const QString &fileName );
 
 private slots:
@@ -49,7 +60,10 @@ private slots:
   void modelTouched();
 
   void parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
-  
+
+  void on_model_beginProgress ( QString message, qint64 totalSize );
+  void on_model_progress ( qint64 pos );
+  void on_model_endProgress ();
 };
 
 #endif

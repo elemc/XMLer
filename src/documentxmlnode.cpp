@@ -64,7 +64,7 @@ bool DocumentXMLNode::save ( const QString &fn )
   xml.close();
 
   /* set filename */
-  if ( fileName() != fn )
+  if ( result && fileName() != fn )
     setFileName ( fn );
 
   return result;

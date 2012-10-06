@@ -14,64 +14,27 @@ XMLerModel::XMLerModel (QObject *parent):
   _document = 0;
   _rootItem = 0;
   _modified = false;
+
+  _loader = new XMLerLoadFileThread ( this );
+  connect ( _loader, SIGNAL(loadDone(DocumentXMLNode*)), this, SLOT(on_loaderDone(DocumentXMLNode*)) );
 }
 XMLerModel::~XMLerModel ()
 {
   if ( _document )
     delete _document;
-  /* if ( _rootItem )
-     delete _rootItem; */
+
+  /* clean loader */
+  delete _loader;
+  _loader = 0;
 }
 
 /* self */
 bool XMLerModel::loadXMLFile( const QString &fileName )
 {
-  QFile xml( fileName );
-  if ( !xml.exists() )
-    return false;
-
-  QMap<QString, QString> info = getInformationFromFile ( fileName );
-
-  beginResetModel();
-
-  QXmlSimpleReader reader;
-  QXmlInputSource source( &xml );// = new QXmlInputSource( &xml );
-  XMLerHandler *handler = new XMLerHandler;
-
-  reader.setContentHandler ( handler );
-  reader.setErrorHandler ( handler );
-
-  bool parseResult = reader.parse ( &source );
-  if ( !parseResult ) {
-    checkExceptionInHandler( handler );
-
-    delete handler;
-    endResetModel();
-    return false;
-  }
-
-  _document = handler->document();
-  _rootItem = _document->documentNode();
-
-  endResetModel();
-
-  /* set addition data (information) in document */
-  _document->setFileName( fileName );
-  if ( !info.isEmpty() ) {
-    if ( info.contains ( "encoding" ) )
-      _document->setCodec ( info.value ( "encoding" ) );
-    if ( info.contains ( "version" ) )
-      _document->setVersion ( info.value ( "version" ) );
-  }
-
-  checkExceptionInHandler ( handler );
-
-  emit touchModel();
-
-  delete handler;
-  return true;
+  _loader->setFileName ( fileName );
+  _loader->start();
 }
-bool XMLerModel::saveXMLFile ( const QString &fileName )
+bool XMLerModel::saveXMLFile( const QString &fileName )
 {
   if ( !_document )
     return false;
@@ -107,53 +70,9 @@ QModelIndex XMLerModel::rootIndex () const
 {
   return index ( 0, 0 );
 }
-
-/* private self */
-void XMLerModel::checkExceptionInHandler ( XMLerHandler *handler )
+XMLerLoadFileThread *XMLerModel::loader ()
 {
-  if ( !handler->hasExceptions () )
-    return;
-
-  XMLerException::ExceptionType mt = XMLerException::Warning;
-  if ( handler->hasFatalErrors () )
-    mt = XMLerException::FatalError;
-  else if ( handler->hasErrors () )
-    mt = XMLerException::Error;
-
-  emit parseException ( mt, handler->exceptions() );
-}
-QMap<QString, QString> XMLerModel::getInformationFromFile ( const QString &fileName )
-{
-  QMap<QString, QString> result;
-
-  QFile xml_file( fileName );
-  if ( !xml_file.exists() )
-    return result;
-
-  if ( !xml_file.open ( QIODevice::ReadOnly | QIODevice::Text ) )
-    return result;
-
-  QString encoding;
-  QString version;
-
-  QXmlStreamReader reader ( &xml_file );
-  while ( !reader.atEnd() ) {
-    QXmlStreamReader::TokenType tt = reader.readNext();
-    if ( tt == QXmlStreamReader::StartDocument ) {
-      encoding = reader.documentEncoding().toString();
-      version = reader.documentVersion().toString();
-      break;
-    }
-  }
-  
-  if ( !encoding.isEmpty() )
-    result.insert("encoding", encoding);
-  if ( !version.isEmpty() )
-    result.insert("version", version);
-
-  xml_file.close();
-
-  return result;
+  return _loader;
 }
 
 /* Virtuals */
@@ -266,4 +185,13 @@ int XMLerModel::rowCount(const QModelIndex &parent) const
 }
 
 /* Slots */
+void XMLerModel::on_loaderDone ( DocumentXMLNode *doc )
+{
+  if ( !doc )
+    return;
 
+  beginResetModel();
+  _document = doc;
+  endResetModel();
+  emit touchModel();
+}

@@ -12,14 +12,9 @@
 #include "config.h"
 
 #include <QtCore/QAbstractItemModel>
-#include <QtXml/QXmlSimpleReader>
-#include <QtXml/QXmlParseException>
-#include <QtXml/QXmlInputSource>
-#include <QtXml/QXmlStreamReader>
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
-#include "xmlerhandler.h"
-#include "xmlerexception.h"
+#include "xmlerloadfilethread.h"
 
 class XMLerModel : public QAbstractItemModel
 {
@@ -36,6 +31,7 @@ public:
   QString fileName () const;
   QString titlePart () const;
   QModelIndex rootIndex () const;
+  XMLerLoadFileThread *loader ();
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -53,12 +49,14 @@ private:
   QString _encoding;
   QString _version;
 
-  void checkExceptionInHandler ( XMLerHandler *handler );
-  QMap<QString, QString> getInformationFromFile ( const QString &fileName );
+  /* threaded loader and writer */
+  XMLerLoadFileThread *_loader;
 
 signals:
   void touchModel ();
-  void parseException ( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
+
+private slots:
+  void on_loaderDone ( DocumentXMLNode *doc );
 };
 
 #endif

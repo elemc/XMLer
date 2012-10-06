@@ -58,6 +58,7 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
+   <addaction name="actionSaveAs"/>
   </widget>
   <action name="actionExit">
    <property name="text">
