@@ -76,7 +76,10 @@ bool XMLerModel::saveXMLFile ( const QString &fileName )
   if ( !_document )
     return false;
 
-  return _document->save ( fileName );
+  bool result = _document->save ( fileName );
+  emit touchModel ();
+
+  return result;
 }
 bool XMLerModel::isEmptyModel () const
 {

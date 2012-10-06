@@ -37,7 +37,7 @@ public:
   void setCodec ( const QString & codecName );
   void setCodec ( QTextCodec * codec_in );
   void setVersion ( const QString & version );
-  bool save ( const QString &fileName );
+  bool save ( const QString &fn );
 
 private:
   BaseXMLNode *rootNode;

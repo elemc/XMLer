@@ -37,9 +37,9 @@ QString DocumentXMLNode::fileName () const
 {
   return _fileName;
 }
-bool DocumentXMLNode::save ( const QString &fileName )
+bool DocumentXMLNode::save ( const QString &fn )
 {
-  QFile xml ( fileName );
+  QFile xml ( fn );
 
   if ( !xml.open ( QIODevice::WriteOnly ) )
     return false;
@@ -62,6 +62,10 @@ bool DocumentXMLNode::save ( const QString &fileName )
   writer.writeEndDocument();
 
   xml.close();
+
+  /* set filename */
+  if ( fileName() != fn )
+    setFileName ( fn );
 
   return result;
 }
