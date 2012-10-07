@@ -33,5 +33,13 @@
 <file alias="48x48/document-close.png">icons/48x48/document-close.png</file>
 <file alias="48x48/document-new.png">icons/48x48/document-new.png</file>
 <file alias="48x48/document-open.png">icons/48x48/document-open.png</file>
+<file alias="48x48/document-save.png">icons/48x48/document-save.png</file>
+<file alias="48x48/document-save-as.png">icons/48x48/document-save-as.png</file>
+<file alias="22x22/document-save.png">icons/22x22/document-save.png</file>
+<file alias="22x22/document-save-as.png">icons/22x22/document-save-as.png</file>
+<file alias="32x32/document-save.png">icons/32x32/document-save.png</file>
+<file alias="32x32/document-save-as.png">icons/32x32/document-save-as.png</file>
+<file alias="16x16/document-save.png">icons/16x16/document-save.png</file>
+<file alias="16x16/document-save-as.png">icons/16x16/document-save-as.png</file>
 </qresource>
 </RCC>

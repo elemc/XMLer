@@ -26,8 +26,6 @@ set (PROJECT_VERSION 0.0.1)
 set (HEADERS 
   src/xmlerapplication.h
   src/mainwindow.h
-  src/xmlerhandler.h
-  src/xmlerexception.h
   src/xmlermodel.h
   src/xmlerinputsource.h
   src/xmlerfileoperthread.h
