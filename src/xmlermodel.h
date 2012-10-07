@@ -29,11 +29,15 @@ public:
   bool saveXMLFile ( const QString &fileName );
   bool isEmptyModel () const;
   bool isModified () const;
+  void modif();
   QString fileName () const;
   QString titlePart () const;
   QModelIndex rootIndex () const;
+
   XMLerLoadFileThread *loader ();
   XMLerSaveFileThread *saver ();
+
+  DocumentXMLNode *document () const;
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;

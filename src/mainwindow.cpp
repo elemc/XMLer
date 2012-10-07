@@ -54,6 +54,7 @@ void MainWindow::initialActions()
 
   connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocumentAction()));
   connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAsDocumentAction()));
+  connect(ui->actionProperties, SIGNAL(triggered()), this, SLOT(propertiesAction()));
   connect(ui->actionClose, SIGNAL(triggered()), this, SLOT(closeDocumentAction()));
   connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
@@ -213,4 +214,12 @@ void MainWindow::onError ( QString msg )
 void MainWindow::onWarning ( QString msg )
 {
   QMessageBox::warning ( this, tr("File operation warning"), msg );
+}
+void MainWindow::propertiesAction ()
+{
+  DocumentPropertiesDialog *dlg = new DocumentPropertiesDialog ( this );
+  dlg->setDocument ( model->document() );
+  int result = dlg->exec();
+  if ( result == QDialog::Accepted )
+    model->modif();
 }

@@ -69,6 +69,11 @@ QString DocumentXMLNode::version () const
 {
   return _version;
 }
+void DocumentXMLNode::setFormatting ( bool formatting, int indent )
+{
+  _document_auto_formatting = formatting;
+  _document_formatting_indent = indent;
+}
 
 /* Virtuals */
 void DocumentXMLNode::appendChild(BaseXMLNode *child)

@@ -19,6 +19,7 @@
 #include <QtGui/QLabel>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
+#include "documentpropertiesdialog.h"
 
 namespace Ui {
   class MainWindow;
@@ -57,6 +58,8 @@ private slots:
   void openDocumentAction();
   void saveAsDocumentAction();
   void closeDocumentAction();
+  void propertiesAction();
+
   void modelTouched();
 
   void parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );

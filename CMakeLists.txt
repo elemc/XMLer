@@ -26,6 +26,7 @@ set (PROJECT_VERSION 0.0.1)
 set (HEADERS 
   src/xmlerapplication.h
   src/mainwindow.h
+  src/documentpropertiesdialog.h
   src/xmlermodel.h
   src/xmlerinputsource.h
   src/xmlerfileoperthread.h
@@ -40,6 +41,7 @@ set (SOURCES
   main.cpp 
   src/xmlerapplication.cpp
   src/mainwindow.cpp
+  src/documentpropertiesdialog.cpp
   src/xmlermodel.cpp
   src/xmlerhandler.cpp
   src/xmlerexception.cpp
@@ -53,7 +55,8 @@ set (SOURCES
   src/attrxmlnode.cpp
   src/dataxmlnode.cpp)
 set (FORMS 
-  forms/mainwindow.ui)
+  forms/mainwindow.ui
+  forms/documentpropertiesdialog.ui)
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
 set (ICONS icons/application-exit2.png)

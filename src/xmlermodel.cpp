@@ -81,6 +81,15 @@ XMLerSaveFileThread *XMLerModel::saver ()
 {
   return _saver;
 }
+DocumentXMLNode *XMLerModel::document () const
+{
+  return _document;
+}
+void XMLerModel::modif ()
+{
+  _modified = true;
+  emit touchModel();
+}
 
 /* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
@@ -200,9 +209,11 @@ void XMLerModel::on_loaderDone ( DocumentXMLNode *doc )
   beginResetModel();
   _document = doc;
   endResetModel();
+  _modified = false;
   emit touchModel();
 }
 void XMLerModel::on_saverDone ( DocumentXMLNode *doc )
 {
+  _modified = false;
   emit touchModel();
 }

@@ -45,6 +45,8 @@ public:
   bool autoFormatting () const;
   int formattingIndent () const;
 
+  void setFormatting ( bool formatting, int indent );
+
 private:
   BaseXMLNode *rootNode;
   QString _fileName;
