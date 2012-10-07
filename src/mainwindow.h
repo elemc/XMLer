@@ -61,9 +61,9 @@ private slots:
 
   void parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
 
-  void on_model_beginProgress ( QString message, qint64 totalSize );
-  void on_model_progress ( qint64 pos );
-  void on_model_endProgress ();
+  void beginProgressModel ( QString message, qint64 totalSize );
+  void progressModel ( qint64 pos );
+  void endProgressModel ();
 };
 
 #endif

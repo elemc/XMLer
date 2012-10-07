@@ -24,6 +24,7 @@ public:
 private:
   qint64 _data_size;
   qint64 _data_pos;
+  qint64 _step;
 
 signals:
   void beginRead ( qint64 totalSize );

@@ -68,9 +68,9 @@ void MainWindow::initialTree()
   
   /* Loader signals */
   connect( model->loader(), SIGNAL(parseException(XMLerException::ExceptionType,XMLerExceptionList)), this, SLOT(parsingException(XMLerException::ExceptionType,XMLerExceptionList)) );
-  connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(on_model_beginProgress(QString,qint64)) );
-  connect( model->loader(), SIGNAL(progress(qint64)), this, SLOT(on_model_progress(qint64)) );
-  connect( model->loader(), SIGNAL(endProgress()), this, SLOT(on_model_endProgress()) );
+  connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
+  connect( model->loader(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
+  connect( model->loader(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
 }
 void MainWindow::initialStatusBar ()
 {
@@ -171,7 +171,7 @@ void MainWindow::saveAsDocumentAction()
 
   saveDocument ( selectedFileName );
 }
-void MainWindow::on_model_beginProgress ( QString message, qint64 totalSize )
+void MainWindow::beginProgressModel ( QString message, qint64 totalSize )
 {
   labelStatus->setText ( message );
   progressDialog->setMaximum( 100 );
@@ -182,14 +182,14 @@ void MainWindow::on_model_beginProgress ( QString message, qint64 totalSize )
   _progress_max = totalSize;
   _progress_pos = 0;
 }
-void MainWindow::on_model_progress ( qint64 pos )
+void MainWindow::progressModel ( qint64 pos )
 {
   _progress_pos = pos;
   int progress = _progress_pos * 100 / _progress_max;
   if ( progress != progressDialog->value() )
     progressDialog->setValue ( progress );
 }
-void MainWindow::on_model_endProgress ()
+void MainWindow::endProgressModel ()
 {
   _progress_max = 0;
   _progress_pos = 0;
