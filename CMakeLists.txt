@@ -30,7 +30,9 @@ set (HEADERS
   src/xmlerexception.h
   src/xmlermodel.h
   src/xmlerinputsource.h
+  src/xmlerfileoperthread.h
   src/xmlerloadfilethread.h
+  src/xmlersavefilethread.h
   src/basexmlnode.h
   src/elementxmlnode.h
   src/documentxmlnode.h
@@ -44,7 +46,9 @@ set (SOURCES
   src/xmlerhandler.cpp
   src/xmlerexception.cpp
   src/xmlerinputsource.cpp
+  src/xmlerfileoperthread.cpp
   src/xmlerloadfilethread.cpp
+  src/xmlersavefilethread.cpp
   src/basexmlnode.cpp
   src/elementxmlnode.cpp
   src/documentxmlnode.cpp

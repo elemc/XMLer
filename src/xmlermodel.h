@@ -15,6 +15,7 @@
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "xmlerloadfilethread.h"
+#include "xmlersavefilethread.h"
 
 class XMLerModel : public QAbstractItemModel
 {
@@ -32,6 +33,7 @@ public:
   QString titlePart () const;
   QModelIndex rootIndex () const;
   XMLerLoadFileThread *loader ();
+  XMLerSaveFileThread *saver ();
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -51,12 +53,14 @@ private:
 
   /* threaded loader and writer */
   XMLerLoadFileThread *_loader;
+  XMLerSaveFileThread *_saver;
 
 signals:
   void touchModel ();
 
 private slots:
   void on_loaderDone ( DocumentXMLNode *doc );
+  void on_saverDone ( DocumentXMLNode *doc );
 };
 
 #endif

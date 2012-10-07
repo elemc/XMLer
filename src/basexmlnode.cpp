@@ -94,6 +94,18 @@ BaseXMLNode *BaseXMLNode::childItemAt( int index ) const
     return cl.at( index );
   return 0;
 }
+qint64 BaseXMLNode::size () const
+{
+  XMLNodePtrList chl = childs();
+  XMLNodePtrList::iterator it;
+
+  qint64 _size = 0;
+  for ( it = chl.begin(); it != chl.end(); ++it ) {
+    _size += 1;
+    _size += (*it)->size();
+  }
+  return _size;
+}
 
 /* Virtuals */
 quint32 BaseXMLNode::childCount() const

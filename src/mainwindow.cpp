@@ -71,6 +71,17 @@ void MainWindow::initialTree()
   connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
   connect( model->loader(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
   connect( model->loader(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
+
+  /* save signals */
+  connect( model->saver(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
+  connect( model->saver(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
+  connect( model->saver(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
+
+  /* error and warning model loader/saver signals */
+  connect ( model->loader(), SIGNAL( error(QString) ), this, SLOT( onError(QString) ) );
+  connect ( model->loader(), SIGNAL( warning(QString) ), this, SLOT( onWarning(QString) ) );
+  connect ( model->saver(), SIGNAL( error(QString) ), this, SLOT( onError(QString) ) );
+  connect ( model->saver(), SIGNAL( warning(QString) ), this, SLOT( onWarning(QString) ) );
 }
 void MainWindow::initialStatusBar ()
 {
@@ -194,4 +205,12 @@ void MainWindow::endProgressModel ()
   _progress_max = 0;
   _progress_pos = 0;
   progressDialog->close();
+}
+void MainWindow::onError ( QString msg )
+{
+  QMessageBox::critical( this, tr("File operation error"), msg );
+}
+void MainWindow::onWarning ( QString msg )
+{
+  QMessageBox::warning ( this, tr("File operation warning"), msg );
 }

@@ -9,17 +9,18 @@
 #ifndef XMLERLOADFILETHREAD_H
 #define XMLERLOADFILETHREAD_H
 
-#include <QtCore/QThread>
 #include <QtXml/QXmlSimpleReader>
 #include <QtXml/QXmlParseException>
 #include <QtXml/QXmlInputSource>
 #include <QtXml/QXmlStreamReader>
+
+#include "xmlerfileoperthread.h"
+
 #include "xmlerhandler.h"
 #include "xmlerexception.h"
 #include "xmlerinputsource.h"
-#include "documentxmlnode.h"
 
-class XMLerLoadFileThread : public QThread
+class XMLerLoadFileThread : public XMLerFileOperThread
 {
   Q_OBJECT
 public:
@@ -27,11 +28,8 @@ public:
   ~XMLerLoadFileThread();
 
   void run ();
-  void setFileName ( const QString &fn );
-  QString fileName () const;
   
 private:
-  QString _fileName;
   QMap<QString, QString> _info;
   XMLerHandler *handler;
 
@@ -40,18 +38,8 @@ private:
   QString progressMessage () const;
 
 signals:
-  void beginProgress ( QString process, qint64 totalSize );
-  void progress ( qint64 pos );
-  void endProgress ();
-  void loadDone ( DocumentXMLNode *document );
-  void error ( QString message );
   void parseException ( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
 
-public slots:
-  void on_beginProgress ( qint64 totalSize );
-  void on_progress ( qint64 pos );
-  void on_endProgress ( );
-  
 };
 
 #endif

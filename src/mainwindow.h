@@ -64,6 +64,9 @@ private slots:
   void beginProgressModel ( QString message, qint64 totalSize );
   void progressModel ( qint64 pos );
   void endProgressModel ();
+
+  void onError ( QString msg );
+  void onWarning ( QString msg );
 };
 
 #endif

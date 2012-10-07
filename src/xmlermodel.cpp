@@ -16,7 +16,10 @@ XMLerModel::XMLerModel (QObject *parent):
   _modified = false;
 
   _loader = new XMLerLoadFileThread ( this );
-  connect ( _loader, SIGNAL(loadDone(DocumentXMLNode*)), this, SLOT(on_loaderDone(DocumentXMLNode*)) );
+  connect ( _loader, SIGNAL(done(DocumentXMLNode*)), this, SLOT(on_loaderDone(DocumentXMLNode*)) );
+
+  _saver = new XMLerSaveFileThread ( this );
+  connect ( _saver, SIGNAL(done(DocumentXMLNode*)), this, SLOT(on_saverDone(DocumentXMLNode*)) );
 }
 XMLerModel::~XMLerModel ()
 {
@@ -36,11 +39,11 @@ bool XMLerModel::loadXMLFile( const QString &fileName )
 }
 bool XMLerModel::saveXMLFile( const QString &fileName )
 {
-  if ( !_document )
-    return false;
+  bool result = true;
 
-  bool result = _document->save ( fileName );
-  emit touchModel ();
+  _saver->setFileName ( fileName );
+  _saver->setDocument ( _document );
+  _saver->start();
 
   return result;
 }
@@ -73,6 +76,10 @@ QModelIndex XMLerModel::rootIndex () const
 XMLerLoadFileThread *XMLerModel::loader ()
 {
   return _loader;
+}
+XMLerSaveFileThread *XMLerModel::saver ()
+{
+  return _saver;
 }
 
 /* Virtuals */
@@ -193,5 +200,9 @@ void XMLerModel::on_loaderDone ( DocumentXMLNode *doc )
   beginResetModel();
   _document = doc;
   endResetModel();
+  emit touchModel();
+}
+void XMLerModel::on_saverDone ( DocumentXMLNode *doc )
+{
   emit touchModel();
 }

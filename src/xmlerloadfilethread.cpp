@@ -9,7 +9,7 @@
 #include "xmlerloadfilethread.h"
 
 XMLerLoadFileThread::XMLerLoadFileThread (QObject *parent):
-  QThread(parent)
+  XMLerFileOperThread(parent)
 {
   handler = new XMLerHandler;
 }
@@ -18,22 +18,12 @@ XMLerLoadFileThread::~XMLerLoadFileThread ()
   delete handler;
 }
 
-/* self */
-void XMLerLoadFileThread::setFileName ( const QString &fn )
-{
-  _fileName = fn;
-}
-QString XMLerLoadFileThread::fileName () const
-{
-  return _fileName;
-}
-
 /* virtual */
 void XMLerLoadFileThread::run ()
 {
-  QFile xml( _fileName );
+  QFile xml( fileName() );
   if ( !xml.exists() ) {
-    emit error ( tr("File %1 does not exists.").arg(_fileName) );
+    emit error ( tr("File %1 does not exists.").arg( fileName() ) );
     return;
   }
 
@@ -57,14 +47,14 @@ void XMLerLoadFileThread::run ()
   }
 
   /* set addition data (information) in document */
-  handler->document()->setFileName( _fileName );
+  handler->document()->setFileName( fileName() );
   if ( !info.isEmpty() ) {
     if ( info.contains ( "encoding" ) )
       handler->document()->setCodec ( info.value ( "encoding" ) );
     if ( info.contains ( "version" ) )
       handler->document()->setVersion ( info.value ( "version" ) );
   }
-  emit loadDone ( handler->document() );
+  emit done ( handler->document() );
   checkExceptionInHandler ();
 
   /* clean */
@@ -79,14 +69,14 @@ QMap<QString, QString> XMLerLoadFileThread::getInformationFromFile ( )
 {
   QMap<QString, QString> result;
 
-  QFile xml_file( _fileName );
+  QFile xml_file( fileName() );
   if ( !xml_file.exists() ) {
-    emit error ( tr("File %1 does not exist.").arg(_fileName) ); 
+    emit error ( tr("File %1 does not exist.").arg( fileName() ) ); 
     return result;
   }
 
   if ( !xml_file.open ( QIODevice::ReadOnly | QIODevice::Text ) ) {
-    emit error ( tr("Can not open file %1.").arg(_fileName) ); 
+    emit error ( tr("Can not open file %1.").arg( fileName() ) ); 
     return result;
   }
 
@@ -127,20 +117,7 @@ void XMLerLoadFileThread::checkExceptionInHandler ()
 }
 QString XMLerLoadFileThread::progressMessage () const
 {
-  QString msg = tr("%1 file loaded...").arg( _fileName );;
+  QString msg = tr("%1 file loaded...").arg( fileName() );;
   return msg;
 }
 
-/* Slots */
-void XMLerLoadFileThread::on_beginProgress ( qint64 totalSize )
-{
-  emit beginProgress ( progressMessage(), totalSize );
-}
-void XMLerLoadFileThread::on_progress ( qint64 pos )
-{
-  emit progress ( pos );
-}
-void XMLerLoadFileThread::on_endProgress ()
-{
-  emit endProgress ();
-}

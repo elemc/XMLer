@@ -31,6 +31,7 @@ public:
   QString typeToStr() const;                                    // return type of node as string
   QIcon typeToIcon () const;                                    // return type of node as icon
   BaseXMLNode *childItemAt( int index ) const;                  // return child item at index
+  qint64 size () const;                                         // return all child count
 
   /* Virtuals */
   virtual quint32 childCount() const;                           // return child count

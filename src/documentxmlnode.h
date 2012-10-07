@@ -34,10 +34,16 @@ public:
 
   void setFileName( const QString & name );
   QString fileName () const;
+
   void setCodec ( const QString & codecName );
   void setCodec ( QTextCodec * codec_in );
+  QTextCodec *codec () const;
+
   void setVersion ( const QString & version );
-  bool save ( const QString &fn );
+  QString version () const;
+
+  bool autoFormatting () const;
+  int formattingIndent () const;
 
 private:
   BaseXMLNode *rootNode;
@@ -47,10 +53,8 @@ private:
   bool _document_auto_formatting;
   int _document_formatting_indent;
 
-  QTextCodec *codec;
+  QTextCodec *_codec;
   QString _version;
-
-  bool saveNode ( QXmlStreamWriter &writer,  BaseXMLNode *node );
   
 };
 
