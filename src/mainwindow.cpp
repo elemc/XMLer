@@ -69,7 +69,7 @@ void MainWindow::initialTree()
 
   /* tree signals */
   connect ( tree, SIGNAL(collapsed(QModelIndex)), this, SLOT(indexCollapsed(QModelIndex)) );
-  connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) );
+  /* connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) ); */
 
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
   
@@ -225,9 +225,12 @@ void MainWindow::indexCollapsed ( const QModelIndex &index )
   if ( index == model->rootIndex () )
     tree->expand ( index );
 }
+/* Not needed now 
 void MainWindow::indexExpanded ( const QModelIndex &index )
 {
+
 }
+*/
 void MainWindow::saveDocumentAction ()
 {
   if ( model->isNewModel() ) {

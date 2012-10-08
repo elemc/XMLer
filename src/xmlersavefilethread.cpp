@@ -57,7 +57,7 @@ void XMLerSaveFileThread::run ()
 
   /* set filename */
   if ( result && _document->fileName() != fileName() )
-    setFileName ( fileName() );
+    _document->setFileName ( fileName() );
 
   if ( !result )
     emit error ( tr("Error while writing the document.").arg( fileName() ) );

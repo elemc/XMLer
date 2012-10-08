@@ -63,7 +63,7 @@ private slots:
 
   void modelTouched();
   void indexCollapsed ( const QModelIndex &index );
-  void indexExpanded ( const QModelIndex &index );
+  /* void indexExpanded ( const QModelIndex &index ); */
 
   void beginProgressModel ( QString message, qint64 totalSize );
   void progressModel ( qint64 pos );

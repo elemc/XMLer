@@ -9,6 +9,8 @@
 #ifndef XMLERINPUTSOURCE_H
 #define XMLERINPUTSOURCE_H
 
+#include "config.h"
+
 #include <QtCore/QObject>
 #include <QtXml/QXmlInputSource>
 

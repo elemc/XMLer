@@ -26,17 +26,23 @@ QChar XMLerInputSource::next ()
   if ( _data_pos == 0 )
     emit beginRead ( _data_size );
   
-  _data_pos += 1;
-  
+  QChar result = QXmlInputSource::next();
+  if ( result == QXmlInputSource::EndOfData )
+    return result;
+  else if ( result == QXmlInputSource::EndOfDocument ) {
+    emit readProgress ( _data_pos );
+    emit endRead ();    
+    return result;
+  }
+
+  if ( result.toLatin1() == '\0' )
+    _data_pos += 2;
+  else
+    _data_pos += 1;
 
   if ( _data_pos % _step == 0 )
     emit readProgress ( _data_pos );
   
-  QChar result = QXmlInputSource::next();
-  if ( result == QXmlInputSource::EndOfDocument ) {
-    emit readProgress ( _data_pos );
-    emit endRead ();
-  }
-
   return result;
 }
+
