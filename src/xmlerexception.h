@@ -12,13 +12,16 @@
 #include <QtCore/QSharedData>
 #include <QtXml/QXmlParseException>
 
+namespace XMLer {
+  enum ExceptionType { Error=0, FatalError=1, Warning=2 };
+};
+
 class XMLerException : public QSharedData
 {
 public:
-  enum ExceptionType { Error, FatalError, Warning };
-
+  explicit XMLerException( );
   explicit XMLerException( const XMLerException &other );
-  explicit XMLerException( XMLerException::ExceptionType et, const QXmlParseException &exception );
+  explicit XMLerException( XMLer::ExceptionType et, const QXmlParseException &exception );
   /* ~XMLerException(); */
 
   XMLerException & operator=(const XMLerException &other);
@@ -30,10 +33,10 @@ public:
   QString message () const;
   QString publicId () const;
   QString systemId () const;
-  XMLerException::ExceptionType exceptionType () const;
+  XMLer::ExceptionType exceptionType () const;
   QString printMessage () const;
   QString exceptionTypeStr () const;
-  static QString exceptionTypeStr (XMLerException::ExceptionType et);
+  static QString exceptionTypeStr (XMLer::ExceptionType et);
   
 private:
   int _column;
@@ -41,12 +44,11 @@ private:
   QString _message;
   QString _pid;
   QString _sid;
-  XMLerException::ExceptionType _type;
+  XMLer::ExceptionType _type;
 
   void copy_other ( const XMLerException &other );
   void copy_other ( const QXmlParseException &other );
 };
-
 typedef QList<XMLerException> XMLerExceptionList;
 
 #endif

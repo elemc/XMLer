@@ -8,13 +8,18 @@
 */
 #include "xmlerexception.h"
 
+XMLerException::XMLerException ( ) :
+  QSharedData()
+{
+}
+
 XMLerException::XMLerException (const XMLerException &other ) :
   QSharedData()
 {
   copy_other ( other );
 }
 
-XMLerException::XMLerException ( XMLerException::ExceptionType et, const QXmlParseException &exception ) :
+XMLerException::XMLerException ( XMLer::ExceptionType et, const QXmlParseException &exception ) :
   QSharedData()
 {
   copy_other ( exception );
@@ -56,7 +61,7 @@ QString XMLerException::systemId () const
 {
   return _sid;
 }
-XMLerException::ExceptionType XMLerException::exceptionType () const
+XMLer::ExceptionType XMLerException::exceptionType () const
 {
   return _type;
 }
@@ -69,17 +74,17 @@ QString XMLerException::exceptionTypeStr () const
 {
   return XMLerException::exceptionTypeStr ( _type );
 }
-QString XMLerException::exceptionTypeStr (XMLerException::ExceptionType et)
+QString XMLerException::exceptionTypeStr (XMLer::ExceptionType et)
 {
   QString msg_type;
   switch ( et ) {
-  case XMLerException::Warning:
+  case XMLer::Warning:
     msg_type = QObject::tr("Warning");
     break;
-  case XMLerException::Error:
+  case XMLer::Error:
     msg_type = QObject::tr("Error");
     break;
-  case XMLerException::FatalError:
+  case XMLer::FatalError:
     msg_type = QObject::tr("Fatal error");
     break;
   default:

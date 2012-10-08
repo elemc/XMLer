@@ -43,6 +43,7 @@ void XMLerLoadFileThread::run ()
   bool parseResult = reader.parse ( source );
   if ( !parseResult ) {
     checkExceptionInHandler();
+    on_endProgress();
     return;
   }
 
@@ -107,13 +108,23 @@ void XMLerLoadFileThread::checkExceptionInHandler ()
   if ( !handler->hasExceptions () )
     return;
 
-  XMLerException::ExceptionType mt = XMLerException::Warning;
+  XMLer::ExceptionType mt = XMLer::Warning;
   if ( handler->hasFatalErrors () )
-    mt = XMLerException::FatalError;
+    mt = XMLer::FatalError;
   else if ( handler->hasErrors () )
-    mt = XMLerException::Error;
+    mt = XMLer::Error;
 
-  emit parseException ( mt, handler->exceptions() );
+  QStringList messages;
+  XMLerExceptionList ex = handler->exceptions();
+  XMLerExceptionList::iterator it;
+  for ( it = ex.begin(); it != ex.end(); ++it ) {
+    messages.append ( (*it).printMessage() );
+  }
+
+  if ( mt == XMLer::Warning )
+    emit warning ( messages.join("\n") );
+  else
+    emit error ( messages.join("\n") );
 }
 QString XMLerLoadFileThread::progressMessage () const
 {

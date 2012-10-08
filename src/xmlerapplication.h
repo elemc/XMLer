@@ -25,9 +25,17 @@ public:
   bool hasFilesInParams() const;
   void openFiles ();
 
+  bool notify ( QObject * receiver, QEvent * e );
+
 private:
   QStringList autoOpenFiles;
   void selectIconTheme ();
+
+  QList<MainWindow*> windowList;
+  void appendChildWindow ( MainWindow *mw );
+  void removeChildWindow ( MainWindow *mw );
+  void changedChildWindowTitle ( MainWindow *mw );
+
 };
 
 #endif

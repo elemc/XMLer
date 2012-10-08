@@ -37,8 +37,8 @@ private:
   void checkExceptionInHandler ();
   QString progressMessage () const;
 
-signals:
-  void parseException ( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
+  /*signals:
+    void parseException ( int mainType, XMLerExceptionList exceptions ); */
 
 };
 

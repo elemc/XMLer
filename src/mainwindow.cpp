@@ -65,10 +65,13 @@ void MainWindow::initialTree()
   tree->setModel( model );
   tree->setRootIsDecorated( false );
 
+  /* tree signals */
+  connect ( tree, SIGNAL(collapsed(QModelIndex)), this, SLOT(indexCollapsed(QModelIndex)) );
+  connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) );
+
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
   
   /* Loader signals */
-  connect( model->loader(), SIGNAL(parseException(XMLerException::ExceptionType,XMLerExceptionList)), this, SLOT(parsingException(XMLerException::ExceptionType,XMLerExceptionList)) );
   connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
   connect( model->loader(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
   connect( model->loader(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
@@ -158,19 +161,9 @@ void MainWindow::modelTouched()
   /* change window title */
   QString genericWindowTitle = tr(APPNAME);
   setWindowTitle ( QString("%1 - %2").arg(genericWindowTitle).arg(model->titlePart()) );
-}
-void MainWindow::parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions )
-{
-  QString caption = tr("XML parse %1").arg(XMLerException::exceptionTypeStr(mainType));
-  QStringList msgs;
-  XMLerExceptionList::iterator it;
-  for ( it = exceptions.begin(); it != exceptions.end(); ++it )
-    msgs.append ( (*it).printMessage() );
 
-  if ( mainType == XMLerException::Warning )
-    QMessageBox::warning( this, caption, msgs.join("\n") );
-  else
-    QMessageBox::critical( this, caption, msgs.join("\n") );
+  /* set root index is expanded always */
+  tree->expand ( model->rootIndex() );
 }
 void MainWindow::saveAsDocumentAction()
 {
@@ -222,4 +215,12 @@ void MainWindow::propertiesAction ()
   int result = dlg->exec();
   if ( result == QDialog::Accepted )
     model->modif();
+}
+void MainWindow::indexCollapsed ( const QModelIndex &index )
+{
+  if ( index == model->rootIndex () )
+    tree->expand ( index );
+}
+void MainWindow::indexExpanded ( const QModelIndex &index )
+{
 }

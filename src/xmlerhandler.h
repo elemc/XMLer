@@ -54,7 +54,7 @@ private:
   /* QMap<BaseXMLNode *, CommentXMLNode *> current_comment; */
   XMLerExceptionList _exceptions;
 
-  bool hasTypedException ( XMLerException::ExceptionType et ) const;
+  bool hasTypedException ( XMLer::ExceptionType et ) const;
 };
 
 #endif

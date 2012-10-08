@@ -102,19 +102,19 @@ bool XMLerHandler::comment ( const QString & ch )
 */
 bool XMLerHandler::error ( const QXmlParseException & exception )
 {
-  XMLerException err_exc( XMLerException::Error, exception );
+  XMLerException err_exc( XMLer::Error, exception );
   _exceptions.append ( err_exc );
   return true;
 }
 bool XMLerHandler::fatalError ( const QXmlParseException & exception )
 {
-  XMLerException fe_exc( XMLerException::FatalError, exception );
+  XMLerException fe_exc( XMLer::FatalError, exception );
   _exceptions.append ( fe_exc );
   return false;
 }
 bool XMLerHandler::warning ( const QXmlParseException & exception )
 {
-  XMLerException warn_exc( XMLerException::Warning, exception );
+  XMLerException warn_exc( XMLer::Warning, exception );
   _exceptions.append ( warn_exc );
   return true;
 }
@@ -130,15 +130,15 @@ bool XMLerHandler::hasExceptions () const
 }
 bool XMLerHandler::hasWarnings () const
 {
-  return hasTypedException ( XMLerException::Warning );
+  return hasTypedException ( XMLer::Warning );
 }
 bool XMLerHandler::hasErrors () const
 {
-  return hasTypedException ( XMLerException::Error );
+  return hasTypedException ( XMLer::Error );
 }
 bool XMLerHandler::hasFatalErrors () const
 {
-  return hasTypedException ( XMLerException::FatalError );
+  return hasTypedException ( XMLer::FatalError );
 }
 XMLerExceptionList XMLerHandler::exceptions () const
 {
@@ -146,7 +146,7 @@ XMLerExceptionList XMLerHandler::exceptions () const
 }
 
 /* private self */
-bool XMLerHandler::hasTypedException ( XMLerException::ExceptionType et ) const
+bool XMLerHandler::hasTypedException ( XMLer::ExceptionType et ) const
 {
   if ( _exceptions.size() == 0 )
     return false;

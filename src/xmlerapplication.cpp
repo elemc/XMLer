@@ -11,6 +11,9 @@
 XMLerApplication::XMLerApplication ( int & argc, char ** argv ) :
   QApplication(argc, argv)
 {
+#ifdef Q_OS_MAC
+  setAttribute ( Qt::AA_DontShowIconsInMenus );
+#endif
   autoOpenFiles.clear();
   if ( argc > 1) {
     for( int n = 1; n < argc; n++ ) {
@@ -25,6 +28,7 @@ XMLerApplication::XMLerApplication ( int & argc, char ** argv ) :
 
 XMLerApplication::~XMLerApplication ()
 {
+  windowList.clear();
 }
 
 bool XMLerApplication::hasFilesInParams() const
@@ -55,4 +59,37 @@ void XMLerApplication::selectIconTheme ()
 
   if ( !QIcon::hasThemeIcon( generic_icon_to_check ) )
     QIcon::setThemeName( fallback_icon_theme );
+}
+bool XMLerApplication::notify ( QObject * receiver, QEvent * e )
+{
+  if ( e->type() == QEvent::Show ) {
+    if ( MainWindow *mw = qobject_cast<MainWindow*>(receiver) )
+      appendChildWindow ( mw );
+  }
+  else if ( e->type() == QEvent::Close ) {
+    if ( MainWindow *mw = qobject_cast<MainWindow*>(receiver) )
+      removeChildWindow ( mw );
+  }
+  else if ( e->type() == QEvent::WindowTitleChange ) {
+    if ( MainWindow *mw = qobject_cast<MainWindow*>(receiver) )
+      changedChildWindowTitle ( mw );
+  }
+  return QApplication::notify ( receiver, e );
+}
+void XMLerApplication::appendChildWindow ( MainWindow *mw )
+{
+  if ( !windowList.contains ( mw ) )
+    windowList.append ( mw );
+}
+void XMLerApplication::removeChildWindow ( MainWindow *mw )
+{
+  if ( !windowList.contains ( mw ) )
+    return;
+
+  int idx = windowList.indexOf ( mw );
+  windowList.removeAt ( idx );
+}
+void XMLerApplication::changedChildWindowTitle ( MainWindow *mw )
+{
+  // TODO: make something
 }

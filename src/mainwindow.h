@@ -61,8 +61,8 @@ private slots:
   void propertiesAction();
 
   void modelTouched();
-
-  void parsingException( XMLerException::ExceptionType mainType, XMLerExceptionList exceptions );
+  void indexCollapsed ( const QModelIndex &index );
+  void indexExpanded ( const QModelIndex &index );
 
   void beginProgressModel ( QString message, qint64 totalSize );
   void progressModel ( qint64 pos );
