@@ -27,6 +27,7 @@ public:
   /* self */
   bool loadXMLFile ( const QString &fileName );
   bool saveXMLFile ( const QString &fileName );
+  bool isNewModel () const;
   bool isEmptyModel () const;
   bool isModified () const;
   void modif();

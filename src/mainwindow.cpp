@@ -22,6 +22,7 @@ MainWindow::MainWindow (QWidget *parent, Qt::WindowFlags f) :
   initialStatusBar();
 
   setCentralWidget( tree );
+  modelTouched ();
 }
 
 MainWindow::~MainWindow ()
@@ -53,6 +54,7 @@ void MainWindow::initialActions()
   initialActionsIcons();
 
   connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocumentAction()));
+  connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocumentAction()));
   connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAsDocumentAction()));
   connect(ui->actionProperties, SIGNAL(triggered()), this, SLOT(propertiesAction()));
   connect(ui->actionClose, SIGNAL(triggered()), this, SLOT(closeDocumentAction()));
@@ -164,6 +166,8 @@ void MainWindow::modelTouched()
 
   /* set root index is expanded always */
   tree->expand ( model->rootIndex() );
+
+  ui->actionSave->setDisabled ( !model->isModified() );
 }
 void MainWindow::saveAsDocumentAction()
 {
@@ -223,4 +227,12 @@ void MainWindow::indexCollapsed ( const QModelIndex &index )
 }
 void MainWindow::indexExpanded ( const QModelIndex &index )
 {
+}
+void MainWindow::saveDocumentAction ()
+{
+  if ( model->isNewModel() ) {
+    saveAsDocumentAction();
+    return;
+  }
+  saveDocument ( model->fileName() );
 }

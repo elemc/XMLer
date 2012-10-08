@@ -47,6 +47,13 @@ bool XMLerModel::saveXMLFile( const QString &fileName )
 
   return result;
 }
+bool XMLerModel::isNewModel () const
+{
+  if ( isEmptyModel () )
+    return true;
+
+  return document()->fileName().isEmpty(); // if fileName is not set, then it is a new model
+}
 bool XMLerModel::isEmptyModel () const
 {
   return ( _document == 0 );

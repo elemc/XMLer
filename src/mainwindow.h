@@ -56,6 +56,7 @@ private:
 
 private slots:
   void openDocumentAction();
+  void saveDocumentAction();
   void saveAsDocumentAction();
   void closeDocumentAction();
   void propertiesAction();
