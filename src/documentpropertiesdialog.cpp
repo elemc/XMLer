@@ -47,6 +47,9 @@ void DocumentPropertiesDialog::setDocument ( DocumentXMLNode *doc )
 
   if ( !_document ) {
     // TODO: make dialog disabled
+    ui->tabWidget->setEnabled ( false );
+    ui->buttonBox->setStandardButtons ( QDialogButtonBox::Close );
+    return;
   }
 
   /* fill dialog */
