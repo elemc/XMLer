@@ -25,8 +25,8 @@ DocumentPropertiesDialog::DocumentPropertiesDialog (QWidget *parent, Qt::WindowF
   connect ( ui->listViewPI->selectionModel(), SIGNAL( currentChanged (QModelIndex, QModelIndex) ), this, SLOT( indexChanged (QModelIndex, QModelIndex) ) );
   connect ( ui->pushButtonPIAdd, SIGNAL ( clicked () ), this, SLOT ( piAdd () ) );
   connect ( ui->pushButtonPIRemove, SIGNAL ( clicked () ), this, SLOT ( piRemove () ) );
-  connect ( ui->lineEditPITarget, SIGNAL ( textChanged (QString) ), this, SLOT (piTargetChanged(QString)) );
-  connect ( ui->lineEditPIData, SIGNAL ( textChanged (QString) ), this, SLOT (piDataChanged(QString)) );
+  connect ( ui->lineEditPITarget, SIGNAL ( textEdited (QString) ), this, SLOT (piTargetChanged(QString)) );
+  connect ( ui->lineEditPIData, SIGNAL ( textEdited (QString) ), this, SLOT (piDataChanged(QString)) );
 
   ui->groupBoxPIEdit->setVisible ( ui->pushButtonPIEditToggle->isChecked() );
 }
@@ -106,6 +106,7 @@ void DocumentPropertiesDialog::initialActions ()
 }
 void DocumentPropertiesDialog::resetModel ()
 {
+  //checkEmptyInMap();
   piModel->setStringList ( _pi.keys () );
   indexChanged ( ui->listViewPI->currentIndex(), QModelIndex() );
 }
@@ -173,8 +174,8 @@ void DocumentPropertiesDialog::indexChanged ( const QModelIndex &current, const 
   ui->lineEditPITarget->setEnabled ( valid );
   ui->lineEditPIData->setEnabled ( valid );
   if ( !valid ) {   
-    ui->lineEditPIData->setText( QString() );
-    ui->lineEditPITarget->setText( QString() );
+    ui->lineEditPIData->clear(); //setText( QString() );
+    ui->lineEditPITarget->clear(); //setText( QString() );
     return;
   }
 
@@ -203,7 +204,6 @@ void DocumentPropertiesDialog::piRemove ()
   QString key = piKeyByIndex ( idx );
   _pi.remove ( key );
   resetModel ();
-  indexChanged ( ui->listViewPI->currentIndex(), QModelIndex() );
 }
 void DocumentPropertiesDialog::piTargetChanged ( const QString &text )
 {
