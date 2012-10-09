@@ -104,6 +104,7 @@ void DocumentPropertiesDialog::initialActions ()
 void DocumentPropertiesDialog::resetModel ()
 {
   piModel->setStringList ( _pi.keys () );
+  indexChanged ( ui->listViewPI->currentIndex(), QModelIndex() );
 }
 QString DocumentPropertiesDialog::piKeyByIndex ( const QModelIndex &index ) const
 {
