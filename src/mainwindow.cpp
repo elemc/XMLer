@@ -135,6 +135,7 @@ bool MainWindow::saveDocument( QString fileName )
   bool result = model->saveXMLFile ( fileName );
   if ( !result )
     QMessageBox::critical( this, tr("XML writer error"), tr("Error per write XML document") );
+  return result;
 }
 
 /* Slots */

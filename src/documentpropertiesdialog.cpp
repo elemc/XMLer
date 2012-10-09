@@ -119,6 +119,15 @@ QString DocumentPropertiesDialog::checkSymbols ( QString text )
   result = result.replace("?>", "__");
   return result;
 }
+void DocumentPropertiesDialog::removeEmptyPI ()
+{
+  QMap<QString,QString> copy = _pi;
+  QMap<QString,QString>::iterator it;
+  for ( it = copy.begin(); it != copy.end(); ++it ) {
+    if ( it.key().trimmed().isEmpty() )
+      _pi.remove ( it.key() );
+  }
+}
 
 /* Slots */
 void DocumentPropertiesDialog::preAccept ()
@@ -175,7 +184,7 @@ void DocumentPropertiesDialog::piAdd ()
 {
   QString newTarget;
   for ( int i=1; true; i++ ) {
-    newTarget = tr("target#%1").arg ( i );
+    newTarget = tr("target_%1").arg ( i );
     if ( !_pi.keys().contains( newTarget  ) )
       break;
   }

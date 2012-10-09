@@ -117,9 +117,11 @@ bool XMLerHandler::warning ( const QXmlParseException & exception )
 bool XMLerHandler::startPrefixMapping ( const QString & prefix, const QString & uri )
 {
   current_prefix_mapping.insert ( prefix, uri );
+  return true;
 }
 bool XMLerHandler::endPrefixMapping ( const QString & prefix )
 {
+  return true;
 }
 bool XMLerHandler::processingInstruction ( const QString & target, const QString & data )
 {
@@ -129,6 +131,8 @@ bool XMLerHandler::processingInstruction ( const QString & target, const QString
 
   else if ( _document )
     _document->appendPI ( target, data );
+
+  return true;
 }
 
 /* self */

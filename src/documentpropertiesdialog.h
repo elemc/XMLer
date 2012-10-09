@@ -45,6 +45,7 @@ private:
   void initialActions();
   QString checkSymbols ( QString text );
   QString piKeyByIndex ( const QModelIndex &index ) const;
+  void removeEmptyPI();
                                   
 private slots:
   void preAccept();

@@ -51,8 +51,11 @@ void XMLerSaveFileThread::run ()
   if ( _document->hasPI() ) {
     const QMap<QString,QString> &pi = _document->processingInstructions();
     QMap<QString,QString>::const_iterator it;
-    for ( it = pi.begin(); it != pi.end(); ++it )
+    for ( it = pi.begin(); it != pi.end(); ++it ) {
+      if ( it.key().trimmed().isEmpty() )
+        continue;
       writer.writeProcessingInstruction ( it.key(), it.value() );
+    }
   }
   
   if ( _document->documentNode() )
@@ -97,6 +100,7 @@ bool XMLerSaveFileThread::saveNode ( QXmlStreamWriter &writer, BaseXMLNode *node
     if ( element->hasPrefixMapping() ) {
       QMap<QString,QString> prefixMapping = element->prefixMapping();
       QMap<QString,QString>::const_iterator it;
+
       for ( it = prefixMapping.begin(); it != prefixMapping.end(); ++it )
         writer.writeNamespace ( it.value(), it.key() );
     }

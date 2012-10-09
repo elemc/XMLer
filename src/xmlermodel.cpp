@@ -36,6 +36,7 @@ bool XMLerModel::loadXMLFile( const QString &fileName )
 {
   _loader->setFileName ( fileName );
   _loader->start();
+  return true;
 }
 bool XMLerModel::saveXMLFile( const QString &fileName )
 {
