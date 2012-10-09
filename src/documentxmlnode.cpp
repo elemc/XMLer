@@ -13,7 +13,7 @@ DocumentXMLNode::DocumentXMLNode ():
 {
   setNodeType(BaseXMLNode::Document);
   rootNode = 0;
-  _codec = 0;
+  setCodec ( "UTF-8" );
 
   _document_auto_formatting = true;
   _document_formatting_indent = 4;
