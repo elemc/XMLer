@@ -14,6 +14,7 @@
 #include <QtXml/QXmlStreamWriter>
 #include <QtCore/QTextCodec>
 #include <QtCore/QFile>
+#include <QtCore/QMap>
 #include "basexmlnode.h"
 #include "elementxmlnode.h"
 #include "attrxmlnode.h"

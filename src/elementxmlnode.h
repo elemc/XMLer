@@ -14,6 +14,7 @@
 #include "dataxmlnode.h"
 
 #include <QtXml/QXmlAttributes>
+#include <QtCore/QMap>
 
 class ElementXMLNode : public BaseXMLNode
 {
