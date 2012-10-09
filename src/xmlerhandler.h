@@ -33,6 +33,8 @@ public:
   bool endElement ( const QString & namespaceURI, const QString & localName, const QString & qName );
   bool characters ( const QString & ch );
   /* bool comment ( const QString & ch ); */
+  bool startPrefixMapping ( const QString & prefix, const QString & uri );
+  bool endPrefixMapping ( const QString & prefix );
 
   bool error ( const QXmlParseException & exception );
   bool warning ( const QXmlParseException & exception );
@@ -51,6 +53,7 @@ private:
   DocumentXMLNode *_document;
   BaseXMLNode *current_parent;
   QMap<BaseXMLNode *, DataXMLNode *> current_chars;
+  QMap<QString, QString> current_prefix_mapping;
   /* QMap<BaseXMLNode *, CommentXMLNode *> current_comment; */
   XMLerExceptionList _exceptions;
 

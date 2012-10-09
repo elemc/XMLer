@@ -40,7 +40,14 @@ void XMLerLoadFileThread::run ()
   reader.setContentHandler ( handler );
   reader.setErrorHandler ( handler );
 
-  bool parseResult = reader.parse ( source );
+  bool parseResult = reader.parse ( source, true );
+
+  /* FIXME: this is partial read */
+  if ( parseResult ) {
+    bool partResult = parseResult;
+    while ( partResult )
+      partResult = reader.parseContinue();
+  }
   if ( !parseResult ) {
     checkExceptionInHandler();
     on_endProgress();

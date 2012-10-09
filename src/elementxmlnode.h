@@ -34,8 +34,14 @@ public:
   QString qName () const;
   QString namespaceURI () const;
 
+  void appendMapping ( const QString &prefix, const QString &uri );
+  void appendMapping ( const QMap<QString,QString> &map );
+  QMap<QString,QString> prefixMapping () const;
+  bool hasPrefixMapping () const;
+
 private:
   QList<BaseXMLNode *> _childs;
+  QMap<QString,QString> _prefixMapping;
 
   QString _namespaceURI;
   QString _localName;

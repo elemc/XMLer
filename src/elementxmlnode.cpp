@@ -75,3 +75,22 @@ QString ElementXMLNode::namespaceURI () const
 {
   return _namespaceURI;
 }
+
+void ElementXMLNode::appendMapping ( const QString &prefix, const QString &uri )
+{
+  _prefixMapping.insert ( prefix, uri );
+}
+void ElementXMLNode::appendMapping ( const QMap<QString,QString> &map )
+{
+  QMap<QString,QString>::const_iterator it;
+  for ( it = map.begin(); it != map.end(); ++it )
+    _prefixMapping.insert ( it.key(), it.value() );
+}
+QMap<QString, QString> ElementXMLNode::prefixMapping () const
+{
+  return _prefixMapping;
+}
+bool ElementXMLNode::hasPrefixMapping () const
+{
+  return ( _prefixMapping.size() != 0 );
+}

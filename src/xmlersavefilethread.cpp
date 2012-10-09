@@ -85,6 +85,15 @@ bool XMLerSaveFileThread::saveNode ( QXmlStreamWriter &writer, BaseXMLNode *node
   pos += 1;
 
   if ( ElementXMLNode *element = qobject_cast<ElementXMLNode *>(node) ) {
+    /* prefix mapping */
+    if ( element->hasPrefixMapping() ) {
+      QMap<QString,QString> prefixMapping = element->prefixMapping();
+      QMap<QString,QString>::const_iterator it;
+      for ( it = prefixMapping.begin(); it != prefixMapping.end(); ++it )
+        writer.writeNamespace ( it.value(), it.key() );
+    }
+
+
     if ( element->namespaceURI().isEmpty () )
       writer.writeStartElement ( element->qName() );
     else

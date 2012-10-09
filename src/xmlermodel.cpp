@@ -114,13 +114,13 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
   if ( orientation == Qt::Horizontal ) {
     if ( role == Qt::DisplayRole ) {
       switch (section) {
-      case 2:
+      case 1:
         return tr("Local name");
         break;
       case 0:
         return tr("Qualified name");
         break;
-      case 1:
+      case 2:
         return tr("Namespace URI");
       default:
         break;
@@ -171,13 +171,13 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
 
   if ( role == Qt::DisplayRole ) {
     switch( index.column() ) {
-    case 2:
+    case 1:
       return item->name();
       break;
     case 0:
       return item->qName();
       break;
-    case 1:
+    case 2:
       return item->namespaceURI();
       break;
     default:

@@ -22,17 +22,20 @@ XMLerHandler::~XMLerHandler ()
 
 bool XMLerHandler::startDocument()
 {
+  qDebug() << "Start document";
   _document = new DocumentXMLNode();
   current_parent = _document;
   return true;
 }
 bool XMLerHandler::endDocument()
 {
+  qDebug() << "End document";
   return true;
 }
 
 bool XMLerHandler::startElement ( const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts )
 {
+  qDebug() << "Start element" << qName;
   ElementXMLNode *node = new ElementXMLNode( current_parent );
   node->setNamespaceURI ( namespaceURI );
   node->setLocalName ( localName );
@@ -48,10 +51,17 @@ bool XMLerHandler::startElement ( const QString & namespaceURI, const QString & 
   current_chars[current_parent] = data;
   /* current_comment[current_parent] = comment; */
 
+  /* prefix mapping */
+  if ( current_prefix_mapping.size() != 0 ) {
+    node->appendMapping ( current_prefix_mapping );
+    current_prefix_mapping.clear();
+  }
+
   return true;
 }
 bool XMLerHandler::endElement ( const QString & namespaceURI, const QString & localName, const QString & qName )
 {
+  qDebug() << "End element" << qName;
   DataXMLNode *current_data = current_chars[current_parent];
   if ( !current_data->data().trimmed().isEmpty() ) {
     current_data->setParentNode(current_parent);
@@ -61,16 +71,6 @@ bool XMLerHandler::endElement ( const QString & namespaceURI, const QString & lo
     delete current_data;
     current_data = 0;
   }
-
-  /*CommentXMLNode *comment = current_comment[current_parent];
-  if ( !comment->data().trimmed().isEmpty() ) {
-    comment->setParentNode ( current_parent );
-    current_parent->appendChild ( comment );
-  }
-  else {
-    delete comment;
-    comment = 0;
-    } */
 
   current_chars.remove(current_parent);
   /* current_comment.remove(current_parent); */
@@ -118,6 +118,16 @@ bool XMLerHandler::warning ( const QXmlParseException & exception )
   _exceptions.append ( warn_exc );
   return true;
 }
+bool XMLerHandler::startPrefixMapping ( const QString & prefix, const QString & uri )
+{
+  qDebug() << "Start prefix mapping" << prefix << uri;
+  current_prefix_mapping.insert ( prefix, uri );
+}
+bool XMLerHandler::endPrefixMapping ( const QString & prefix )
+{
+  qDebug() << "End prefix mapping" << prefix;
+}
+
 
 /* self */
 DocumentXMLNode *XMLerHandler::document () const
