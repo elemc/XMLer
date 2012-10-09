@@ -25,6 +25,7 @@ public:
   explicit DocumentXMLNode();
   ~DocumentXMLNode();
 
+  /* Virtuals */
   void appendChild(BaseXMLNode *child);
   quint32 childCount() const;
   XMLNodePtrList childs() const;
@@ -32,6 +33,7 @@ public:
   QString qName () const;
   QString namespaceURI () const;
 
+  /* Self */
   BaseXMLNode *documentNode() const;
 
   void setFileName( const QString & name );
@@ -49,6 +51,12 @@ public:
 
   void setFormatting ( bool formatting, int indent );
 
+  /* Processing instructions */
+  void appendPI ( const QString &target, const QString &data );
+  QMap<QString,QString> processingInstructions () const;
+  void setPI ( const QMap<QString, QString> &pi );
+  bool hasPI () const;
+
 private:
   BaseXMLNode *rootNode;
   QString _fileName;
@@ -60,6 +68,10 @@ private:
   QTextCodec *_codec;
   QString _version;
   
+
+  /* processing instruction */
+  QMap<QString,QString> _processingInstructions;
+
 };
 
 #endif

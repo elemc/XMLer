@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>209</height>
+    <width>455</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,93 +18,220 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="labelEncoding">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Encoding:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxEncoding"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="checkBoxAutoFormatting">
-     <property name="text">
-      <string>Auto formatting</string>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
+     <widget class="QWidget" name="tabMain">
+      <attribute name="title">
+       <string>Main</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="labelEncoding">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Encoding:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxEncoding"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelVersion">
+           <property name="text">
+            <string>Version:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditVersion"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxAutoFormatting">
+         <property name="text">
+          <string>Auto formatting</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxIndent">
+         <property name="title">
+          <string>Indent</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QRadioButton" name="radioButtonSpaces">
+              <property name="text">
+               <string>Spaces</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButtonTabs">
+              <property name="text">
+               <string>Tabs</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelIndentNumber">
+              <property name="text">
+               <string>Number of spaces:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBoxNumber"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabPI">
+      <attribute name="title">
+       <string>Processing instructions</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QListView" name="listViewPI"/>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QPushButton" name="pushButtonPIAdd">
+             <property name="text">
+              <string>&amp;Add</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroupPIACtion</string>
+             </attribute>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonPIRemove">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroupPIACtion</string>
+             </attribute>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonPIEditToggle">
+             <property name="text">
+              <string>Edit &gt;&gt;</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxPIEdit">
+         <property name="title">
+          <string>Edit</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QLabel" name="labelPITarget">
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEditPITarget"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelPIData">
+            <property name="text">
+             <string>Data:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEditPIData"/>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxIndent">
-     <property name="title">
-      <string>Indent</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QRadioButton" name="radioButtonSpaces">
-          <property name="text">
-           <string>Spaces</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButtonTabs">
-          <property name="text">
-           <string>Tabs</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelIndentNumber">
-          <property name="text">
-           <string>Number of spaces:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBoxNumber"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -118,6 +245,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBoxEncoding</tabstop>
+  <tabstop>lineEditVersion</tabstop>
+  <tabstop>radioButtonSpaces</tabstop>
+  <tabstop>radioButtonTabs</tabstop>
+  <tabstop>spinBoxNumber</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -127,8 +262,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>373</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -143,8 +278,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>373</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -152,8 +287,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButtonPIEditToggle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBoxPIEdit</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>368</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroupPIACtion"/>
  </buttongroups>
 </ui>

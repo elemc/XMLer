@@ -126,6 +126,9 @@ bool XMLerHandler::processingInstruction ( const QString & target, const QString
   //qDebug() << target << data;
   if ( target == QString("xml") )
     setDocumentPI ( data );
+
+  else if ( _document )
+    _document->appendPI ( target, data );
 }
 
 /* self */
@@ -179,7 +182,6 @@ void XMLerHandler::setDocumentPI ( const QString &data )
     QString key = list.at(i).section("=", 0, 0);
     QString value = list.at(i).section("=", 1, 1);
     value = value.replace( QRegExp("['\"]"), "" );
-    qDebug() << key << value;
 
     if ( key == "version" )
       _document->setVersion ( value );

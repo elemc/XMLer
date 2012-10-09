@@ -47,6 +47,13 @@ void XMLerSaveFileThread::run ()
 
   /* save a document */
   writer.writeStartDocument( _document->version() );
+
+  if ( _document->hasPI() ) {
+    const QMap<QString,QString> &pi = _document->processingInstructions();
+    QMap<QString,QString>::const_iterator it;
+    for ( it = pi.begin(); it != pi.end(); ++it )
+      writer.writeProcessingInstruction ( it.key(), it.value() );
+  }
   
   if ( _document->documentNode() )
     result &= saveNode ( writer, _document->documentNode(), pos );

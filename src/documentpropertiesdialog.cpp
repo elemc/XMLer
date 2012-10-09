@@ -18,10 +18,25 @@ DocumentPropertiesDialog::DocumentPropertiesDialog (QWidget *parent, Qt::WindowF
 
   initialActions();
   fillComboBox();
+
+  piModel = new QStringListModel( this );
+  ui->listViewPI->setModel ( piModel );
+
+  connect ( ui->listViewPI->selectionModel(), SIGNAL( currentChanged (QModelIndex, QModelIndex) ), this, SLOT( indexChanged (QModelIndex, QModelIndex) ) );
+  connect ( ui->pushButtonPIAdd, SIGNAL ( clicked () ), this, SLOT ( piAdd () ) );
+  connect ( ui->pushButtonPIRemove, SIGNAL ( clicked () ), this, SLOT ( piRemove () ) );
+  connect ( ui->lineEditPITarget, SIGNAL ( textChanged (QString) ), this, SLOT (piTargetChanged(QString)) );
+  connect ( ui->lineEditPIData, SIGNAL ( textChanged (QString) ), this, SLOT (piDataChanged(QString)) );
+
+  ui->groupBoxPIEdit->setVisible ( ui->pushButtonPIEditToggle->isChecked() );
 }
 
 DocumentPropertiesDialog::~DocumentPropertiesDialog ()
 {
+  ui->listViewPI->setModel ( 0 );
+  delete piModel;
+  piModel = 0;
+
   delete ui;
 }
 
@@ -40,6 +55,9 @@ void DocumentPropertiesDialog::setDocument ( DocumentXMLNode *doc )
   int cb_idx = codecs_for_cb.indexOf ( codec_name );
   ui->comboBoxEncoding->setCurrentIndex ( cb_idx );
 
+  /* Version */
+  ui->lineEditVersion->setText ( _document->version() );
+
   /* Indent */
   ui->checkBoxAutoFormatting->setChecked( _document->autoFormatting() );
   int indent = _document->formattingIndent();
@@ -53,6 +71,10 @@ void DocumentPropertiesDialog::setDocument ( DocumentXMLNode *doc )
     ui->radioButtonSpaces->setChecked ( true );
     ui->spinBoxNumber->setValue ( indent );
   }
+
+  /* Processing Instructions */
+  _pi = _document->processingInstructions();
+  resetModel ();
 }
 DocumentXMLNode *DocumentPropertiesDialog::document () const
 {
@@ -79,6 +101,23 @@ void DocumentPropertiesDialog::initialActions ()
   connect(ui->checkBoxAutoFormatting, SIGNAL(stateChanged(int)), this, SLOT(autoFormattingCheck(int)));
   connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(indentRadioChanged(int)));
 }
+void DocumentPropertiesDialog::resetModel ()
+{
+  piModel->setStringList ( _pi.keys () );
+}
+QString DocumentPropertiesDialog::piKeyByIndex ( const QModelIndex &index ) const
+{
+  if ( !index.isValid() )
+    return QString();
+
+  return piModel->stringList().at ( index.row() );
+}
+QString DocumentPropertiesDialog::checkSymbols ( QString text )
+{
+  QString result = text.replace(" ", "_");
+  result = result.replace("?>", "__");
+  return result;
+}
 
 /* Slots */
 void DocumentPropertiesDialog::preAccept ()
@@ -91,6 +130,8 @@ void DocumentPropertiesDialog::preAccept ()
   if ( ui->buttonGroup->checkedId() == ui->buttonGroup->id( ui->radioButtonTabs ) )
     indent = -indent;
   _document->setFormatting ( formatting, indent );
+  _document->setVersion ( ui->lineEditVersion->text() );
+  _document->setPI ( _pi );
 
   accept();
 }
@@ -109,5 +150,63 @@ void DocumentPropertiesDialog::indentRadioChanged ( int id )
   else if ( id == ui->buttonGroup->id( ui->radioButtonTabs) )
     ui->labelIndentNumber->setText( tr("Number of tabs") );
 }
+void DocumentPropertiesDialog::indexChanged ( const QModelIndex &current, const QModelIndex &previous )
+{
+  Q_UNUSED(previous);
 
-  
+  bool valid = current.isValid();
+
+  ui->pushButtonPIRemove->setEnabled ( valid );
+  ui->lineEditPITarget->setEnabled ( valid );
+  ui->lineEditPIData->setEnabled ( valid );
+  if ( !valid ) {   
+    ui->lineEditPIData->setText( QString() );
+    ui->lineEditPITarget->setText( QString() );
+    return;
+  }
+
+  QString key = piModel->stringList().at ( current.row() );
+  QString data = _pi[key];
+  ui->lineEditPITarget->setText ( key );
+  ui->lineEditPIData->setText ( data );
+}
+void DocumentPropertiesDialog::piAdd ()
+{
+  QString newTarget;
+  for ( int i=1; true; i++ ) {
+    newTarget = tr("target#%1").arg ( i );
+    if ( !_pi.keys().contains( newTarget  ) )
+      break;
+  }
+  _pi.insert ( newTarget, tr("Data") );
+  resetModel();
+}
+void DocumentPropertiesDialog::piRemove ()
+{
+  const QModelIndex &idx = ui->listViewPI->currentIndex();
+  if ( !idx.isValid() )
+    return;
+
+  QString key = piKeyByIndex ( idx );
+  _pi.remove ( key );
+  resetModel ();
+  indexChanged ( ui->listViewPI->currentIndex(), QModelIndex() );
+}
+void DocumentPropertiesDialog::piTargetChanged ( const QString &text )
+{
+  const QModelIndex &idx = ui->listViewPI->currentIndex();
+  QString oldKey = piKeyByIndex ( idx );
+  QString value = _pi[oldKey];
+  _pi.remove ( oldKey );
+
+  QString correct_text = checkSymbols ( text );
+
+  _pi.insert ( correct_text, value );
+  piModel->setData ( idx, correct_text );
+}
+void DocumentPropertiesDialog::piDataChanged ( const QString &text )
+{
+  const QModelIndex &idx = ui->listViewPI->currentIndex();
+  QString key = piKeyByIndex ( idx );
+  _pi[key] = text;
+}

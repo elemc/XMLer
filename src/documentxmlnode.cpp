@@ -79,6 +79,23 @@ void DocumentXMLNode::setFormatting ( bool formatting, int indent )
   _document_auto_formatting = formatting;
   _document_formatting_indent = indent;
 }
+void DocumentXMLNode::appendPI ( const QString &target, const QString &data )
+{
+  _processingInstructions.insert ( target, data );
+}
+QMap<QString,QString> DocumentXMLNode::processingInstructions () const 
+{
+  return _processingInstructions;
+}
+bool DocumentXMLNode::hasPI () const
+{
+  return ( _processingInstructions.size() != 0 );
+}
+void DocumentXMLNode::setPI ( const QMap<QString, QString> &pi )
+{
+  _processingInstructions.clear();
+  _processingInstructions = pi;
+}
 
 /* Virtuals */
 void DocumentXMLNode::appendChild(BaseXMLNode *child)
