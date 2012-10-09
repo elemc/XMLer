@@ -51,6 +51,7 @@ private:
   /* inits */
   void initialActions();
   void initialActionsIcons();
+  void initialActionsShortcuts();
   void initialTree();
   void initialStatusBar();
 

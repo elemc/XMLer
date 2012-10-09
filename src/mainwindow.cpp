@@ -49,9 +49,23 @@ void MainWindow::initialActionsIcons()
   ui->actionClose->setIcon( QIcon::fromTheme("document-close") );
   ui->actionExit->setIcon ( QIcon::fromTheme("application-exit") );
 }
+void MainWindow::initialActionsShortcuts ()
+{
+  /* File menu */
+  ui->actionNew->setShortcut    ( QKeySequence ( QKeySequence::New ) );
+  ui->actionOpen->setShortcut   ( QKeySequence ( QKeySequence::Open ) );
+  ui->actionSave->setShortcut   ( QKeySequence ( QKeySequence::Save ) );
+  ui->actionSaveAs->setShortcut ( QKeySequence ( QKeySequence::SaveAs ) );
+  ui->actionClose->setShortcut  ( QKeySequence ( QKeySequence::Close ) );
+  ui->actionExit->setShortcut   ( QKeySequence ( QKeySequence::Quit ) );
+
+  /* Edit menu */
+  ui->actionCopy->setShortcut   ( QKeySequence ( QKeySequence::Copy ) );
+}
 void MainWindow::initialActions()
 {
   initialActionsIcons();
+  initialActionsShortcuts();
 
   connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocumentAction()));
   connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocumentAction()));
@@ -61,10 +75,6 @@ void MainWindow::initialActions()
   connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
 
   connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copyNodeAction()));
-
-#ifdef Q_WS_X11
-  ui->actionExit->setShortcut ( QKeySequence(QKeySequence::Quit) );
-#endif
 }
 void MainWindow::initialTree()
 {
