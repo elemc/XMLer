@@ -17,6 +17,8 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressDialog>
 #include <QtGui/QLabel>
+#include <QtGui/QClipboard>
+#include <QtCore/QMimeData>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
 #include "documentpropertiesdialog.h"
@@ -55,11 +57,15 @@ private:
   void openDocumentInNewWindow( const QString &fileName );
 
 private slots:
+  /* File menu slots */
   void openDocumentAction();
   void saveDocumentAction();
   void saveAsDocumentAction();
   void closeDocumentAction();
   void propertiesAction();
+
+  /* Edit menu slots */
+  void copyNodeAction();
 
   void modelTouched();
   void indexCollapsed ( const QModelIndex &index );

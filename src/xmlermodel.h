@@ -38,6 +38,8 @@ public:
   XMLerLoadFileThread *loader ();
   XMLerSaveFileThread *saver ();
 
+  QByteArray indexToBuffer ( const QModelIndex &index );
+
   DocumentXMLNode *document () const;
 
   /* virtuals */

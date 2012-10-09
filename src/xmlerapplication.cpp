@@ -11,7 +11,7 @@
 XMLerApplication::XMLerApplication ( int & argc, char ** argv ) :
   QApplication(argc, argv)
 {
-#ifdef Q_OS_MAC
+#ifdef Q_WS_MAC
   setAttribute ( Qt::AA_DontShowIconsInMenus );
 #endif
   autoOpenFiles.clear();

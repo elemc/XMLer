@@ -125,7 +125,6 @@ bool XMLerHandler::endPrefixMapping ( const QString & prefix )
 }
 bool XMLerHandler::processingInstruction ( const QString & target, const QString & data )
 {
-  //qDebug() << target << data;
   if ( target == QString("xml") )
     setDocumentPI ( data );
 

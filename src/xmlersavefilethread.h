@@ -9,6 +9,9 @@
 #ifndef XMLERSAVEFILETHREAD_H
 #define XMLERSAVEFILETHREAD_H
 
+#include "config.h"
+
+#include <QtCore/QBuffer>
 #include "xmlerfileoperthread.h"
 #include "basexmlnode.h"
 #include "elementxmlnode.h"
@@ -26,6 +29,7 @@ public:
 
   void setDocument ( DocumentXMLNode *doc );
   DocumentXMLNode *document () const;
+  QByteArray toBuffer ( BaseXMLNode *node );
   
 private:
   DocumentXMLNode *_document;

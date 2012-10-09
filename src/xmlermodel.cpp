@@ -98,6 +98,19 @@ void XMLerModel::modif ()
   _modified = true;
   emit touchModel();
 }
+QByteArray XMLerModel::indexToBuffer ( const QModelIndex &index )
+{
+  if ( !index.isValid() )
+    return QByteArray();
+
+  if ( BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer()) ) {
+    XMLerSaveFileThread temp_saver;
+    QByteArray data = temp_saver.toBuffer ( item );
+    return data;
+  }
+
+  return QByteArray();
+}
 
 /* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const

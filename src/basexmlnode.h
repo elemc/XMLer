@@ -40,7 +40,7 @@ public:
   virtual QString name () const;                                // return display name of node
   virtual QString qName () const;                               // return qName
   virtual QString namespaceURI () const;                        // return namespace URI
-  
+
 private:
   BaseXMLNode *_parentNode;
   BaseXMLNode::XMLNodeType _nodeType;
@@ -49,7 +49,6 @@ protected:
   void setNodeType(XMLNodeType nt);
 
 };
-
 typedef QList<BaseXMLNode *> XMLNodePtrList;
 
 #endif

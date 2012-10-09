@@ -58,7 +58,13 @@ void MainWindow::initialActions()
   connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAsDocumentAction()));
   connect(ui->actionProperties, SIGNAL(triggered()), this, SLOT(propertiesAction()));
   connect(ui->actionClose, SIGNAL(triggered()), this, SLOT(closeDocumentAction()));
-  connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+  connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
+
+  connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copyNodeAction()));
+
+#ifdef Q_WS_X11
+  ui->actionExit->setShortcut ( QKeySequence(QKeySequence::Quit) );
+#endif
 }
 void MainWindow::initialTree()
 {
@@ -239,4 +245,18 @@ void MainWindow::saveDocumentAction ()
     return;
   }
   saveDocument ( model->fileName() );
+}
+void MainWindow::copyNodeAction ()
+{
+  QModelIndex index = tree->currentIndex();
+  QClipboard *clip = qApp->clipboard();
+
+  QByteArray xml_data = model->indexToBuffer ( index );
+  QString caption = model->data( index, Qt::DisplayRole ).toString();
+  QMimeData *md = new QMimeData;
+
+  md->setData ( QString("text/plain"), caption.toUtf8() );
+  md->setData ( QString("text/xml"), xml_data );
+  
+  clip->setMimeData ( md );
 }

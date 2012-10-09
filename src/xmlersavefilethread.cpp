@@ -46,22 +46,7 @@ void XMLerSaveFileThread::run ()
   qint64 pos = 0;
 
   /* save a document */
-  writer.writeStartDocument( _document->version() );
-
-  if ( _document->hasPI() ) {
-    const QMap<QString,QString> &pi = _document->processingInstructions();
-    QMap<QString,QString>::const_iterator it;
-    for ( it = pi.begin(); it != pi.end(); ++it ) {
-      if ( it.key().trimmed().isEmpty() )
-        continue;
-      writer.writeProcessingInstruction ( it.key(), it.value() );
-    }
-  }
-  
-  if ( _document->documentNode() )
-    result &= saveNode ( writer, _document->documentNode(), pos );
-
-  writer.writeEndDocument();
+  result = saveNode ( writer, _document, pos );
 
   xml.close();
   emit endProgress ();
@@ -74,6 +59,31 @@ void XMLerSaveFileThread::run ()
     emit error ( tr("Error while writing the document.").arg( fileName() ) );
   else
     emit done ( _document );
+}
+QByteArray XMLerSaveFileThread::toBuffer ( BaseXMLNode *node )
+{
+  QByteArray data;
+  QBuffer buffer ( &data );
+  bool result_open = buffer.open ( QIODevice::WriteOnly );
+  if ( !result_open ) {
+    emit error ( tr("Can not open memory buffer.") );
+    return data;
+  }
+  QXmlStreamWriter writer ( &buffer );
+  writer.setCodec ( DEFAULT_ENCODING );
+  QString msg_progress = tr( "Save XML to memory buffer" );
+  emit beginProgress ( msg_progress, 0 );
+  emit beginProgress ( msg_progress, node->size() );
+
+  qint64 pos = 0;
+  bool result = saveNode ( writer, node, pos );
+  
+  if ( !result ) {
+    emit error ( tr("Error while writing the node") );
+    return QByteArray();
+  }
+  
+  return data;
 }
 void XMLerSaveFileThread::setDocument ( DocumentXMLNode * doc )
 {
@@ -130,6 +140,24 @@ bool XMLerSaveFileThread::saveNode ( QXmlStreamWriter &writer, BaseXMLNode *node
   }
   else if ( DataXMLNode *data = qobject_cast<DataXMLNode *>(node) ) {
     writer.writeCharacters ( data->data() );
+  }
+  else if ( DocumentXMLNode *doc = qobject_cast<DocumentXMLNode *>(node) ) {
+    writer.writeStartDocument( doc->version() );
+
+    if ( _document->hasPI() ) {
+      const QMap<QString,QString> &pi = _document->processingInstructions();
+      QMap<QString,QString>::const_iterator it;
+      for ( it = pi.begin(); it != pi.end(); ++it ) {
+        if ( it.key().trimmed().isEmpty() )
+          continue;
+        writer.writeProcessingInstruction ( it.key(), it.value() );
+      }
+    }
+  
+    if ( doc->documentNode() )
+      result &= saveNode ( writer, doc->documentNode(), pos );
+
+    writer.writeEndDocument();
   }
 
   emit progress ( pos );
