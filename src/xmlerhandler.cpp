@@ -121,7 +121,12 @@ bool XMLerHandler::startPrefixMapping ( const QString & prefix, const QString & 
 bool XMLerHandler::endPrefixMapping ( const QString & prefix )
 {
 }
-
+bool XMLerHandler::processingInstruction ( const QString & target, const QString & data )
+{
+  //qDebug() << target << data;
+  if ( target == QString("xml") )
+    setDocumentPI ( data );
+}
 
 /* self */
 DocumentXMLNode *XMLerHandler::document () const
@@ -166,4 +171,19 @@ bool XMLerHandler::hasTypedException ( XMLer::ExceptionType et ) const
   }
 
   return result;
+}
+void XMLerHandler::setDocumentPI ( const QString &data )
+{
+  QStringList list = data.split(' ', QString::SkipEmptyParts);
+  for ( int i = 0; i < list.size(); ++i ) {
+    QString key = list.at(i).section("=", 0, 0);
+    QString value = list.at(i).section("=", 1, 1);
+    value = value.replace( QRegExp("['\"]"), "" );
+    qDebug() << key << value;
+
+    if ( key == "version" )
+      _document->setVersion ( value );
+    else if ( key == "encoding" )
+      _document->setCodec ( value );
+  }
 }

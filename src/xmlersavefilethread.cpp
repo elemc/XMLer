@@ -40,6 +40,7 @@ void XMLerSaveFileThread::run ()
   writer.setAutoFormattingIndent ( _document->formattingIndent() );
   writer.setCodec ( _document->codec() );
 
+  emit beginProgress ( progressMessage(), 0 );
   emit beginProgress ( progressMessage(), _document->size() );
   bool result = true;
   qint64 pos = 0;

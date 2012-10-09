@@ -9,6 +9,8 @@
 #ifndef DOCUMENTXMLNODE_H
 #define DOCUMENTXMLNODE_H
 
+#include "config.h"
+
 #include <QtXml/QXmlStreamWriter>
 #include <QtCore/QTextCodec>
 #include <QtCore/QFile>

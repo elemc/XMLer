@@ -12,6 +12,7 @@
 #define APPNAME "@PROJECT_NAME@"
 #define XMLER_VERSION "@PROJECT_VERSION@"
 #define DEBUG_PROJECT @DEBUG@
+#define DEFAULT_ENCODING QTextCodec::codecForName("@DEFAULT_ENCODING@")
 
 #if DEBUG_PROJECT == 1
 #include <QDebug>

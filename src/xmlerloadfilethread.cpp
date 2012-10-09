@@ -27,7 +27,7 @@ void XMLerLoadFileThread::run ()
     return;
   }
 
-  QMap<QString, QString> info = getInformationFromFile();
+  /* QMap<QString, QString> info = getInformationFromFile(); */
 
   QXmlSimpleReader reader;
   XMLerInputSource *source = new XMLerInputSource ( &xml );
@@ -55,13 +55,15 @@ void XMLerLoadFileThread::run ()
   }
 
   /* set addition data (information) in document */
-  handler->document()->setFileName( fileName() );
+  if ( handler->document() )
+    handler->document()->setFileName( fileName() );
+  /* CLEANIT
   if ( !info.isEmpty() ) {
     if ( info.contains ( "encoding" ) )
       handler->document()->setCodec ( info.value ( "encoding" ) );
     if ( info.contains ( "version" ) )
       handler->document()->setVersion ( info.value ( "version" ) );
-  }
+      }*/
   emit done ( handler->document() );
   checkExceptionInHandler ();
 

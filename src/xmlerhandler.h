@@ -36,6 +36,8 @@ public:
   bool startPrefixMapping ( const QString & prefix, const QString & uri );
   bool endPrefixMapping ( const QString & prefix );
 
+  bool processingInstruction ( const QString & target, const QString & data );
+
   bool error ( const QXmlParseException & exception );
   bool warning ( const QXmlParseException & exception );
   bool fatalError ( const QXmlParseException & exception );
@@ -58,6 +60,7 @@ private:
   XMLerExceptionList _exceptions;
 
   bool hasTypedException ( XMLer::ExceptionType et ) const;
+  void setDocumentPI( const QString &data );
 };
 
 #endif

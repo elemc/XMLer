@@ -13,7 +13,8 @@ DocumentXMLNode::DocumentXMLNode ():
 {
   setNodeType(BaseXMLNode::Document);
   rootNode = 0;
-  setCodec ( "UTF-8" );
+  setCodec ( DEFAULT_ENCODING );
+  setVersion ( "1.0" );
 
   _document_auto_formatting = true;
   _document_formatting_indent = 4;
@@ -47,6 +48,10 @@ void DocumentXMLNode::setCodec ( const QString &codecName )
 }
 void DocumentXMLNode::setCodec ( QTextCodec * codec_in )
 {
+  if ( codec_in == 0 ) {
+    _codec = DEFAULT_ENCODING;
+    return;
+  }
   _codec = codec_in;
 }
 void DocumentXMLNode::setVersion ( const QString & version )
