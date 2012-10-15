@@ -19,9 +19,11 @@
 #include <QtGui/QLabel>
 #include <QtGui/QClipboard>
 #include <QtCore/QMimeData>
+#include <QtGui/QDockWidget>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
 #include "documentpropertiesdialog.h"
+#include "xmlerfindwidget.h"
 
 namespace Ui {
   class MainWindow;
@@ -43,6 +45,7 @@ private:
   QTreeView *tree;
   QLabel *labelStatus;
   QProgressDialog *progressDialog;
+  QDockWidget *findDock;
   
 
   qint64 _progress_max;
@@ -54,6 +57,7 @@ private:
   void initialActionsShortcuts();
   void initialTree();
   void initialStatusBar();
+  void initialFindDock();
 
   void openDocumentInNewWindow( const QString &fileName );
 
@@ -67,6 +71,7 @@ private slots:
 
   /* Edit menu slots */
   void copyNodeAction();
+  void findAction();
 
   void modelTouched();
   void indexCollapsed ( const QModelIndex &index );

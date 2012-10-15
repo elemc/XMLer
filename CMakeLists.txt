@@ -31,6 +31,7 @@ set (HEADERS
   src/xmlerapplication.h
   src/mainwindow.h
   src/documentpropertiesdialog.h
+  src/xmlerfindwidget.h
   src/xmlermodel.h
   src/xmlerinputsource.h
   src/xmlerfileoperthread.h
@@ -46,6 +47,7 @@ set (SOURCES
   src/xmlerapplication.cpp
   src/mainwindow.cpp
   src/documentpropertiesdialog.cpp
+  src/xmlerfindwidget.cpp
   src/xmlermodel.cpp
   src/xmlerhandler.cpp
   src/xmlerexception.cpp

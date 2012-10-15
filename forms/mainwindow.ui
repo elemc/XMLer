@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>670</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -49,6 +49,10 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionCopy"/>
+    <addaction name="separator"/>
+    <addaction name="actionFind"/>
+    <addaction name="actionFindNext"/>
+    <addaction name="actionFindPrevious"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
@@ -110,6 +114,21 @@
   <action name="actionCopy">
    <property name="text">
     <string>&amp;Copy</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="text">
+    <string>&amp;Find</string>
+   </property>
+  </action>
+  <action name="actionFindNext">
+   <property name="text">
+    <string>Find &amp;next</string>
+   </property>
+  </action>
+  <action name="actionFindPrevious">
+   <property name="text">
+    <string>Find &amp;previous</string>
    </property>
   </action>
  </widget>

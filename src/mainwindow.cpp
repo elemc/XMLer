@@ -20,6 +20,7 @@ MainWindow::MainWindow (QWidget *parent, Qt::WindowFlags f) :
   initialActions();
   initialTree();
   initialStatusBar();
+  initialFindDock();
 
   setCentralWidget( tree );
   modelTouched ();
@@ -31,10 +32,17 @@ MainWindow::~MainWindow ()
   delete model;
   delete tree;
 
+  /* clean progress dialog */
   delete labelStatus;
   labelStatus = 0;
   delete progressDialog;
   progressDialog = 0;
+
+  /* clean find dock */
+  delete findDock->widget();
+  delete findDock;
+  findDock = 0;
+
   delete ui;
 }
 
@@ -52,15 +60,18 @@ void MainWindow::initialActionsIcons()
 void MainWindow::initialActionsShortcuts ()
 {
   /* File menu */
-  ui->actionNew->setShortcut    ( QKeySequence ( QKeySequence::New ) );
-  ui->actionOpen->setShortcut   ( QKeySequence ( QKeySequence::Open ) );
-  ui->actionSave->setShortcut   ( QKeySequence ( QKeySequence::Save ) );
-  ui->actionSaveAs->setShortcut ( QKeySequence ( QKeySequence::SaveAs ) );
-  ui->actionClose->setShortcut  ( QKeySequence ( QKeySequence::Close ) );
-  ui->actionExit->setShortcut   ( QKeySequence ( QKeySequence::Quit ) );
+  ui->actionNew->setShortcut            ( QKeySequence ( QKeySequence::New ) );
+  ui->actionOpen->setShortcut           ( QKeySequence ( QKeySequence::Open ) );
+  ui->actionSave->setShortcut           ( QKeySequence ( QKeySequence::Save ) );
+  ui->actionSaveAs->setShortcut         ( QKeySequence ( QKeySequence::SaveAs ) );
+  ui->actionClose->setShortcut          ( QKeySequence ( QKeySequence::Close ) );
+  ui->actionExit->setShortcut           ( QKeySequence ( QKeySequence::Quit ) );
 
   /* Edit menu */
-  ui->actionCopy->setShortcut   ( QKeySequence ( QKeySequence::Copy ) );
+  ui->actionCopy->setShortcut           ( QKeySequence ( QKeySequence::Copy ) );
+  ui->actionFind->setShortcut           ( QKeySequence ( QKeySequence::Find ) );
+  ui->actionFindNext->setShortcut       ( QKeySequence ( QKeySequence::FindNext ) );
+  ui->actionFindPrevious->setShortcut   ( QKeySequence ( QKeySequence::FindPrevious ) );
 }
 void MainWindow::initialActions()
 {
@@ -75,6 +86,7 @@ void MainWindow::initialActions()
   connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
 
   connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copyNodeAction()));
+  connect(ui->actionFind, SIGNAL(triggered()), this, SLOT(findAction()));
 }
 void MainWindow::initialTree()
 {
@@ -125,6 +137,19 @@ void MainWindow::initialStatusBar ()
 
   _progress_max = 0;
   _progress_pos = 0;
+}
+void MainWindow::initialFindDock ()
+{
+  findDock = new QDockWidget( tr( "Find"), this );
+  XMLerFindWidget *w = new XMLerFindWidget( findDock );
+  findDock->setWidget ( w );
+
+  findDock->setAllowedAreas ( Qt::BottomDockWidgetArea );
+  findDock->setFeatures ( QDockWidget::AllDockWidgetFeatures );
+
+  //findDock->show();
+  addDockWidget( Qt::BottomDockWidgetArea, findDock );
+  findDock->hide();
 }
 
 /* self */
@@ -269,4 +294,8 @@ void MainWindow::copyNodeAction ()
   md->setData ( QString("text/xml"), xml_data );
   
   clip->setMimeData ( md );
+}
+void MainWindow::findAction ()
+{
+  findDock->show();
 }
