@@ -39,7 +39,8 @@ MainWindow::~MainWindow ()
   progressDialog = 0;
 
   /* clean find dock */
-  delete findDock->widget();
+  delete findWidget;
+  findWidget = 0;
   delete findDock;
   findDock = 0;
 
@@ -111,11 +112,18 @@ void MainWindow::initialTree()
   connect( model->saver(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
   connect( model->saver(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
 
+  /* finder signals */
+  connect( model->finder(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
+  connect( model->finder(), SIGNAL(progress(qint64)), this, SLOT(progressModel(qint64)) );
+  connect( model->finder(), SIGNAL(endProgress()), this, SLOT(endProgressModel()) );
+
   /* error and warning model loader/saver signals */
   connect ( model->loader(), SIGNAL( error(QString) ), this, SLOT( onError(QString) ) );
   connect ( model->loader(), SIGNAL( warning(QString) ), this, SLOT( onWarning(QString) ) );
   connect ( model->saver(), SIGNAL( error(QString) ), this, SLOT( onError(QString) ) );
   connect ( model->saver(), SIGNAL( warning(QString) ), this, SLOT( onWarning(QString) ) );
+  connect ( model->finder(), SIGNAL( error(QString) ), this, SLOT( onError(QString) ) );
+  connect ( model->finder(), SIGNAL( warning(QString) ), this, SLOT( onWarning(QString) ) );
 }
 void MainWindow::initialStatusBar ()
 {
@@ -127,7 +135,8 @@ void MainWindow::initialStatusBar ()
   labelStatus = new QLabel ( progressDialog );
   progressDialog->setLabel ( labelStatus );
 
-  /*progressBarStatus = new QProgressBar( ui->statusbar );
+  /* CLEANIT:
+  progressBarStatus = new QProgressBar( ui->statusbar );
   labelStatus = new QLabel( ui->statusbar );
   ui->statusbar->addWidget ( labelStatus );
   ui->statusbar->addWidget ( progressBarStatus );
@@ -141,15 +150,18 @@ void MainWindow::initialStatusBar ()
 void MainWindow::initialFindDock ()
 {
   findDock = new QDockWidget( tr( "Find"), this );
-  XMLerFindWidget *w = new XMLerFindWidget( findDock );
-  findDock->setWidget ( w );
+  findWidget = new XMLerFindWidget( findDock );
+  findDock->setWidget ( findWidget );
 
   findDock->setAllowedAreas ( Qt::BottomDockWidgetArea );
   findDock->setFeatures ( QDockWidget::AllDockWidgetFeatures );
 
-  //findDock->show();
   addDockWidget( Qt::BottomDockWidgetArea, findDock );
   findDock->hide();
+
+  /* signals from finder to findDock */
+  connect ( model->finder(), SIGNAL(done()), this, SLOT(foundedNodes()) );
+  connect ( findWidget, SIGNAL(FindNodes(QString)), model, SLOT(findNodes(QString)) );
 }
 
 /* self */
@@ -267,7 +279,7 @@ void MainWindow::indexCollapsed ( const QModelIndex &index )
   if ( index == model->rootIndex () )
     tree->expand ( index );
 }
-/* Not needed now 
+/* CLEANIT:
 void MainWindow::indexExpanded ( const QModelIndex &index )
 {
 
@@ -297,5 +309,10 @@ void MainWindow::copyNodeAction ()
 }
 void MainWindow::findAction ()
 {
+  findDock->show();
+}
+void MainWindow::foundedNodes ()
+{
+  findWidget->Founded ( model->finder()->foundedNodes() );
   findDock->show();
 }

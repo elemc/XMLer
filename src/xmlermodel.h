@@ -12,10 +12,12 @@
 #include "config.h"
 
 #include <QtCore/QAbstractItemModel>
+#include <QtGui/QBrush>
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "xmlerloadfilethread.h"
 #include "xmlersavefilethread.h"
+#include "xmlerfindthread.h"
 
 class XMLerModel : public QAbstractItemModel
 {
@@ -37,6 +39,7 @@ public:
 
   XMLerLoadFileThread *loader ();
   XMLerSaveFileThread *saver ();
+  XMLerFindThread *finder ();
 
   QByteArray indexToBuffer ( const QModelIndex &index );
 
@@ -58,16 +61,23 @@ private:
   QString _encoding;
   QString _version;
 
-  /* threaded loader and writer */
+  /* threaded loader, writer and finder */
   XMLerLoadFileThread *_loader;
   XMLerSaveFileThread *_saver;
+  XMLerFindThread *_finder;
+
+  XMLNodePtrList foundedNodes;
 
 signals:
   void touchModel ();
 
 private slots:
   void on_loaderDone ( DocumentXMLNode *doc );
-  void on_saverDone ( DocumentXMLNode *doc );
+  void on_saverDone ();
+  void on_finderDone ();
+
+public slots:
+  void findNodes ( const QString &findText );
 };
 
 #endif

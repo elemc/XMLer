@@ -22,6 +22,8 @@ XMLerFindWidget::XMLerFindWidget (QWidget *parent, Qt::WindowFlags f) :
   setLayout( box );
 
   current_found_position = -1;
+
+  connect ( pushButtonFind, SIGNAL(pressed()), this, SLOT(findButtonPressed()) );
 }
 
 XMLerFindWidget::~XMLerFindWidget ()
@@ -57,4 +59,12 @@ void XMLerFindWidget::FindPrevious ()
     current_found_position -= 1;
 
   emit Show ( foundedList.at(current_found_position) );
+}
+
+/* private slots */
+void XMLerFindWidget::findButtonPressed ()
+{
+  QString text = lineEditFind->text();
+  if ( !text.isEmpty() )
+    emit FindNodes ( text );
 }

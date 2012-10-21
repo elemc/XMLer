@@ -46,6 +46,7 @@ private:
   QLabel *labelStatus;
   QProgressDialog *progressDialog;
   QDockWidget *findDock;
+  XMLerFindWidget *findWidget;
   
 
   qint64 _progress_max;
@@ -83,6 +84,8 @@ private slots:
 
   void onError ( QString msg );
   void onWarning ( QString msg );
+
+  void foundedNodes ();
 };
 
 #endif

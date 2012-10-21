@@ -58,7 +58,7 @@ void XMLerSaveFileThread::run ()
   if ( !result )
     emit error ( tr("Error while writing the document.").arg( fileName() ) );
   else
-    emit done ( _document );
+    emit done ();
 }
 QByteArray XMLerSaveFileThread::toBuffer ( BaseXMLNode *node )
 {
@@ -132,7 +132,6 @@ bool XMLerSaveFileThread::saveNode ( QXmlStreamWriter &writer, BaseXMLNode *node
     writer.writeEndElement();
   }
   else if ( AttrXMLNode *attr = qobject_cast<AttrXMLNode *>(node) ) {
-    pos += 1;
     if ( attr->namespaceURI().isEmpty() )
       writer.writeAttribute ( attr->qName(), attr->value() );
     else
@@ -144,7 +143,7 @@ bool XMLerSaveFileThread::saveNode ( QXmlStreamWriter &writer, BaseXMLNode *node
   else if ( DocumentXMLNode *doc = qobject_cast<DocumentXMLNode *>(node) ) {
     writer.writeStartDocument( doc->version() );
 
-    if ( _document->hasPI() ) {
+    if ( doc->hasPI() ) {
       const QMap<QString,QString> &pi = _document->processingInstructions();
       QMap<QString,QString>::const_iterator it;
       for ( it = pi.begin(); it != pi.end(); ++it ) {

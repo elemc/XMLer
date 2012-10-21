@@ -35,6 +35,7 @@ signals:
   void progress ( qint64 pos );
   void endProgress ();
   void done ( DocumentXMLNode *document );
+  void done ();
   void error ( QString message );
   void warning ( QString message );
 

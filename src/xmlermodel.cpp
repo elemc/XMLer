@@ -19,7 +19,10 @@ XMLerModel::XMLerModel (QObject *parent):
   connect ( _loader, SIGNAL(done(DocumentXMLNode*)), this, SLOT(on_loaderDone(DocumentXMLNode*)) );
 
   _saver = new XMLerSaveFileThread ( this );
-  connect ( _saver, SIGNAL(done(DocumentXMLNode*)), this, SLOT(on_saverDone(DocumentXMLNode*)) );
+  connect ( _saver, SIGNAL(done()), this, SLOT(on_saverDone()) );
+
+  _finder = new XMLerFindThread ( this );
+  connect ( _finder, SIGNAL(done()), this, SLOT(on_finderDone()) );
 }
 XMLerModel::~XMLerModel ()
 {
@@ -29,6 +32,14 @@ XMLerModel::~XMLerModel ()
   /* clean loader */
   delete _loader;
   _loader = 0;
+
+  /* clean saver */
+  delete _saver;
+  _saver = 0;
+
+  /* clean finder */
+  delete _finder;
+  _finder = 0;
 }
 
 /* self */
@@ -88,6 +99,10 @@ XMLerLoadFileThread *XMLerModel::loader ()
 XMLerSaveFileThread *XMLerModel::saver ()
 {
   return _saver;
+}
+XMLerFindThread *XMLerModel::finder ()
+{
+  return _finder;
 }
 DocumentXMLNode *XMLerModel::document () const
 {
@@ -201,6 +216,10 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
   else if ( role == Qt::DecorationRole && index.column() == 0 ) {
     return item->typeToIcon();
   }
+  else if ( role == Qt::BackgroundRole ) {
+    if ( foundedNodes.contains ( item ) )
+      return QBrush( Qt::darkYellow );
+  }
 
   return QVariant();
 }
@@ -233,8 +252,22 @@ void XMLerModel::on_loaderDone ( DocumentXMLNode *doc )
   _modified = false;
   emit touchModel();
 }
-void XMLerModel::on_saverDone ( DocumentXMLNode *doc )
+void XMLerModel::on_saverDone ()
 {
   _modified = false;
   emit touchModel();
+}
+void XMLerModel::on_finderDone ()
+{
+  foundedNodes.clear();
+  foundedNodes = _finder->foundedNodes();
+  emit touchModel();
+}
+
+void XMLerModel::findNodes( const QString &findText )
+{
+  foundedNodes.clear();
+  _finder->setDocument ( _document );
+  _finder->setText ( findText );
+  _finder->start();
 }

@@ -37,6 +37,7 @@ set (HEADERS
   src/xmlerfileoperthread.h
   src/xmlerloadfilethread.h
   src/xmlersavefilethread.h
+  src/xmlerfindthread.h
   src/basexmlnode.h
   src/elementxmlnode.h
   src/documentxmlnode.h
@@ -55,6 +56,7 @@ set (SOURCES
   src/xmlerfileoperthread.cpp
   src/xmlerloadfilethread.cpp
   src/xmlersavefilethread.cpp
+  src/xmlerfindthread.cpp
   src/basexmlnode.cpp
   src/elementxmlnode.cpp
   src/documentxmlnode.cpp

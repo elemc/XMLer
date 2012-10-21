@@ -30,10 +30,10 @@ private:
   QPushButton *pushButtonFind;
   QLabel *labelStatus;
   int current_found_position;
-  QList<BaseXMLNode *> foundedList;
+  XMLNodePtrList foundedList;
 
 public slots:
-  void Founded ( const QList<BaseXMLNode *> &list );
+  void Founded ( const XMLNodePtrList &list );
   void FindNext ();
   void FindPrevious ();
 
@@ -41,6 +41,8 @@ signals:
   void FindNodes ( const QString &findText );
   void Show ( BaseXMLNode *node );
 
+private slots:
+  void findButtonPressed ();
 };
 
 #endif
