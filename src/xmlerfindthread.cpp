@@ -27,6 +27,7 @@ void XMLerFindThread::run ()
     emit warning ( tr("Search phrase is empty") );
     return;
   }
+  founded.clear();
       
   emit beginProgress ( progressMessage(), 0 );
   qint64 docSize = _document->size();
@@ -59,7 +60,6 @@ XMLNodePtrList XMLerFindThread::foundedNodes () const
 {
   return founded;
 }
-
 
 /* Privates */
 QString XMLerFindThread::progressMessage () const
