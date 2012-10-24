@@ -310,6 +310,7 @@ void MainWindow::copyNodeAction ()
 void MainWindow::findAction ()
 {
   findDock->show();
+  findWidget->LineEditFocus();
 }
 void MainWindow::foundedNodes ()
 {

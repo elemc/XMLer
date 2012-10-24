@@ -36,6 +36,7 @@ public slots:
   void Founded ( const XMLNodePtrList &list );
   void FindNext ();
   void FindPrevious ();
+  void LineEditFocus ();
 
 signals:
   void FindNodes ( const QString &findText );

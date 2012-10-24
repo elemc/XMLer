@@ -12,7 +12,9 @@ XMLerFindWidget::XMLerFindWidget (QWidget *parent, Qt::WindowFlags f) :
   QWidget(parent, f)
 {
   lineEditFind = new QLineEdit( this );
-  pushButtonFind = new QPushButton( tr("Find"), this );
+  pushButtonFind = new QPushButton( tr("&Find"), this );
+  pushButtonFind->setAutoDefault( true );
+  pushButtonFind->setDefault( true );
   labelStatus = new QLabel( this );
   box = new QHBoxLayout;
   box->addWidget(lineEditFind);
@@ -59,6 +61,10 @@ void XMLerFindWidget::FindPrevious ()
     current_found_position -= 1;
 
   emit Show ( foundedList.at(current_found_position) );
+}
+void XMLerFindWidget::LineEditFocus ()
+{
+  lineEditFind->setFocus();
 }
 
 /* private slots */
