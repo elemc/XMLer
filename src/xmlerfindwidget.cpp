@@ -121,6 +121,7 @@ void XMLerFindWidget::findButtonPressed ()
 {
   QString text = lineEditFind->text();
   if ( !text.isEmpty() && text != oldFindText ) {
+    current_found_position = -1;
     emit FindNodes ( text );
     oldFindText = text;
   }
@@ -129,6 +130,7 @@ void XMLerFindWidget::findButtonPressed ()
   }
   else if ( text.isEmpty() ) {
     oldFindText = text;
+    current_found_position = -1;
     emit FindNodes( QString() );
     updateLabelStatus();
   }
