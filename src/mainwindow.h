@@ -76,15 +76,18 @@ private slots:
 
   void modelTouched();
   void indexCollapsed ( const QModelIndex &index );
-  /* void indexExpanded ( const QModelIndex &index ); */
+  void indexExpanded ( const QModelIndex &index );
 
+  /* progress, warn and error slots */
   void beginProgressModel ( QString message, qint64 totalSize );
   void progressModel ( qint64 pos );
   void endProgressModel ();
 
   void onError ( QString msg );
   void onWarning ( QString msg );
-
+  
+  /* find slots */
+  void showFounded ( BaseXMLNode *node );
   void foundedNodes ();
 };
 

@@ -126,6 +126,10 @@ QByteArray XMLerModel::indexToBuffer ( const QModelIndex &index )
 
   return QByteArray();
 }
+QModelIndex XMLerModel::indexByNode ( BaseXMLNode *node ) const
+{
+    return createIndex(node->row(), 0, node);
+}
 
 /* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
@@ -267,7 +271,12 @@ void XMLerModel::on_finderDone ()
 void XMLerModel::findNodes( const QString &findText )
 {
   foundedNodes.clear();
-  _finder->setDocument ( _document );
-  _finder->setText ( findText );
-  _finder->start();
+  if ( !findText.isEmpty() ) {
+    _finder->setDocument ( _document );
+    _finder->setText ( findText );
+    _finder->start();
+  }
+  else {
+   emit touchModel(); 
+  }
 }

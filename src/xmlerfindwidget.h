@@ -25,12 +25,17 @@ public:
   ~XMLerFindWidget();
   
 private:
-  QHBoxLayout *box;
+  QHBoxLayout *hbox;
+  QVBoxLayout *vbox;
   QLineEdit *lineEditFind;
   QPushButton *pushButtonFind;
+  QPushButton *pushButtonClear;
   QLabel *labelStatus;
   int current_found_position;
   XMLNodePtrList foundedList;
+  QString oldFindText;
+
+  void updateLabelStatus ();
 
 public slots:
   void Founded ( const XMLNodePtrList &list );
@@ -41,9 +46,11 @@ public slots:
 signals:
   void FindNodes ( const QString &findText );
   void Show ( BaseXMLNode *node );
+  void ClearFind ();
 
 private slots:
   void findButtonPressed ();
+  void clearButtonPressed ();
 };
 
 #endif

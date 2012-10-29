@@ -45,6 +45,8 @@ public:
 
   DocumentXMLNode *document () const;
 
+  QModelIndex indexByNode ( BaseXMLNode *node ) const;
+
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
   int columnCount(const QModelIndex &parent = QModelIndex()) const;

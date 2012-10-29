@@ -17,10 +17,10 @@ MainWindow::MainWindow (QWidget *parent, Qt::WindowFlags f) :
 
   setAttribute ( Qt::WA_DeleteOnClose );
 
-  initialActions();
   initialTree();
   initialStatusBar();
   initialFindDock();
+  initialActions();
 
   setCentralWidget( tree );
   modelTouched ();
@@ -88,6 +88,8 @@ void MainWindow::initialActions()
 
   connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copyNodeAction()));
   connect(ui->actionFind, SIGNAL(triggered()), this, SLOT(findAction()));
+  connect(ui->actionFindNext, SIGNAL(triggered()), findWidget, SLOT(FindNext()));
+  connect(ui->actionFindPrevious, SIGNAL(triggered()), findWidget, SLOT(FindPrevious()));
 }
 void MainWindow::initialTree()
 {
@@ -98,7 +100,7 @@ void MainWindow::initialTree()
 
   /* tree signals */
   connect ( tree, SIGNAL(collapsed(QModelIndex)), this, SLOT(indexCollapsed(QModelIndex)) );
-  /* connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) ); */
+  connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) );
 
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
   
@@ -162,6 +164,7 @@ void MainWindow::initialFindDock ()
   /* signals from finder to findDock */
   connect ( model->finder(), SIGNAL(done()), this, SLOT(foundedNodes()) );
   connect ( findWidget, SIGNAL(FindNodes(QString)), model, SLOT(findNodes(QString)) );
+  connect ( findWidget, SIGNAL(Show(BaseXMLNode*)), this, SLOT(showFounded(BaseXMLNode*)));
 }
 
 /* self */
@@ -279,12 +282,12 @@ void MainWindow::indexCollapsed ( const QModelIndex &index )
   if ( index == model->rootIndex () )
     tree->expand ( index );
 }
-/* CLEANIT:
 void MainWindow::indexExpanded ( const QModelIndex &index )
 {
-
+    Q_UNUSED(index);
+    /* for (int i = 0; i < model->columnCount(); i++) */
+    tree->resizeColumnToContents( 0 );
 }
-*/
 void MainWindow::saveDocumentAction ()
 {
   if ( model->isNewModel() ) {
@@ -316,4 +319,12 @@ void MainWindow::foundedNodes ()
 {
   findWidget->Founded ( model->finder()->foundedNodes() );
   findDock->show();
+}
+void MainWindow::showFounded ( BaseXMLNode *node )
+{
+    if ( !node )
+        return;
+    const QModelIndex &idx = model->indexByNode( node );
+    if ( idx.isValid() )
+        tree->setCurrentIndex( idx );
 }
