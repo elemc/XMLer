@@ -62,7 +62,7 @@ void MainWindow::initialActionsIcons()
   ui->actionBookmark->setIcon( QIcon::fromTheme("bookmark-new") );
   
   ui->actionCollapseAll->setIcon( QIcon::fromTheme("view-close") );
-  ui->actionCollapseAll->setIcon( QIcon::fromTheme("view-sidetree") );
+  ui->actionExpandAll->setIcon( QIcon::fromTheme("view-sidetree") );
 }
 void MainWindow::initialActionsShortcuts ()
 {
