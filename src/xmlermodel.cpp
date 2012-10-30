@@ -23,9 +23,14 @@ XMLerModel::XMLerModel (QObject *parent):
 
   _finder = new XMLerFindThread ( this );
   connect ( _finder, SIGNAL(done()), this, SLOT(on_finderDone()) );
+
+  bookmark_current_position = -1;
 }
 XMLerModel::~XMLerModel ()
 {
+  foundedNodes.clear();
+  bookmarkNodes.clear();
+
   if ( _document )
     delete _document;
 
@@ -130,6 +135,22 @@ QModelIndex XMLerModel::indexByNode ( BaseXMLNode *node ) const
 {
     return createIndex(node->row(), 0, node);
 }
+void XMLerModel::bookmarkToggle ( const QModelIndex &index )
+{
+    if ( !index.isValid() )
+        return;
+    BaseXMLNode *item = static_cast<BaseXMLNode *>(index.internalPointer());
+    if ( !item )
+        return;
+
+    if ( bookmarkNodes.contains( item ) )
+        bookmarkNodes.removeAt( bookmarkNodes.indexOf( item ) );
+    else
+        bookmarkNodes.append( item );
+
+    safeUpdateBookmarkIndex();
+    emit touchModel();
+}
 
 /* Virtuals */
 Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
@@ -140,20 +161,23 @@ Qt::ItemFlags XMLerModel::flags(const QModelIndex &index) const
 int XMLerModel::columnCount(const QModelIndex &parent) const
 {
   Q_UNUSED(parent);
-  return 3;
+  return 4;
 }
 QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
   if ( orientation == Qt::Horizontal ) {
     if ( role == Qt::DisplayRole ) {
       switch (section) {
-      case 1:
-        return tr("Local name");
-        break;
       case 0:
-        return tr("Qualified name");
+        return QString();
         break;
       case 2:
+        return tr("Local name");
+        break;
+      case 1:
+        return tr("Qualified name");
+        break;
+      case 3:
         return tr("Namespace URI");
       default:
         break;
@@ -204,26 +228,30 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
 
   if ( role == Qt::DisplayRole ) {
     switch( index.column() ) {
-    case 1:
+    case 2:
       return item->name();
       break;
-    case 0:
+    case 1:
       return item->qName();
       break;
-    case 2:
+    case 3:
       return item->namespaceURI();
       break;
     default:
       break;
     }
   }
-  else if ( role == Qt::DecorationRole && index.column() == 0 ) {
-    return item->typeToIcon();
+  else if ( role == Qt::DecorationRole ) {
+    if ( index.column() == 1 )
+        return item->typeToIcon();
+    else if ( index.column() == 0 )
+        return stateNodeIcon( item );
   }
+  /* CLEANIT: not needed more
   else if ( role == Qt::BackgroundRole ) {
     if ( foundedNodes.contains ( item ) )
       return QBrush( Qt::darkYellow );
-  }
+  } */
 
   return QVariant();
 }
@@ -244,6 +272,46 @@ int XMLerModel::rowCount(const QModelIndex &parent) const
   return 0;
 }
 
+/* Self private */
+QIcon XMLerModel::stateNodeIcon ( BaseXMLNode *node ) const
+{
+    if ( !node )
+        return QIcon();
+    int state = 0;
+    if ( foundedNodes.contains( node ) )
+        state += 1;
+    if ( bookmarkNodes.contains( node ) )
+        state += 2;
+
+    QIcon result;
+
+    switch ( state ) {
+       case 1:
+            result = QIcon::fromTheme( "flag-yellow" );
+            break;
+        case 2:
+            result = QIcon::fromTheme( "flag-red" );
+            break;
+        case 3:
+            result = QIcon::fromTheme( "flag-green" );
+            break;
+        default:
+            result = QIcon(); 
+            break;
+     };
+
+     return result;
+}
+void XMLerModel::safeUpdateBookmarkIndex ()
+{
+    int list_size = bookmarkNodes.size();
+    if ( list_size == 0 ) {
+        bookmark_current_position = -1;
+        return;
+    }
+    if ( bookmark_current_position >= list_size)
+        bookmark_current_position = 0; //FIXME: maybe set last item
+}
 /* Slots */
 void XMLerModel::on_loaderDone ( DocumentXMLNode *doc )
 {
@@ -268,6 +336,8 @@ void XMLerModel::on_finderDone ()
   emit touchModel();
 }
 
+
+/* public slots */
 void XMLerModel::findNodes( const QString &findText )
 {
   foundedNodes.clear();
@@ -280,3 +350,28 @@ void XMLerModel::findNodes( const QString &findText )
    emit touchModel(); 
   }
 }
+void XMLerModel::bookmarkNext () 
+{
+    if ( bookmarkNodes.size() == 0 )
+        return;
+
+    bookmark_current_position += 1;
+
+    if ( bookmark_current_position >= bookmarkNodes.size() )
+        bookmark_current_position = 0;
+
+    emit gotoBookmark ( bookmarkNodes.at( bookmark_current_position ) );
+}
+void XMLerModel::bookmarkPrev ()
+{
+    if ( bookmarkNodes.size() == 0 )
+        return;
+
+    bookmark_current_position -= 1;
+
+    if ( bookmark_current_position < 0 )
+        bookmark_current_position = bookmarkNodes.size() - 1;
+
+    emit gotoBookmark ( bookmarkNodes.at( bookmark_current_position ) );
+}
+

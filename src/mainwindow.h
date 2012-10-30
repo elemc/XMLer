@@ -89,6 +89,11 @@ private slots:
   /* find slots */
   void showFounded ( BaseXMLNode *node );
   void foundedNodes ();
+
+  /* bookmark slots */
+  void bookmarkToggled ();
+  void bookmarkNext ();
+  void bookmarkPrev ();
 };
 
 #endif

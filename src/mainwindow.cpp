@@ -57,6 +57,8 @@ void MainWindow::initialActionsIcons()
   ui->actionSaveAs->setIcon ( QIcon::fromTheme("document-save-as") );
   ui->actionClose->setIcon( QIcon::fromTheme("document-close") );
   ui->actionExit->setIcon ( QIcon::fromTheme("application-exit") );
+
+  ui->actionFind->setIcon ( QIcon::fromTheme("edit-find") );
 }
 void MainWindow::initialActionsShortcuts ()
 {
@@ -90,6 +92,14 @@ void MainWindow::initialActions()
   connect(ui->actionFind, SIGNAL(triggered()), this, SLOT(findAction()));
   connect(ui->actionFindNext, SIGNAL(triggered()), findWidget, SLOT(FindNext()));
   connect(ui->actionFindPrevious, SIGNAL(triggered()), findWidget, SLOT(FindPrevious()));
+
+  // bookmarks
+  connect(ui->actionBookmark, SIGNAL(triggered()), this, SLOT(bookmarkToggled()));
+  connect(ui->actionBookmarkGotoNext, SIGNAL(triggered()), model, SLOT(bookmarkNext()));
+  connect(ui->actionBookmarkGotoPrevious, SIGNAL(triggered()), model, SLOT(bookmarkPrev()));
+
+  // FIXME: it's a temporary
+  ui->actionNew->setVisible( false );
 }
 void MainWindow::initialTree()
 {
@@ -103,6 +113,7 @@ void MainWindow::initialTree()
   connect ( tree, SIGNAL(expanded(QModelIndex)), this, SLOT(indexExpanded(QModelIndex)) );
 
   connect( model, SIGNAL(touchModel()), this, SLOT(modelTouched()));
+  connect( model, SIGNAL(gotoBookmark(BaseXMLNode*)), this, SLOT(showFounded(BaseXMLNode*)) );
   
   /* Loader signals */
   connect( model->loader(), SIGNAL(beginProgress(QString,qint64)), this, SLOT(beginProgressModel(QString,qint64)) );
@@ -286,6 +297,7 @@ void MainWindow::indexExpanded ( const QModelIndex &index )
 {
     Q_UNUSED(index);
     /* for (int i = 0; i < model->columnCount(); i++) */
+    tree->resizeColumnToContents( 1 );
     tree->resizeColumnToContents( 0 );
 }
 void MainWindow::saveDocumentAction ()
@@ -328,3 +340,15 @@ void MainWindow::showFounded ( BaseXMLNode *node )
     if ( idx.isValid() )
         tree->setCurrentIndex( idx );
 }
+void MainWindow::bookmarkToggled ()
+{
+   model->bookmarkToggle( tree->selectionModel()->currentIndex() );
+   tree->resizeColumnToContents( 0 );
+}
+void MainWindow::bookmarkNext ()
+{
+}
+void MainWindow::bookmarkPrev ()
+{
+}
+

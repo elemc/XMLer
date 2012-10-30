@@ -40,12 +40,10 @@ public:
   XMLerLoadFileThread *loader ();
   XMLerSaveFileThread *saver ();
   XMLerFindThread *finder ();
-
   QByteArray indexToBuffer ( const QModelIndex &index );
-
   DocumentXMLNode *document () const;
-
   QModelIndex indexByNode ( BaseXMLNode *node ) const;
+  void bookmarkToggle ( const QModelIndex &index );
 
   /* virtuals */
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -69,9 +67,15 @@ private:
   XMLerFindThread *_finder;
 
   XMLNodePtrList foundedNodes;
+  XMLNodePtrList bookmarkNodes;
+  qint64 bookmark_current_position;
+
+  QIcon stateNodeIcon(BaseXMLNode *node) const;
+  void safeUpdateBookmarkIndex ();
 
 signals:
   void touchModel ();
+  void gotoBookmark ( BaseXMLNode *node );
 
 private slots:
   void on_loaderDone ( DocumentXMLNode *doc );
@@ -80,6 +84,8 @@ private slots:
 
 public slots:
   void findNodes ( const QString &findText );
+  void bookmarkNext ();
+  void bookmarkPrev ();
 };
 
 #endif

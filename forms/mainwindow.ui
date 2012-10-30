@@ -54,8 +54,18 @@
     <addaction name="actionFindNext"/>
     <addaction name="actionFindPrevious"/>
    </widget>
+   <widget class="QMenu" name="menu_Bookmarks">
+    <property name="title">
+     <string>&amp;Bookmarks</string>
+    </property>
+    <addaction name="actionBookmark"/>
+    <addaction name="separator"/>
+    <addaction name="actionBookmarkGotoNext"/>
+    <addaction name="actionBookmarkGotoPrevious"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
+   <addaction name="menu_Bookmarks"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -72,6 +82,8 @@
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
+   <addaction name="separator"/>
+   <addaction name="actionFind"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -129,6 +141,24 @@
   <action name="actionFindPrevious">
    <property name="text">
     <string>Find &amp;previous</string>
+   </property>
+  </action>
+  <action name="actionBookmark">
+   <property name="text">
+    <string>Toggle bookmark</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionBookmarkGotoNext">
+   <property name="text">
+    <string>Goto &amp;next</string>
+   </property>
+  </action>
+  <action name="actionBookmarkGotoPrevious">
+   <property name="text">
+    <string>Goto &amp;previous</string>
    </property>
   </action>
  </widget>
