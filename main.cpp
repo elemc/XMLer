@@ -11,8 +11,17 @@
 
 #include "xmlerapplication.h"
 #include <QtCore/QTextCodec>
-
+#include <QtCore/QStringList>
+#include <QtCore/QTranslator>
 #include "mainwindow.h"
+
+QStringList XMLer_languages ()
+{
+    QStringList sl;
+    sl.append( QString("ru_ru") );
+
+    return sl;
+}
 
 int main ( int argc, char **argv )
 {
@@ -21,7 +30,16 @@ int main ( int argc, char **argv )
   /* set utf-8 codec for tr */
   QTextCodec *utfCodec = QTextCodec::codecForName("UTF-8");
   QTextCodec::setCodecForTr(utfCodec);
-  
+
+  /* translator */
+  QTranslator trans;
+  QLocale locale = QLocale::system();
+  if ( XMLer_languages().contains ( locale.name().toLower() ) ) {
+    QString trans_name = QString( "XMLer_%1" ).arg ( locale.name() );
+    trans.load( trans_name, QString( XMLER_TRANSLATIONS_DIR ) );
+  }
+  app.installTranslator( &trans );
+
   app.openFiles();
 
   int result = app.exec();
