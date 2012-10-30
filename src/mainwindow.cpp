@@ -59,6 +59,10 @@ void MainWindow::initialActionsIcons()
   ui->actionExit->setIcon ( QIcon::fromTheme("application-exit") );
 
   ui->actionFind->setIcon ( QIcon::fromTheme("edit-find") );
+  ui->actionBookmark->setIcon( QIcon::fromTheme("bookmark-new") );
+  
+  ui->actionCollapseAll->setIcon( QIcon::fromTheme("view-close") );
+  ui->actionCollapseAll->setIcon( QIcon::fromTheme("view-sidetree") );
 }
 void MainWindow::initialActionsShortcuts ()
 {
@@ -75,6 +79,8 @@ void MainWindow::initialActionsShortcuts ()
   ui->actionFind->setShortcut           ( QKeySequence ( QKeySequence::Find ) );
   ui->actionFindNext->setShortcut       ( QKeySequence ( QKeySequence::FindNext ) );
   ui->actionFindPrevious->setShortcut   ( QKeySequence ( QKeySequence::FindPrevious ) );
+  ui->actionBookmarkGotoNext->setShortcut( QKeySequence ( QKeySequence::Forward ) );
+  ui->actionBookmarkGotoPrevious->setShortcut( QKeySequence ( QKeySequence::Back ) );
 }
 void MainWindow::initialActions()
 {
@@ -97,6 +103,10 @@ void MainWindow::initialActions()
   connect(ui->actionBookmark, SIGNAL(triggered()), this, SLOT(bookmarkToggled()));
   connect(ui->actionBookmarkGotoNext, SIGNAL(triggered()), model, SLOT(bookmarkNext()));
   connect(ui->actionBookmarkGotoPrevious, SIGNAL(triggered()), model, SLOT(bookmarkPrev()));
+
+  // view
+  connect( ui->actionCollapseAll, SIGNAL(triggered()), this, SLOT(collapseAll()) );
+  connect( ui->actionExpandAll, SIGNAL(triggered()), this, SLOT(expandAll()) );
 
   // FIXME: it's a temporary
   ui->actionNew->setVisible( false );
@@ -204,6 +214,15 @@ bool MainWindow::saveDocument( QString fileName )
     QMessageBox::critical( this, tr("XML writer error"), tr("Error per write XML document") );
   return result;
 }
+void MainWindow::expandRoot ()
+{
+    tree->expand( model->rootIndex() );
+}
+void MainWindow::resizeTreeColumns ()
+{
+    tree->resizeColumnToContents( 0 );
+    tree->resizeColumnToContents( 1 );
+}
 
 /* Slots */
 void MainWindow::openDocumentAction()
@@ -290,15 +309,13 @@ void MainWindow::propertiesAction ()
 }
 void MainWindow::indexCollapsed ( const QModelIndex &index )
 {
-  if ( index == model->rootIndex () )
-    tree->expand ( index );
+    if ( index == model->rootIndex() )
+        expandRoot();
 }
 void MainWindow::indexExpanded ( const QModelIndex &index )
 {
     Q_UNUSED(index);
-    /* for (int i = 0; i < model->columnCount(); i++) */
-    tree->resizeColumnToContents( 1 );
-    tree->resizeColumnToContents( 0 );
+    resizeTreeColumns();
 }
 void MainWindow::saveDocumentAction ()
 {
@@ -351,4 +368,14 @@ void MainWindow::bookmarkNext ()
 void MainWindow::bookmarkPrev ()
 {
 }
-
+void MainWindow::collapseAll ()
+{
+    tree->collapseAll();
+    expandRoot();
+    resizeTreeColumns();
+}
+void MainWindow::expandAll ()
+{
+    tree->expandAll();
+    resizeTreeColumns();
+}

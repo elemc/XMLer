@@ -63,9 +63,17 @@
     <addaction name="actionBookmarkGotoNext"/>
     <addaction name="actionBookmarkGotoPrevious"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionCollapseAll"/>
+    <addaction name="actionExpandAll"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
    <addaction name="menu_Bookmarks"/>
+   <addaction name="menu_View"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -84,6 +92,10 @@
    <addaction name="actionSaveAs"/>
    <addaction name="separator"/>
    <addaction name="actionFind"/>
+   <addaction name="actionBookmark"/>
+   <addaction name="separator"/>
+   <addaction name="actionExpandAll"/>
+   <addaction name="actionCollapseAll"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -159,6 +171,16 @@
   <action name="actionBookmarkGotoPrevious">
    <property name="text">
     <string>Goto &amp;previous</string>
+   </property>
+  </action>
+  <action name="actionCollapseAll">
+   <property name="text">
+    <string>&amp;Collapse all</string>
+   </property>
+  </action>
+  <action name="actionExpandAll">
+   <property name="text">
+    <string>&amp;Expand all</string>
    </property>
   </action>
  </widget>

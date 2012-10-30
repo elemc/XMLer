@@ -61,6 +61,8 @@ private:
   void initialFindDock();
 
   void openDocumentInNewWindow( const QString &fileName );
+  void expandRoot ();
+  void resizeTreeColumns ();
 
 private slots:
   /* File menu slots */
@@ -94,6 +96,9 @@ private slots:
   void bookmarkToggled ();
   void bookmarkNext ();
   void bookmarkPrev ();
+
+  void collapseAll();
+  void expandAll();
 };
 
 #endif
