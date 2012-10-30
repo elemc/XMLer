@@ -13,6 +13,7 @@
 #include <QtCore/QTextCodec>
 #include <QtCore/QStringList>
 #include <QtCore/QTranslator>
+#include <QtCore/QLibraryInfo>
 #include "mainwindow.h"
 
 QStringList XMLer_languages ()
@@ -36,7 +37,9 @@ int main ( int argc, char **argv )
   QLocale locale = QLocale::system();
   if ( XMLer_languages().contains ( locale.name().toLower() ) ) {
     QString trans_name = QString( "XMLer_%1" ).arg ( locale.name() );
+    QString qt_name = QString( "qt_%1").arg ( locale.name() );
     trans.load( trans_name, QString( XMLER_TRANSLATIONS_DIR ) );
+    trans.load( qt_name, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) );
   }
   app.installTranslator( &trans );
 
