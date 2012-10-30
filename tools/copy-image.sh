@@ -9,7 +9,7 @@ rcc_add=""
 
 for name in $names; do
     for size in $folders; do
-        #cp -R ${base_dir}/${size}/${part_dir}/${name}.png icons/${size}/
+        cp -R ${base_dir}/${size}/${part_dir}/${name}.png icons/${size}/
         rcc_add="$rcc_add\n<file alias=\"${size}/${name}.png\">icons/${size}/${name}.png</file>"
     done
 done
