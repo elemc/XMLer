@@ -61,5 +61,13 @@
 <file alias="22x22/bookmark-new.png">icons/22x22/bookmark-new.png</file>
 <file alias="32x32/bookmark-new.png">icons/32x32/bookmark-new.png</file>
 <file alias="48x48/bookmark-new.png">icons/48x48/bookmark-new.png</file>
+<file alias="16x16/view-close.png">icons/16x16/view-close.png</file>
+<file alias="22x22/view-close.png">icons/22x22/view-close.png</file>
+<file alias="32x32/view-close.png">icons/32x32/view-close.png</file>
+<file alias="48x48/view-close.png">icons/48x48/view-close.png</file>
+<file alias="16x16/view-sidetree.png">icons/16x16/view-sidetree.png</file>
+<file alias="22x22/view-sidetree.png">icons/22x22/view-sidetree.png</file>
+<file alias="32x32/view-sidetree.png">icons/32x32/view-sidetree.png</file>
+<file alias="48x48/view-sidetree.png">icons/48x48/view-sidetree.png</file>
 </qresource>
 </RCC>
