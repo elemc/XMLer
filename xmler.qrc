@@ -69,5 +69,12 @@
 <file alias="22x22/view-sidetree.png">icons/22x22/view-sidetree.png</file>
 <file alias="32x32/view-sidetree.png">icons/32x32/view-sidetree.png</file>
 <file alias="48x48/view-sidetree.png">icons/48x48/view-sidetree.png</file>
+<file alias="16x16/XMLer.png">icons/16x16/XMLer.png</file>
+<file alias="22x22/XMLer.png">icons/22x22/XMLer.png</file>
+<file alias="32x32/XMLer.png">icons/32x32/XMLer.png</file>
+<file alias="48x48/XMLer.png">icons/48x48/XMLer.png</file>
+<file alias="64x64/XMLer.png">icons/64x64/XMLer.png</file>
+<file alias="128x128/XMLer.png">icons/128x128/XMLer.png</file>
+<file alias="256x256/XMLer.png">icons/256x256/XMLer.png</file>
 </qresource>
 </RCC>
