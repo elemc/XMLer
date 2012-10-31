@@ -67,9 +67,16 @@ set (FORMS
   forms/documentpropertiesdialog.ui)
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
-#set (ICONS icons/application-exit2.png)
 set (TRANS_FILES translations/XMLer_ru.ts)
-
+set (DESKTOP_FILE ${CMAKE_BINARY_DIR}/XMLer.desktop)
+set (ICON_SIZES
+  16x16
+  22x22
+  32x32
+  48x48
+  64x64
+  128x128
+  256x256)
 if ( NOT TRANSLATIONS_DIR )
     if ( CMAKE_BUILD_TYPE STREQUAL Debug )
         set ( TRANSLATIONS_DIR "." )
@@ -87,6 +94,10 @@ project (${PROJECT_NAME})
 configure_file (
   "${PROJECT_SOURCE_DIR}/config.h.in"
   "${PROJECT_BINARY_DIR}/config.h"
+  )
+configure_file (
+  "${PROJECT_SOURCE_DIR}/tools/${PROJECT_NAME}.desktop.in"
+  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.desktop"
   )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR} src)
@@ -121,8 +132,15 @@ endif (WIN32)
 add_executable (${PROJECT_NAME} ${GUI_TYPE} ${HEADERS} ${SOURCES} ${UI_SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${RC_FILE} ${QM})
 target_link_libraries (${PROJECT_NAME} ${QT_LIBRARIES})
 
-install (TARGETS ${PROJECT_NAME} DESTINATION bin)
-add_custom_target (translations_target DEPENDS ${QM_FILES})
+if (UNIX AND NOT APPLE)
+    install (TARGETS ${PROJECT_NAME} DESTINATION bin)
+    install(FILES ${QM} DESTINATION share/${PROJECT_NAME}/translations)
+    install(FILES ${DESKTOP_FILE} DESTINATION share/applications)
 
-install(FILES ${QM} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/translations)
+    foreach (ICON_SIZE ${ICON_SIZES})
+        install (
+            FILES icons/${ICON_SIZE}/${PROJECT_NAME}.png 
+            DESTINATION share/icons/hicolor/${ICON_SIZE}/apps)
+    endforeach ()
+endif (UNIX AND NOT APPLE)
 

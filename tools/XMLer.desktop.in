@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=@PROJECT_NAME@
+GenericName=The simple XML viewer
+GenericName[ru]=Простой обозреватель XML
+Comment=Look your XML
+Comment=Посмотрите на ваши XML-файлы
+Icon=@PROJECT_NAME@
+Exec=@PROJECT_NAME@ %F
+MimeType=text/xml
+Categories=Qt;Utility;Viewer;
+Keywords=xml;viewer

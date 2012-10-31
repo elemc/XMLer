@@ -1,0 +1,14 @@
+#!/bin/sh
+
+APP_NAME=`cat ../CMakeLists.txt | grep PROJECT_NAME | head -n1 | cut -d "(" -f2 | cut -d ")" -f1 | cut -d " " -f2`
+APP_VERSION=`cat ../CMakeLists.txt | grep PROJECT_VERSION | head -n1 | cut -d "(" -f2 | cut -d ")" -f1 | cut -d " " -f2`
+
+echo "Generating source archive ${APP_NAME}-${APP_VERSION}"
+
+cd ../..
+cp -f -r ./$APP_NAME ./$APP_NAME-$APP_VERSION
+rm -rf ./$APP_NAME-$APP_VERSION/.git
+rm -rf ./$APP_NAME-$APP_VERSION/build
+rm -rf ./$APP_NAME-$APP_VERSION/${APP_NAME}.pro.user*
+tar cfj $APP_NAME-$APP_VERSION.tar.bz2 ./$APP_NAME-$APP_VERSION
+rm -rf ./$APP_NAME-$APP_VERSION
