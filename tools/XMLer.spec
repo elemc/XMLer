@@ -10,7 +10,7 @@ Source0:        http://repo.elemc.name/sources/%{name}-%{version}.tar.xz
 BuildRequires:  qt4-devel gcc-c++ cmake desktop-file-utils
 
 %description
-The program for storage and information management about passwords
+The simple XML viewer. Application for view XML files in tree-look. You may search in XML. Set bookmarks. Save XML in another encoding and/or with another formatter.
 
 %prep
 %setup -q
