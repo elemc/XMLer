@@ -25,10 +25,6 @@ if ( NOT DEFAULT_ENCODING )
   set ( DEFAULT_ENCODING "UTF-8" )
 endif ( NOT DEFAULT_ENCODING )
 
-if ( NOT TRANSLATIONS_DIR )
-  set ( TRANSLATIONS_DIR "." )
-endif ( NOT TRANSLATIONS_DIR )
-
 set (PROJECT_NAME XMLer)
 set (PROJECT_VERSION 0.0.1)
 set (HEADERS 
@@ -71,7 +67,17 @@ set (FORMS
   forms/documentpropertiesdialog.ui)
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
-set (ICONS icons/application-exit2.png)
+#set (ICONS icons/application-exit2.png)
+set (TRANS_FILES translations/XMLer_ru.ts)
+
+if ( NOT TRANSLATIONS_DIR )
+    if ( CMAKE_BUILD_TYPE STREQUAL Debug )
+        set ( TRANSLATIONS_DIR "." )
+    else ( CMAKE_BUILD_TYPE STREQUAL Debug )
+        set ( TRANSLATIONS_DIR ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/translations )
+    endif ( CMAKE_BUILD_TYPE STREQUAL Debug )
+endif ( NOT TRANSLATIONS_DIR )
+message (STATUS "Translations directory set to: ${TRANSLATIONS_DIR}")
 
 set (QT_USE_QTXML TRUE)
 set (QT_USE_QTNETWORK FALSE)
@@ -100,6 +106,9 @@ source_group ("Forms Files" FILES ${UI_SOURCES})
 source_group ("Generated Files" FILES ${MOC_SOURCES})
 source_group ("Resource Files" FILES ${QRC_SOURCES})
 
+# Translations
+QT4_ADD_TRANSLATION(QM ${TRANS_FILES})
+
 # Compile RC-file, only for Windows
 if (WIN32)
   set (GUI_TYPE WIN32)
@@ -109,7 +118,11 @@ if (WIN32)
 	-o ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.o )
 endif (WIN32)
 
-add_executable (${PROJECT_NAME} ${GUI_TYPE} ${HEADERS} ${SOURCES} ${UI_SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${RC_FILE})
+add_executable (${PROJECT_NAME} ${GUI_TYPE} ${HEADERS} ${SOURCES} ${UI_SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${RC_FILE} ${QM})
 target_link_libraries (${PROJECT_NAME} ${QT_LIBRARIES})
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)
+add_custom_target (translations_target DEPENDS ${QM_FILES})
+
+install(FILES ${QM} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/translations)
+

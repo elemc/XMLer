@@ -168,13 +168,13 @@ QVariant XMLerModel::headerData(int section, Qt::Orientation orientation, int ro
   if ( orientation == Qt::Horizontal ) {
     if ( role == Qt::DisplayRole ) {
       switch (section) {
-      case 0:
+      case 1:
         return QString();
         break;
       case 2:
         return tr("Local name");
         break;
-      case 1:
+      case 0:
         return tr("Qualified name");
         break;
       case 3:
@@ -231,7 +231,7 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
     case 2:
       return item->name();
       break;
-    case 1:
+    case 0:
       return item->qName();
       break;
     case 3:
@@ -242,9 +242,9 @@ QVariant XMLerModel::data(const QModelIndex &index, int role) const
     }
   }
   else if ( role == Qt::DecorationRole ) {
-    if ( index.column() == 1 )
+    if ( index.column() == 0 )
         return item->typeToIcon();
-    else if ( index.column() == 0 )
+    else if ( index.column() == 1 )
         return stateNodeIcon( item );
   }
   /* CLEANIT: not needed more

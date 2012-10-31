@@ -223,6 +223,33 @@ void MainWindow::resizeTreeColumns ()
     tree->resizeColumnToContents( 0 );
     tree->resizeColumnToContents( 1 );
 }
+void MainWindow::closeEvent ( QCloseEvent *event )
+{
+    bool result = checkCloseWindow ();
+    if ( result )
+        event->accept();
+    else
+        event->ignore();
+}
+bool MainWindow::checkCloseWindow () {
+    if ( model->isModified() ) {
+        QMessageBox::StandardButtons 
+            result = QMessageBox::question( this, 
+                        tr("Document not saved"), 
+                        tr("Document is changed, but the changes are not saved. Save changes before closing?"),
+                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+                        QMessageBox::Cancel );
+        if ( result == QMessageBox::Cancel )
+            return false;
+        else if ( result == QMessageBox::No )
+            return true;
+        else if ( result == QMessageBox::Yes ) {
+            return saveDocumentAction();
+        }
+    }
+
+    return true;    
+}
 
 /* Slots */
 void MainWindow::openDocumentAction()
@@ -256,16 +283,16 @@ void MainWindow::modelTouched()
 
   ui->actionSave->setDisabled ( !model->isModified() );
 }
-void MainWindow::saveAsDocumentAction()
+bool MainWindow::saveAsDocumentAction()
 {
   if ( isEmptyDocument() )
-    return;
+    return true;
 
   QString selectedFileName = QFileDialog::getSaveFileName ( this, tr("Select file for save"), QDir::currentPath(), tr("XML files (*.xml);;All files (*.*)") );
   if ( selectedFileName.isEmpty() )
-    return;
+    return false;
 
-  saveDocument ( selectedFileName );
+  return saveDocument ( selectedFileName );
 }
 void MainWindow::beginProgressModel ( QString message, qint64 totalSize )
 {
@@ -317,13 +344,11 @@ void MainWindow::indexExpanded ( const QModelIndex &index )
     Q_UNUSED(index);
     resizeTreeColumns();
 }
-void MainWindow::saveDocumentAction ()
+bool MainWindow::saveDocumentAction ()
 {
-  if ( model->isNewModel() ) {
-    saveAsDocumentAction();
-    return;
-  }
-  saveDocument ( model->fileName() );
+  if ( model->isNewModel() )
+    return saveAsDocumentAction();
+  return saveDocument ( model->fileName() );
 }
 void MainWindow::copyNodeAction ()
 {

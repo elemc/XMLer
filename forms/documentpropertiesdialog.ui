@@ -98,6 +98,10 @@
               </attribute>
              </widget>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="labelIndentNumber">
               <property name="text">

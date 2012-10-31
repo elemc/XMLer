@@ -18,8 +18,9 @@
 #include <QtGui/QProgressDialog>
 #include <QtGui/QLabel>
 #include <QtGui/QClipboard>
-#include <QtCore/QMimeData>
+#include <QtGui/QCloseEvent>
 #include <QtGui/QDockWidget>
+#include <QtCore/QMimeData>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
 #include "documentpropertiesdialog.h"
@@ -48,7 +49,6 @@ private:
   QDockWidget *findDock;
   XMLerFindWidget *findWidget;
   
-
   qint64 _progress_max;
   qint64 _progress_pos;
 
@@ -64,11 +64,14 @@ private:
   void expandRoot ();
   void resizeTreeColumns ();
 
+  bool checkCloseWindow ();
+  void closeEvent ( QCloseEvent *event );
+
 private slots:
   /* File menu slots */
   void openDocumentAction();
-  void saveDocumentAction();
-  void saveAsDocumentAction();
+  bool saveDocumentAction();
+  bool saveAsDocumentAction();
   void closeDocumentAction();
   void propertiesAction();
 

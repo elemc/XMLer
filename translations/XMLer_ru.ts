@@ -33,97 +33,97 @@
     <name>DocumentPropertiesDialog</name>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="17"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="274"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="279"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="27"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="282"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="287"/>
         <source>Main</source>
         <translation>Основные</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="41"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="275"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="280"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="51"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="276"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="281"/>
         <source>Version:</source>
         <translation>Версия:</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="63"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="277"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="282"/>
         <source>Auto formatting</source>
         <translation>Автоформатирование</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="73"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="278"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="283"/>
         <source>Indent</source>
         <translation>Отступ</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="81"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="279"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="284"/>
         <source>Spaces</source>
         <translation>Пробелами</translation>
     </message>
     <message>
         <location filename="../forms/documentpropertiesdialog.ui" line="94"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="280"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="285"/>
         <source>Tabs</source>
         <translation>Табуляцией</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="104"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="281"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="108"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="286"/>
         <source>Number of spaces:</source>
         <translation>Количество пробелов:</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="133"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="289"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="137"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="294"/>
         <source>Processing instructions</source>
         <translation>Инструкции обработки</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="146"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="283"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="150"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="288"/>
         <source>&amp;Add</source>
         <translation>&amp;Добавить</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="156"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="284"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="160"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="289"/>
         <source>&amp;Remove</source>
         <translation>&amp;Удалить</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="166"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="285"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="170"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="290"/>
         <source>&amp;Edit &gt;&gt;</source>
         <translation>&amp;Редактировать &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="193"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="286"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="197"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="291"/>
         <source>Edit</source>
         <translation>Редактирование</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="199"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="287"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="203"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="292"/>
         <source>Target:</source>
         <translation>Цель:</translation>
     </message>
     <message>
-        <location filename="../forms/documentpropertiesdialog.ui" line="209"/>
-        <location filename="../build/ui_documentpropertiesdialog.h" line="288"/>
+        <location filename="../forms/documentpropertiesdialog.ui" line="213"/>
+        <location filename="../build/ui_documentpropertiesdialog.h" line="293"/>
         <source>Data:</source>
         <translation>Данные:</translation>
     </message>
@@ -160,139 +160,139 @@
     <name>MainWindow</name>
     <message>
         <location filename="../forms/mainwindow.ui" line="14"/>
-        <location filename="../build/ui_mainwindow.h" line="160"/>
+        <location filename="../build/ui_mainwindow.h" line="159"/>
         <source>XMLer</source>
         <translation>XMLer</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="34"/>
-        <location filename="../build/ui_mainwindow.h" line="178"/>
+        <location filename="../build/ui_mainwindow.h" line="177"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="49"/>
-        <location filename="../build/ui_mainwindow.h" line="179"/>
+        <location filename="../build/ui_mainwindow.h" line="178"/>
         <source>&amp;Edit</source>
         <translation>&amp;Правка</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="59"/>
-        <location filename="../build/ui_mainwindow.h" line="180"/>
+        <location filename="../build/ui_mainwindow.h" line="179"/>
         <source>&amp;Bookmarks</source>
         <translation>&amp;Закладки</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="68"/>
-        <location filename="../build/ui_mainwindow.h" line="181"/>
+        <location filename="../build/ui_mainwindow.h" line="180"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="81"/>
-        <location filename="../build/ui_mainwindow.h" line="182"/>
+        <location filename="../build/ui_mainwindow.h" line="181"/>
         <source>toolBar</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="102"/>
-        <location filename="../build/ui_mainwindow.h" line="161"/>
+        <location filename="../build/ui_mainwindow.h" line="160"/>
         <source>E&amp;xit</source>
         <translation>Вы&amp;ход</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="110"/>
-        <location filename="../build/ui_mainwindow.h" line="162"/>
+        <location filename="../build/ui_mainwindow.h" line="161"/>
         <source>&amp;Open</source>
         <translation>&amp;Отрыть</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="115"/>
-        <location filename="../build/ui_mainwindow.h" line="163"/>
+        <location filename="../build/ui_mainwindow.h" line="162"/>
         <source>&amp;New</source>
         <translation>&amp;Новый</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="120"/>
-        <location filename="../build/ui_mainwindow.h" line="164"/>
+        <location filename="../build/ui_mainwindow.h" line="163"/>
         <source>&amp;Close</source>
         <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="125"/>
-        <location filename="../build/ui_mainwindow.h" line="165"/>
+        <location filename="../build/ui_mainwindow.h" line="164"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="130"/>
-        <location filename="../build/ui_mainwindow.h" line="166"/>
+        <location filename="../build/ui_mainwindow.h" line="165"/>
         <source>Save &amp;As...</source>
         <translation>Сохранить &amp;как...</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="135"/>
-        <location filename="../build/ui_mainwindow.h" line="167"/>
+        <location filename="../build/ui_mainwindow.h" line="166"/>
         <source>&amp;Properties</source>
         <translation>&amp;Свойства</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="140"/>
-        <location filename="../build/ui_mainwindow.h" line="168"/>
+        <location filename="../build/ui_mainwindow.h" line="167"/>
         <source>&amp;Copy</source>
         <translation>&amp;Копировать</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="145"/>
-        <location filename="../build/ui_mainwindow.h" line="169"/>
+        <location filename="../build/ui_mainwindow.h" line="168"/>
         <source>&amp;Find</source>
         <translation>&amp;Найти</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="150"/>
-        <location filename="../build/ui_mainwindow.h" line="170"/>
+        <location filename="../build/ui_mainwindow.h" line="169"/>
         <source>Find &amp;next</source>
         <translation>Найти &amp;следующий</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="155"/>
-        <location filename="../build/ui_mainwindow.h" line="171"/>
+        <location filename="../build/ui_mainwindow.h" line="170"/>
         <source>Find &amp;previous</source>
         <translation>Найти &amp;предедущий</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="160"/>
-        <location filename="../build/ui_mainwindow.h" line="172"/>
+        <location filename="../build/ui_mainwindow.h" line="171"/>
         <source>Toggle bookmark</source>
         <translation>Переключить закладку</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="163"/>
-        <location filename="../build/ui_mainwindow.h" line="173"/>
+        <location filename="../build/ui_mainwindow.h" line="172"/>
         <source>Ctrl+B</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="168"/>
-        <location filename="../build/ui_mainwindow.h" line="174"/>
+        <location filename="../build/ui_mainwindow.h" line="173"/>
         <source>Goto &amp;next</source>
         <translation>Перейти к &amp;следующей</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="173"/>
-        <location filename="../build/ui_mainwindow.h" line="175"/>
+        <location filename="../build/ui_mainwindow.h" line="174"/>
         <source>Goto &amp;previous</source>
         <translation>Перейти к &amp;предыдущей</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="178"/>
-        <location filename="../build/ui_mainwindow.h" line="176"/>
+        <location filename="../build/ui_mainwindow.h" line="175"/>
         <source>&amp;Collapse all</source>
         <translation>&amp;Свернуть все</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="183"/>
-        <location filename="../build/ui_mainwindow.h" line="177"/>
+        <location filename="../build/ui_mainwindow.h" line="176"/>
         <source>&amp;Expand all</source>
         <translation>&amp;Развернуть все</translation>
     </message>
@@ -312,38 +312,48 @@
         <translation>Ошибка при записи XML документа</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="230"/>
+        <location filename="../src/mainwindow.cpp" line="238"/>
+        <source>Document not saved</source>
+        <translation>Документ не сохранен</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="239"/>
+        <source>Document is changed, but the changes are not saved. Save changes before closing?</source>
+        <translation>Документ изменен, но не сохранен. Сохранить изменения перед выходом?</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="257"/>
         <source>Select file for open</source>
         <translation>Выберите файл для загрузки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="230"/>
-        <location filename="../src/mainwindow.cpp" line="264"/>
+        <location filename="../src/mainwindow.cpp" line="257"/>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <source>XML files (*.xml);;All files (*.*)</source>
         <translation>XML файлы(*.xml);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>Input/output error</source>
         <translation>Ошибка ввода/вывода</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>File %1 doesn&apos;t exist!</source>
         <translation>Файл %1 не существует!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="264"/>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <source>Select file for save</source>
         <translation>Выберите файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="296"/>
+        <location filename="../src/mainwindow.cpp" line="323"/>
         <source>File operation error</source>
         <translation>Ошибка операций с файлом</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="300"/>
+        <location filename="../src/mainwindow.cpp" line="327"/>
         <source>File operation warning</source>
         <translation>Предупреждение при операциях с файлом</translation>
     </message>
