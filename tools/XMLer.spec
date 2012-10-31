@@ -33,7 +33,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor
 %{_datadir}/%{name}/translations
-#%doc
+%doc README.md
 
 %changelog
 * Thu Nov 01 2012 Alexei Panov <me AT elemc DOT name> 0.1-1
