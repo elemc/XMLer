@@ -26,7 +26,7 @@ if ( NOT DEFAULT_ENCODING )
 endif ( NOT DEFAULT_ENCODING )
 
 set (PROJECT_NAME XMLer)
-set (PROJECT_VERSION 0.0.1)
+set (PROJECT_VERSION 0.1)
 set (HEADERS 
   src/xmlerapplication.h
   src/mainwindow.h
