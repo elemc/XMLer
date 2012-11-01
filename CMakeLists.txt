@@ -63,7 +63,8 @@ set (FORMS
   forms/documentpropertiesdialog.ui)
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
-set (TRANS_FILES translations/XMLer_ru.ts)
+set (LANGUAGES ru)
+#set (TRANS_FILES translations/XMLer_ru.ts)
 set (DESKTOP_FILE ${CMAKE_BINARY_DIR}/XMLer.desktop)
 set (ICON_SIZES
   16x16
@@ -97,10 +98,6 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/tools/${PROJECT_NAME}.desktop.in"
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.desktop"
   )
-configure_file (
-  "${PROJECT_SOURCE_DIR}/tools/Info.plist.in"
-  "${PROJECT_BINARY_DIR}/Info.plist"
-  )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR} src)
 if (WIN32)
@@ -118,6 +115,11 @@ source_group ("Source Files" FILES ${SOURCES})
 source_group ("Forms Files" FILES ${UI_SOURCES})
 source_group ("Generated Files" FILES ${MOC_SOURCES})
 source_group ("Resource Files" FILES ${QRC_SOURCES})
+
+foreach (LANG ${LANGUAGES})
+    set (TRANS_FILES ${TRANS_FILES} translations/XMLer_${LANG}.ts)
+    set (QT_TRANS_FILES ${QT_TRANS_FILES} ${QT_TRANSLATIONS_DIR}/qt_${LANG}.qm)
+endforeach (LANG ${LANGUAGES})
 
 # Translations
 QT4_ADD_TRANSLATION(QM ${TRANS_FILES})
@@ -165,6 +167,7 @@ if ( APPLE )
         COMMAND mkdir -p ${CMAKE_INSTALL_PREFIX}/Resources/translations
         COMMAND install -m 644 ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns ${CMAKE_INSTALL_PREFIX}/Resources/
         COMMAND install -m 644 ${QM} ${CMAKE_INSTALL_PREFIX}/Resources/translations/
+        COMMAND install -m 644 ${QT_TRANS_FILES} ${CMAKE_INSTALL_PREFIX}/Resources/translations/
         COMMAND macdeployqt ${BUNDLE_DIR})
 
     set (DMG_DIR ${CMAKE_BINARY_DIR}/${PROJECT_NAME})

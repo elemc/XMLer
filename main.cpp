@@ -39,14 +39,15 @@ int main ( int argc, char **argv )
   if ( XMLer_languages().contains ( locale.name().toLower() ) ) {
     QString trans_name = QString( "XMLer_%1" ).arg ( locale.name() );  
     QString qt_name = QString( "qt_%1").arg ( locale.name() );
-    #ifdef Q_OS_MAC
-        QDir trans_dir = QDir( );
-        trans.load ( trans_name, app.applicationDirPath() + "/../Resources/translations/" );
+    #ifdef Q_OS_DARWIN
+        QString trans_dir = app.applicationDirPath() + "/../Resources/translations/";
+        trans.load ( trans_name, trans_dir);
+        qt_trans.load( qt_name, trans_dir);
     #else
         trans.load( trans_name, QString( XMLER_TRANSLATIONS_DIR ) );
+        qt_trans.load( qt_name, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) );
     #endif
-    qt_trans.load( qt_name, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) );
-  }
+      }
   app.installTranslator( &qt_trans );
   app.installTranslator( &trans );
 
