@@ -64,7 +64,6 @@ set (FORMS
 set (RESOURCES xmler.qrc)
 set (DOC_FILES README)
 set (LANGUAGES ru)
-#set (TRANS_FILES translations/XMLer_ru.ts)
 set (DESKTOP_FILE ${CMAKE_BINARY_DIR}/XMLer.desktop)
 set (ICON_SIZES
   16x16
