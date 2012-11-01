@@ -24,10 +24,13 @@ $ cmake -DCMAKE_BUILD_TYPE=Release ..
 ### Build
 $ make
 
-### Installation
+### Installation *NIX
 $ su -c 'make install'
 or
 $ sudo make install
+
+### MacOS X create dmg
+$ make dmg
 
 Bugs
 ----
