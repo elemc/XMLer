@@ -43,6 +43,10 @@ int main ( int argc, char **argv )
         QString trans_dir = app.applicationDirPath() + "/../Resources/translations/";
         trans.load ( trans_name, trans_dir);
         qt_trans.load( qt_name, trans_dir);
+    #elif defined(Q_OS_WIN32)
+        QString trans_dir = app.applicationDirPath() + "/translations/";
+        trans.load ( trans_name, trans_dir);
+        qt_trans.load( qt_name, trans_dir);
     #else
         trans.load( trans_name, QString( XMLER_TRANSLATIONS_DIR ) );
         qt_trans.load( qt_name, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) );
