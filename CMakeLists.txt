@@ -129,6 +129,8 @@ if (WIN32)
   ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.o
 	COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.rc 
 	-o ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.o )
+elseif ( APPLE )
+    set ( GUI_TYPE MACOSX_BUNDLE )
 endif (WIN32)
 
 add_executable (${PROJECT_NAME} ${GUI_TYPE} ${HEADERS} ${SOURCES} ${UI_SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${RC_FILE} ${QM})
@@ -147,20 +149,33 @@ if (UNIX AND NOT APPLE)
 endif (UNIX AND NOT APPLE)
 
 if ( APPLE )
-    set (CPACK_GENERATOR "Bundle")
-    set (CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}")
-    set (CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns")
-    set (CPACK_BUNDLE_NAME "${PROJECT_NAME}")
-    set (CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns")
-    set (CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
-    set (CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_NAME})
-    
-    install ( FILES ${QM} DESTINATION translations)
-    foreach (ICON_SIZE ${ICON_SIZES})
-        install (
-            FILES icons/${ICON_SIZE}/${PROJECT_NAME}.png 
-            DESTINATION icons/${ICON_SIZE}/apps)
-    endforeach ()
+    # MACOSX sets
+    set (MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}")
+    set (MACOSX_BUNDLE_INFO_STRING "The simple XML viewer")
+    set (MACOSX_BUNDLE_GUI_IDENTIFIER "name.elemc.${PROJECT_NAME}")
+    set (MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}")
+    set (MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
+    set (MACOSX_BUNDLE_VERSION "${PROJECT_VERSION}")
+    set (MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}")
+
+    set (BUNDLE_DIR ${MACOSX_BUNDLE_BUNDLE_NAME}.app)
+    set (CMAKE_INSTALL_PREFIX ${BUNDLE_DIR}/Contents)
+
+    add_custom_command (TARGET ${PROJECT_NAME}
+        COMMAND mkdir -p ${CMAKE_INSTALL_PREFIX}/Resources/translations
+        COMMAND install -m 644 ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns ${CMAKE_INSTALL_PREFIX}/Resources/
+        COMMAND install -m 644 ${QM} ${CMAKE_INSTALL_PREFIX}/Resources/translations/
+        COMMAND macdeployqt ${BUNDLE_DIR})
+
+    set (DMG_DIR ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+    add_custom_target(dmg
+        COMMAND mkdir -p ${DMG_DIR}
+        COMMAND cp -R ${BUNDLE_DIR} ${DMG_DIR}/
+        COMMAND ln -sf /Applications ${DMG_DIR}
+        COMMAND cp ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns .VolumeIcon.icns
+        COMMAND hdiutil create ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.dmg -srcfolder ${DMG_DIR}
+        DEPENDS ${PROJECT_NAME}
+        COMMENT "Create DMG image"
+    )
 endif ( APPLE )
-INCLUDE(CPack)
 
