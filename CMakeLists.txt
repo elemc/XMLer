@@ -9,10 +9,6 @@
 
 cmake_minimum_required (VERSION 2.6)
 
-if (NOT CMAKE_INSTALL_PREFIX)
-  set (CMAKE_INSTALL_PREFIX /usr/local)
-endif ()
-
 if (NOT DEBUG)
   if ( CMAKE_BUILD_TYPE STREQUAL Debug )
     set (DEBUG 1)
@@ -80,8 +76,10 @@ set (ICON_SIZES
 if ( NOT TRANSLATIONS_DIR )
     if ( CMAKE_BUILD_TYPE STREQUAL Debug )
         set ( TRANSLATIONS_DIR "." )
-    else ( CMAKE_BUILD_TYPE STREQUAL Debug )
+    elseif ( NOT APPLE )
         set ( TRANSLATIONS_DIR ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/translations )
+    elseif ( APPLE )
+        set ( TRANSLATIONS_DIR Resource/translations )
     endif ( CMAKE_BUILD_TYPE STREQUAL Debug )
 endif ( NOT TRANSLATIONS_DIR )
 message (STATUS "Translations directory set to: ${TRANSLATIONS_DIR}")
@@ -98,6 +96,10 @@ configure_file (
 configure_file (
   "${PROJECT_SOURCE_DIR}/tools/${PROJECT_NAME}.desktop.in"
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.desktop"
+  )
+configure_file (
+  "${PROJECT_SOURCE_DIR}/tools/Info.plist.in"
+  "${PROJECT_BINARY_DIR}/Info.plist"
   )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR} src)
@@ -143,4 +145,22 @@ if (UNIX AND NOT APPLE)
             DESTINATION share/icons/hicolor/${ICON_SIZE}/apps)
     endforeach ()
 endif (UNIX AND NOT APPLE)
+
+if ( APPLE )
+    set (CPACK_GENERATOR "Bundle")
+    set (CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}")
+    set (CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns")
+    set (CPACK_BUNDLE_NAME "${PROJECT_NAME}")
+    set (CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns")
+    set (CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
+    set (CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_NAME})
+    
+    install ( FILES ${QM} DESTINATION translations)
+    foreach (ICON_SIZE ${ICON_SIZES})
+        install (
+            FILES icons/${ICON_SIZE}/${PROJECT_NAME}.png 
+            DESTINATION icons/${ICON_SIZE}/apps)
+    endforeach ()
+endif ( APPLE )
+INCLUDE(CPack)
 
