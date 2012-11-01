@@ -9,28 +9,48 @@ Installation
 
 ### Requires
 - C/C++ compiler;
-- cmake >= 2.6 ( www.cmake.org );
-- Qt >= 4.5 ( qt-project.org ).
+- cmake >= 2.6 ( http://www.cmake.org );
+- Qt >= 4.5 ( http://qt-project.org );
+- git - if you have download source from git (http://git-scm.com/).
 
-### Download
+### Download ( git )
+For git version:
 $ git clone git://github.com/elemc/XMLer.git
-$ cd XMLer
+
+For zip version:
+https://github.com/elemc/XMLer/zipball/master
+
+For tar.gz version:
+https://github.com/elemc/XMLer/tarball/master
 
 ### Configure
+cd source root directory
 $ mkdir build 
 $ cd build
 $ cmake -DCMAKE_BUILD_TYPE=Release ..
 
-### Build
-$ make
-
-### Installation *NIX
-$ su -c 'make install'
+### UNIX build (not OSX)
+$ gmake                     # this command is compile sources
+$ su -c 'gmake install'     # and this command install binaries
 or
-$ sudo make install
+$ sudo gmake install
 
-### MacOS X create dmg
-$ make dmg
+### Mac OS X
+$ make                      # this command compile the sources and make app bundle
+$ make dmg                  # this command make DMG image
+
+### Windows (MS C++ Compiler)
+$ nmake
+$ nmake install             # this command create directory build/Release with executable, libraries and translations
+
+### Windows (MinGW)
+$ make
+$ make install              # this command create directory build/Release with executable, libraries and translations
+
+### cmake local variables
+- DEBUG                     - enable/disable #include <QDebug> (automatic enable/disable by CMAKE_BUILD_TYPE)
+- DEFUALT_ENCODING          - set default encoding for application
+- TRANSLATIONS_DIR          - set directory for local application translation files (only UNIX, not OSX)
 
 Bugs
 ----
@@ -42,5 +62,5 @@ I hope will enough time to make editing XML in the application.
 
 Thanks
 ------
-- perchibald for main icon;
-- oxygen icon theme authors for icon set (http://www.oxygen-icons.org).
+- to perchibald for main icon;
+- to the authors icon theme "oxygen" (http://www.oxygen-icons.org).
