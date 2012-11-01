@@ -36,3 +36,8 @@ Please send me bugs and feature request here https://github.com/elemc/XMLer/issu
 TODO
 ----
 I hope will enough time to make editing XML in the application.
+
+Thanks
+------
+- perchibald for main icon;
+- oxygen icon theme authors for icon set (http://www.oxygen-icons.org).

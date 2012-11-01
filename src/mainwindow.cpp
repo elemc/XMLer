@@ -79,6 +79,8 @@ void MainWindow::initialActionsShortcuts ()
   ui->actionFind->setShortcut           ( QKeySequence ( QKeySequence::Find ) );
   ui->actionFindNext->setShortcut       ( QKeySequence ( QKeySequence::FindNext ) );
   ui->actionFindPrevious->setShortcut   ( QKeySequence ( QKeySequence::FindPrevious ) );
+
+  /* View menu */
   ui->actionBookmarkGotoNext->setShortcut( QKeySequence ( QKeySequence::Forward ) );
   ui->actionBookmarkGotoPrevious->setShortcut( QKeySequence ( QKeySequence::Back ) );
 }
