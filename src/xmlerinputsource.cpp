@@ -15,6 +15,9 @@ XMLerInputSource::XMLerInputSource (QIODevice *device, QObject *parent):
   _data_size = device->size();
   _data_pos = 0;
   _step = _data_size / 100;
+
+  if ( _step == 0 )
+    _step = 1;
 }
 
 XMLerInputSource::~XMLerInputSource ()
