@@ -177,7 +177,7 @@ if ( APPLE )
         COMMAND cp -R ${BUNDLE_DIR} ${DMG_DIR}/
         COMMAND ln -sf /Applications ${DMG_DIR}
         COMMAND cp ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns .VolumeIcon.icns
-        COMMAND hdiutil create ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.dmg -srcfolder ${DMG_DIR}
+        COMMAND hdiutil create ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.dmg -srcfolder ${DMG_DIR}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Create DMG image"
     )
