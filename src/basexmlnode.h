@@ -9,9 +9,9 @@
 #ifndef BASEXMLNODE_H
 #define BASEXMLNODE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtGui/QIcon>
+#include <QObject>
+#include <QList>
+#include <QIcon>
 
 class BaseXMLNode : public QObject
 {

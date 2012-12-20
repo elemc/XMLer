@@ -11,12 +11,12 @@
 
 #include "config.h"
 
-#include <QtGui/QDialog>
-#include <QtCore/QTextCodec>
-#include <QtCore/QList>
-#include <QtCore/QStringList>
-#include <QtGui/QStringListModel>
-#include <QtCore/QByteArray>
+#include <QDialog>
+#include <QTextCodec>
+#include <QList>
+#include <QStringList>
+#include <QStringListModel>
+#include <QByteArray>
 #include "documentxmlnode.h"
 
 namespace Ui {

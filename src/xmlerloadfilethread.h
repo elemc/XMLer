@@ -9,10 +9,10 @@
 #ifndef XMLERLOADFILETHREAD_H
 #define XMLERLOADFILETHREAD_H
 
-#include <QtXml/QXmlSimpleReader>
-#include <QtXml/QXmlParseException>
-#include <QtXml/QXmlInputSource>
-#include <QtXml/QXmlStreamReader>
+#include <QXmlSimpleReader>
+#include <QXmlParseException>
+#include <QXmlInputSource>
+#include <QXmlStreamReader>
 
 #include "xmlerfileoperthread.h"
 

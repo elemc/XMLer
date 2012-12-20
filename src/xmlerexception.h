@@ -9,8 +9,8 @@
 #ifndef XMLEREXCEPTION_H
 #define XMLEREXCEPTION_H
 
-#include <QtCore/QSharedData>
-#include <QtXml/QXmlParseException>
+#include <QSharedData>
+#include <QXmlParseException>
 
 namespace XMLer {
   enum ExceptionType { Error=0, FatalError=1, Warning=2 };

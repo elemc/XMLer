@@ -9,7 +9,7 @@
 #ifndef XMLERFILEOPERTHREAD_H
 #define XMLERFILEOPERTHREAD_H
 
-#include <QtCore/QThread>
+#include <QThread>
 #include "documentxmlnode.h"
 
 class XMLerFileOperThread : public QThread

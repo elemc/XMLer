@@ -1,0 +1,29 @@
+set (QT_USE_QTXML TRUE)
+set (QT_USE_QTNETWORK FALSE)
+
+if (WIN32)
+  find_package (Qt4 COMPONENTS QtMain QtCore QtGui QtXml REQUIRED)
+else (WIN32)
+  find_package (Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED)
+endif (WIN32)
+
+include (${QT_USE_FILE})
+qt4_add_resources (QRC_SOURCES ${RESOURCES})
+qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
+qt4_wrap_ui (UI_SOURCES ${FORMS})
+
+foreach (LANG ${LANGUAGES})
+    set (TRANS_FILES ${TRANS_FILES} translations/XMLer_${LANG}.ts)
+    set (QT_TRANS_FILES ${QT_TRANS_FILES} ${QT_TRANSLATIONS_DIR}/qt_${LANG}.qm)
+endforeach (LANG ${LANGUAGES})
+
+# Translations
+QT4_ADD_TRANSLATION(QM ${TRANS_FILES})
+
+set (QT4_BUILD 1)
+set (BUILD_PROJECT_LIBRARIES ${QT_LIBRARIES})
+
+# where is macdeployqt
+execute_process( COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_BINS OUTPUT_VARIABLE _qt_bin_dir OUTPUT_STRIP_TRAILING_WHITESPACE )
+set(MACDEPLOYQT ${_qt_bin_dir}/macdeployqt)
+

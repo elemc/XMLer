@@ -11,16 +11,16 @@
 
 #include "config.h"
 
-#include <QtGui/QMainWindow>
-#include <QtGui/QTreeView>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QProgressDialog>
-#include <QtGui/QLabel>
-#include <QtGui/QClipboard>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QDockWidget>
-#include <QtCore/QMimeData>
+#include <QMainWindow>
+#include <QTreeView>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QProgressDialog>
+#include <QLabel>
+#include <QClipboard>
+#include <QCloseEvent>
+#include <QDockWidget>
+#include <QMimeData>
 #include "xmlermodel.h"
 #include "xmlerexception.h"
 #include "documentpropertiesdialog.h"

@@ -11,8 +11,8 @@
 
 #include "config.h"
 
-#include <QtCore/QObject>
-#include <QtXml/QXmlInputSource>
+#include <QObject>
+#include <QXmlInputSource>
 
 class XMLerInputSource : public QObject, public QXmlInputSource
 {

@@ -27,10 +27,12 @@ QStringList XMLer_languages ()
 int main ( int argc, char **argv )
 {
   XMLerApplication app( argc, argv );
-  
+
+#ifdef QT4_BUILD
   /* set utf-8 codec for tr */
   QTextCodec *utfCodec = QTextCodec::codecForName("UTF-8");
   QTextCodec::setCodecForTr(utfCodec);
+#endif
 
   /* translator */
   QTranslator trans;

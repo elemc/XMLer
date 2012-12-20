@@ -13,8 +13,8 @@
 #include "attrxmlnode.h"
 #include "dataxmlnode.h"
 
-#include <QtXml/QXmlAttributes>
-#include <QtCore/QMap>
+#include <QXmlAttributes>
+#include <QMap>
 
 class ElementXMLNode : public BaseXMLNode
 {

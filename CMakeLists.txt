@@ -7,7 +7,7 @@
 # Description:
 #
 
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8.3)
 
 if (NOT DEBUG)
   if ( CMAKE_BUILD_TYPE STREQUAL Debug )
@@ -20,6 +20,22 @@ endif (NOT DEBUG)
 if ( NOT DEFAULT_ENCODING )
   set ( DEFAULT_ENCODING "UTF-8" )
 endif ( NOT DEFAULT_ENCODING )
+
+if ( NOT BUILD_QT_VERSION )
+  set (BUILD_QT_VERSION 4)
+endif ( NOT BUILD_QT_VERSION )
+
+if ( BUILD_QT_VERSION STREQUAL 4 )
+    set (QT4_BUILD 1)
+    set (QT5_BUILD 0)
+else ( BUILD_QT_VERSION STREQUAL 4 )
+    set (QT4_BUILD 0)
+    set (QT5_BUILD 1)
+endif ( BUILD_QT_VERSION STREQUAL 4 )
+
+message (STATUS "Build with QT version: ${BUILD_QT_VERSION}")
+message (STATUS "QT4 build: ${QT4_BUILD}")
+message (STATUS "QT5 build: ${QT5_BUILD}")
 
 set (PROJECT_NAME XMLer)
 set (PROJECT_VERSION 0.1)
@@ -86,9 +102,6 @@ if ( NOT TRANSLATIONS_DIR )
 endif ( NOT TRANSLATIONS_DIR )
 message (STATUS "Translations directory set to: ${TRANSLATIONS_DIR}")
 
-set (QT_USE_QTXML TRUE)
-set (QT_USE_QTNETWORK FALSE)
-
 project (${PROJECT_NAME})
 
 configure_file (
@@ -101,29 +114,12 @@ configure_file (
   )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR} src)
-if (WIN32)
-  find_package (Qt4 COMPONENTS QtMain QtCore QtGui QtXml REQUIRED)
-else (WIN32)
-  find_package (Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED)
-endif (WIN32)
 
-include (${QT_USE_FILE})
-qt4_add_resources (QRC_SOURCES ${RESOURCES})
-qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
-qt4_wrap_ui (UI_SOURCES ${FORMS})
 source_group ("Header Files" FILES ${HEADERS})
 source_group ("Source Files" FILES ${SOURCES})
 source_group ("Forms Files" FILES ${UI_SOURCES})
 source_group ("Generated Files" FILES ${MOC_SOURCES})
 source_group ("Resource Files" FILES ${QRC_SOURCES})
-
-foreach (LANG ${LANGUAGES})
-    set (TRANS_FILES ${TRANS_FILES} translations/XMLer_${LANG}.ts)
-    set (QT_TRANS_FILES ${QT_TRANS_FILES} ${QT_TRANSLATIONS_DIR}/qt_${LANG}.qm)
-endforeach (LANG ${LANGUAGES})
-
-# Translations
-QT4_ADD_TRANSLATION(QM ${TRANS_FILES})
 
 # Compile RC-file, only for Windows
 if (WIN32)
@@ -136,8 +132,15 @@ elseif ( APPLE )
     set ( GUI_TYPE MACOSX_BUNDLE )
 endif (WIN32)
 
+if ( QT4_BUILD )
+    include("CMakeQt4.txt")
+else ( QT4_BUILD )
+    include("CMakeQt5.txt")
+endif( QT4_BUILD )
+
 add_executable (${PROJECT_NAME} ${GUI_TYPE} ${HEADERS} ${SOURCES} ${UI_SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${RC_FILE} ${QM})
-target_link_libraries (${PROJECT_NAME} ${QT_LIBRARIES})
+target_link_libraries (${PROJECT_NAME} ${BUILD_PROJECT_LIBRARIES})
+#qt5_use_modules(${PROJECT_NAME} Core Gui Widgets Xml)
 
 if (UNIX AND NOT APPLE)
     install (TARGETS ${PROJECT_NAME} DESTINATION bin)
@@ -169,7 +172,7 @@ if ( APPLE )
         COMMAND install -m 644 ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns ${CMAKE_INSTALL_PREFIX}/Resources/
         COMMAND install -m 644 ${QM} ${CMAKE_INSTALL_PREFIX}/Resources/translations/
         COMMAND install -m 644 ${QT_TRANS_FILES} ${CMAKE_INSTALL_PREFIX}/Resources/translations/
-        COMMAND macdeployqt ${BUNDLE_DIR})
+        COMMAND ${MACDEPLOYQT} ${BUNDLE_DIR})
 
     set (DMG_DIR ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
     add_custom_target(dmg

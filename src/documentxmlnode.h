@@ -11,10 +11,10 @@
 
 #include "config.h"
 
-#include <QtXml/QXmlStreamWriter>
-#include <QtCore/QTextCodec>
-#include <QtCore/QFile>
-#include <QtCore/QMap>
+#include <QXmlStreamWriter>
+#include <QTextCodec>
+#include <QFile>
+#include <QMap>
 #include "basexmlnode.h"
 #include "elementxmlnode.h"
 #include "attrxmlnode.h"

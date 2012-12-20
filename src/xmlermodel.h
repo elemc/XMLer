@@ -11,8 +11,8 @@
 
 #include "config.h"
 
-#include <QtCore/QAbstractItemModel>
-#include <QtGui/QBrush>
+#include <QAbstractItemModel>
+#include <QBrush>
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "xmlerloadfilethread.h"

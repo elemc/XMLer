@@ -29,6 +29,12 @@ $ mkdir build
 $ cd build
 $ cmake -DCMAKE_BUILD_TYPE=Release ..
 
+### Configure for Qt5
+cd source root directory
+$ mkdir build 
+$ cd build
+$ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=<QT5DIR>/lib/cmake -DBUILD_QT_VERSION=5 ..
+
 ### UNIX build (not OSX)
 $ gmake                     # this command is compile sources
 $ su -c 'gmake install'     # and this command install binaries

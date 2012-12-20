@@ -11,7 +11,7 @@
 
 #include "config.h"
 
-#include <QtCore/QBuffer>
+#include <QBuffer>
 #include "xmlerfileoperthread.h"
 #include "basexmlnode.h"
 #include "elementxmlnode.h"

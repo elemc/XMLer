@@ -9,12 +9,12 @@
 #ifndef XMLERFINDWIDGET_H
 #define XMLERFINDWIDGET_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtCore/QList>
+#include <QWidget>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
+#include <QList>
 #include "basexmlnode.h"
 
 class XMLerFindWidget : public QWidget

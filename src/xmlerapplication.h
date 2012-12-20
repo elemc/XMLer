@@ -11,8 +11,8 @@
 
 #include "config.h"
 
-#include <QtGui/QApplication>
-#include <QtCore/QFile>
+#include <QApplication>
+#include <QFile>
 #include "mainwindow.h"
 
 class XMLerApplication : public QApplication

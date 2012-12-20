@@ -1,0 +1,39 @@
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_OSX_ARCHITECTURES x86_64)
+
+find_package (Qt5Widgets REQUIRED)
+find_package (Qt5Xml REQUIRED)
+find_package (Qt5LinguistTools REQUIRED)
+
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS})
+
+qt5_add_resources (QRC_SOURCES ${RESOURCES})
+qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
+qt5_wrap_ui (UI_SOURCES ${FORMS})
+
+# Translations
+# Get translations directory
+get_target_property(_qmake Qt5::qmake LOCATION)
+execute_process( COMMAND ${_qmake} -query QT_INSTALL_TRANSLATIONS OUTPUT_VARIABLE QT_TRANSLATIONS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE )
+
+foreach (LANG ${LANGUAGES})
+    set (TRANS_FILES ${TRANS_FILES} translations/XMLer_${LANG}.ts)
+    set (QT_TRANS_FILES ${QT_TRANS_FILES} ${QT_TRANSLATIONS_DIR}/qtbase_${LANG}.qm)
+endforeach (LANG ${LANGUAGES})
+qt5_add_translation(QM ${TRANS_FILES})
+
+if (WIN32)
+    set (BUILD_PROJECT_LIBRARIES ${Qt5Widgets_LIBRARIES} ${Qt5Xml_LIBRARIES} ${Qt5Core_QTMAIN_LIBRARIES})
+else (WIN32)
+    set (BUILD_PROJECT_LIBRARIES ${Qt5Widgets_LIBRARIES} ${Qt5Xml_LIBRARIES}) 
+endif (WIN32)
+
+add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Xml_DEFINITIONS})
+
+set (QT5_BUILD 1)
+
+# where is macdeployqt
+execute_process( COMMAND ${_qmake} -query QT_INSTALL_BINS OUTPUT_VARIABLE _qt_bin_dir OUTPUT_STRIP_TRAILING_WHITESPACE )
+set(MACDEPLOYQT ${_qt_bin_dir}/macdeployqt)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Core_EXECUTABLE_COMPILE_FLAGS}")
+

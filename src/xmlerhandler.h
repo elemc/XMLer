@@ -11,8 +11,8 @@
 
 #include "config.h"
 
-#include <QtXml/QXmlDefaultHandler>
-#include <QtCore/QMap>
+#include <QXmlDefaultHandler>
+#include <QMap>
 #include "basexmlnode.h"
 #include "documentxmlnode.h"
 #include "elementxmlnode.h"
