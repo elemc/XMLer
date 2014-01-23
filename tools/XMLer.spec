@@ -4,7 +4,7 @@
 
 Name:           XMLer
 Version:        0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The simple XML viewer
 
 License:        GPLv2+
@@ -46,6 +46,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %doc README.md
 
 %changelog
+* Thu Jan 23 2014 Alexei Panov <me AT elemc DOT name> 0.1-3
+-  change SPEC file for OpenSUSE support
+
 * Thu Jan 23 2014 Alexei Panov <me AT elemc DOT name> 0.1-2
 -  change minimum cmake version for older distribution
 
