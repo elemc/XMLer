@@ -34,16 +34,14 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 %make_install
-#desktop-file-install --dir=%{buildroot}/%{_datadir}/applications tools/%{name}.desktop
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 %files
 %defattr(-,root,root)
 %{_bindir}/%{name}
+%{_datadir}/%{name}/translations/*.qm
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor
-%dir %{_datadir}/%{name}/translations
-%{_datadir}/%{name}/translations/*.qm
 %doc README.md
 
 %changelog
