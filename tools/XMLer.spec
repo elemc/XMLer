@@ -39,6 +39,8 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %files
 %defattr(-,root,root)
 %{_bindir}/%{name}
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/translations
 %{_datadir}/%{name}/translations/*.qm
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor
