@@ -1,3 +1,7 @@
+%if %{defined suse_version}
+    %define cmake /usr/bin/cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Release 
+%endif
+
 Name:           XMLer
 Version:        0.1
 Release:        2%{?dist}
@@ -7,7 +11,13 @@ License:        GPLv2+
 URL:            http://elemc.name
 Source0:        http://repo.elemc.name/sources/%{name}-%{version}.tar.xz
 
-BuildRequires:  qt4-devel gcc-c++ cmake desktop-file-utils
+BuildRequires:  gcc-c++ cmake desktop-file-utils
+
+%if 0%{?fedora} >= 14 || %{defined suse_version}
+BuildRequires:  qt-devel
+%else
+BuildRequires:  qt4-devel
+%endif
 
 %description
 The simple XML viewer. Application for view XML files in tree-look. You may search in XML. Set bookmarks. Save XML in another encoding and/or with another formatter.
