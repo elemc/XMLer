@@ -38,8 +38,8 @@ message (STATUS "QT4 build: ${QT4_BUILD}")
 message (STATUS "QT5 build: ${QT5_BUILD}")
 
 set (PROJECT_NAME XMLer)
-set (PROJECT_VERSION 0.1)
-set (HEADERS 
+set (PROJECT_XMLER_VERSION 0.1)
+set (HEADERS
   src/xmlerapplication.h
   src/mainwindow.h
   src/documentpropertiesdialog.h
@@ -55,8 +55,8 @@ set (HEADERS
   src/documentxmlnode.h
   src/attrxmlnode.h
   src/dataxmlnode.h)
-set (SOURCES 
-  main.cpp 
+set (SOURCES
+  main.cpp
   src/xmlerapplication.cpp
   src/mainwindow.cpp
   src/documentpropertiesdialog.cpp
@@ -74,7 +74,7 @@ set (SOURCES
   src/documentxmlnode.cpp
   src/attrxmlnode.cpp
   src/dataxmlnode.cpp)
-set (FORMS 
+set (FORMS
   forms/mainwindow.ui
   forms/documentpropertiesdialog.ui)
 set (RESOURCES xmler.qrc )
@@ -126,7 +126,7 @@ if (WIN32)
   set (GUI_TYPE WIN32)
   set (RC_FILE ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}.rc)
   ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.o
-	COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.rc 
+	COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.rc
 	-o ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.o )
 elseif ( APPLE )
     set ( GUI_TYPE MACOSX_BUNDLE )
@@ -149,7 +149,7 @@ if (UNIX AND NOT APPLE)
 
     foreach (ICON_SIZE ${ICON_SIZES})
         install (
-            FILES icons/${ICON_SIZE}/${PROJECT_NAME}.png 
+            FILES icons/${ICON_SIZE}/${PROJECT_NAME}.png
             DESTINATION share/icons/hicolor/${ICON_SIZE}/apps)
     endforeach ()
 endif (UNIX AND NOT APPLE)
@@ -159,9 +159,9 @@ if ( APPLE )
     set (MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}")
     set (MACOSX_BUNDLE_INFO_STRING "The simple XML viewer")
     set (MACOSX_BUNDLE_GUI_IDENTIFIER "name.elemc.${PROJECT_NAME}")
-    set (MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}")
-    set (MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
-    set (MACOSX_BUNDLE_VERSION "${PROJECT_VERSION}")
+    set (MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_XMLER_VERSION}")
+    set (MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_XMLER_VERSION}")
+    set (MACOSX_BUNDLE_VERSION "${PROJECT_XMLER_VERSION}")
     set (MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}")
 
     set (BUNDLE_DIR ${MACOSX_BUNDLE_BUNDLE_NAME}.app)
@@ -180,7 +180,7 @@ if ( APPLE )
         COMMAND cp -R ${BUNDLE_DIR} ${DMG_DIR}/
         COMMAND ln -sf /Applications ${DMG_DIR}
         COMMAND cp ${CMAKE_SOURCE_DIR}/icons/${PROJECT_NAME}.icns .VolumeIcon.icns
-        COMMAND hdiutil create ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.dmg -srcfolder ${DMG_DIR}
+        COMMAND hdiutil create ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${PROJECT_XMLER_VERSION}.dmg -srcfolder ${DMG_DIR}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Create DMG image"
     )
