@@ -1,0 +1,19 @@
+language: cpp
+
+compiler:
+    - clang
+    - gcc
+ 
+before_install:
+    - sudo apt-get update -q
+
+install:
+    - sudo apt-get install libqt4-dev cmake
+
+before_script:
+    - rm -rf build
+    - mkdir -p build
+    - cd build
+    - cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
+
+script: make

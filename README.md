@@ -1,6 +1,8 @@
 XMLer
 =====
 
+[![Build Status](https://travis-ci.org/elemc/XMLer.svg?branch=master)](https://travis-ci.org/elemc/XMLer)
+
 The simple XML viewer.
 Application for view XML files in tree-look. You may search in XML. Set bookmarks. Save XML in another encoding and/or with another formatter.
 
